@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldOfView : MonoBehaviour
+public class SmallFieldOfView : MonoBehaviour
 {
     // 시야 영역의 반지름과 시야 각도
-    public float viewRadius;
+    public float smallViewRadius;
 
     [Range(0, 360)]
     public float viewAngle;
@@ -47,8 +47,8 @@ public class FieldOfView : MonoBehaviour
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
-        // viewRadius를 반지름으로 한 원 영역 내 targetMask 레이어인 콜라이더를 모두 가져옴
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+        // smallViewRadius를 반지름으로 한 원 영역 내 targetMask 레이어인 콜라이더를 모두 가져옴
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, smallViewRadius, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
@@ -161,13 +161,13 @@ public class FieldOfView : MonoBehaviour
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
+        if (Physics.Raycast(transform.position, dir, out hit, smallViewRadius, obstacleMask))
         {
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         }
         else
         {
-            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+            return new ViewCastInfo(false, transform.position + dir * smallViewRadius, smallViewRadius, globalAngle);
         }
     }
     public struct Edge

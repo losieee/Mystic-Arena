@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
 {
     public float speed;
 
+    [SerializeField]
     private Camera camera;
     private CapsuleCollider capsule;
     private NavMeshAgent agent;
