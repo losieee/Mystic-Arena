@@ -2,11 +2,11 @@ let express = require('express');                   //express 모듈을 가져 �
 let app = express();                                // express를 App 이름으로 정의하고 사용한다.
 
 app.get('/', function(req, res){                    // 기본 라우터에서 Hello world 를 반전한다.
-    res.sand('Hello World');
+    res.send('Hello World');
 });
 
 app.get('/about', function(req, res){                   
-    res.sand('about World');
+    res.send('about World');
 });
 
 

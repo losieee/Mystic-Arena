@@ -688,8 +688,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2024340437}
   - component: {fileID: 2024340436}
+  - component: {fileID: 2024340438}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Web
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -702,15 +703,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024340435}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b2bf06f39299e14791d0184942afc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Hello: {fileID: 1594873796}
-  host: 
-  port: 0
-  route: 
+  host: http://127.0.0.1
+  port: 3000
+  route: /
 --- !u!4 &2024340437
 Transform:
   m_ObjectHideFlags: 0
@@ -726,6 +727,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2024340438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024340435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45773540c5c72e245aa688e4a40981a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  btnGetExample: {fileID: 1594873796}
+  host: http://127.0.0.1
+  port: 3000
+  idUrl: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
