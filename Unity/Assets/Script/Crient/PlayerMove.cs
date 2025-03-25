@@ -15,9 +15,7 @@ public class PlayerMove : MonoBehaviour
     // 플레이어 체력
     float curHealth;    // 현재 체력
     public float maxHealth;     // 최대 체력
-    public Slider HpBarSlider;  // 체력 바
-
-    [SerializeField]
+    
     private Camera camera;
     private CapsuleCollider capsule;
     private NavMeshAgent agent;
@@ -51,21 +49,6 @@ public class PlayerMove : MonoBehaviour
         }
         LookMoveDirection();
     }
-
-    // Hp설정
-    public void SetHp(float amount) 
-    {
-        maxHealth = amount;
-        curHealth = maxHealth;
-    }
-
-    // HP 갱신
-    public void CheckHp() 
-    {
-        if (HpBarSlider != null)
-            HpBarSlider.value = curHealth / maxHealth;
-    }
-
 
     private void SetDestination(Vector3 dest)
     {
