@@ -5,10 +5,17 @@ using System.Runtime.InteropServices;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
+    // 플레이어 이동 속도
     public float speed;
+
+    // 플레이어 체력
+    float curHealth;    // 현재 체력
+    public float maxHealth;     // 최대 체력
+    public Slider HpBarSlider;  // 체력 바
 
     [SerializeField]
     private Camera camera;
@@ -18,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     public Transform spot;
 
     private bool isMove = false;
+
     private Vector3 destination;
 
 
@@ -26,7 +34,7 @@ public class PlayerMove : MonoBehaviour
         camera = Camera.main;
         capsule = GetComponentInChildren<CapsuleCollider>();
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
+        agent.updateRotation = false;   // NavMeshAgent의 회전을 비활성화
     }
     private void Update()
     {
@@ -44,6 +52,21 @@ public class PlayerMove : MonoBehaviour
         LookMoveDirection();
     }
 
+    // Hp설정
+    public void SetHp(float amount) 
+    {
+        maxHealth = amount;
+        curHealth = maxHealth;
+    }
+
+    // HP 갱신
+    public void CheckHp() 
+    {
+        if (HpBarSlider != null)
+            HpBarSlider.value = curHealth / maxHealth;
+    }
+
+
     private void SetDestination(Vector3 dest)
     {
         agent.SetDestination(dest);
@@ -53,6 +76,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 direction = (destination - transform.position).normalized;
         if (direction != Vector3.zero)
         {
+            direction.y = 0; // y 값을 0으로 고정하여 수평 방향으로만 회전하도록 설정
             capsule.transform.forward = direction;
         }
     }
@@ -75,6 +99,7 @@ public class PlayerMove : MonoBehaviour
             Vector3 moveDirection = agent.velocity.normalized;
             if (moveDirection != Vector3.zero) // velocity가 0이 아닐 때만 회전
             {
+                moveDirection.y = 0;    // y 값을 0으로 고정하여 수평 방향으로만 회전
                 capsule.transform.forward = moveDirection;
             }
         }

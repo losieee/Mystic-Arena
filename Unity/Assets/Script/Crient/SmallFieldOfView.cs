@@ -32,7 +32,26 @@ public class SmallFieldOfView : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
+        DisableEnemyChildren();
+
         StartCoroutine(FindTargetsWithDelay(0.2f));
+    }
+
+    void DisableEnemyChildren()
+    {
+        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.layer == LayerMask.NameToLayer("Enemy")) // "Enemy" Layer인지 확인
+            {
+                if (obj.transform.childCount > 0) // 하위 오브젝트가 있는지 확인
+                {
+                    Transform child = obj.transform.GetChild(0); // 첫 번째 하위 오브젝트 가져오기
+                    child.gameObject.SetActive(false); // 하위 오브젝트만 비활성화
+                }
+            }
+        }
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -50,21 +69,32 @@ public class SmallFieldOfView : MonoBehaviour
         // smallViewRadius를 반지름으로 한 원 영역 내 targetMask 레이어인 콜라이더를 모두 가져옴
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, smallViewRadius, targetMask);
 
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        foreach (Collider targetCollider in targetsInViewRadius)
         {
-            Transform target = targetsInViewRadius[i].transform;
+            Transform target = targetCollider.transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
 
-            // 플레이어와 forward와 target이 이루는 각이 설정한 각도 내라면
+            // 플레이어와 forward와 target이 이루는 각이 설정한 각도 내 라면
             if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
-                float dstToTarget = Vector3.Distance(transform.position, target.transform.position);
+                float dstToTarget = Vector3.Distance(transform.position, target.position);
 
                 // 타겟으로 가는 레이캐스트에 obstacleMask가 걸리지 않으면 visibleTargets에 Add
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
                 }
+            }
+        }
+        // 감지된 대상의 하위 오브젝트 활성화 및 비활성화 처리
+        foreach (Collider targetCollider in targetsInViewRadius)
+        {
+            Transform target = targetCollider.transform;
+            bool isVisible = visibleTargets.Contains(target);
+
+            foreach (Transform child in target)
+            {
+                child.gameObject.SetActive(isVisible);  // 감지되었을 때만 활성화
             }
         }
     }
