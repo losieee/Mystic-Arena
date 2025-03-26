@@ -18,5 +18,10 @@ public class Protocols
             public int id;              // id 를 받아서 한다.
             public string data;         // 전달 데이터
         }
+
+        public class  res_data : common
+        {
+            public req_data[] result;       //list or Array 값을 받는다.
+        }
     }
 }
