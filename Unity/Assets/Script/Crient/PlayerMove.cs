@@ -6,26 +6,31 @@ using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
-    // 플레이어 이동 속도
-    public float speed;
+    public float curHealth; // 현재 체력
+    public float maxHealth; // 최대 체력
 
-    // 플레이어 체력
-    float curHealth;    // 현재 체력
-    public float maxHealth;     // 최대 체력
-    
-    private Camera camera;
+    public Slider HpBarSlider;
+    public Transform spot;
+    public Transform player;
+    public Transform miniPlayer;
+    public Transform hpBar;
+
+    private new Camera camera;
     private CapsuleCollider capsule;
     private NavMeshAgent agent;
-
-    public Transform spot;
-
+    private Vector3 destination;
     private bool isMove = false;
 
-    private Vector3 destination;
 
+    public void SetHp(float amount) // Hp설정
+    {
+        maxHealth = amount;
+        curHealth = maxHealth;
+    }
 
     private void Awake()
     {
@@ -33,7 +38,33 @@ public class PlayerMove : MonoBehaviour
         capsule = GetComponentInChildren<CapsuleCollider>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;   // NavMeshAgent의 회전을 비활성화
+        curHealth = 100;
     }
+    public void SetHealth(float health)
+    {
+        curHealth = health;
+        CheckHp(); // 체력 UI 갱신
+    }
+
+    public void CheckHp() //*HP 갱신
+    {
+        if (HpBarSlider != null)
+            HpBarSlider.value = curHealth / maxHealth;
+    }
+
+    public void Damage(float damage) // 데미지 받는 함수
+    {
+        if (maxHealth == 0 || curHealth <= 0) // 이미 체력 0이하면 패스
+            return;
+        curHealth -= damage;
+        Debug.Log("데미지를 입음");
+        CheckHp(); // 체력 갱신
+        if (curHealth <= 0)
+        {
+            SceneManager.LoadScene("Dead");
+        }
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(1))
@@ -68,12 +99,13 @@ public class PlayerMove : MonoBehaviour
     {
         if (isMove)
         {
+            // spot 크기 줄여주기
             spot.transform.localScale = new Vector3(
                 Mathf.Max(0, spot.transform.localScale.x - 0.05f),
                 Mathf.Max(0, spot.transform.localScale.y - 0.05f),
                 Mathf.Max(0, spot.transform.localScale.z - 0.05f));
 
-
+            // spot 크기가 0이 되면 비활성화
             if (spot.transform.localScale.x <= 0)
             {
                 spot.gameObject.SetActive(false);
