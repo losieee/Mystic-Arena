@@ -27,18 +27,18 @@ public class UnityToNode : MonoBehaviour
         {
             var url = string.Format("{0}:{1}/{2}", host, port, resUrl);
 
-            StartCoroutine(this.GetData(url, (raw) =>
-            {
+            StartCoroutine(this.GetData(url, (raw) => 
+            { 
                 var res = JsonConvert.DeserializeObject<Protocols.Packets.res_data>(raw);
 
-                foreach (var user in res.result)
+                foreach(var user in res.result)
                 {
                     Debug.LogFormat("{0},{1}", user.id, user.data);
                 }
             }));
         });
 
-        this.btnPostExample.onClick.AddListener(() =>
+        this.btnPostExample.onClick.AddListener(() => 
         {
             var url = string.Format("{0}:{1}/{2}", host, port, postUrl);
             Debug.Log(url);
@@ -55,12 +55,12 @@ public class UnityToNode : MonoBehaviour
             }));
         });
 
-        this.btnGetExample.onClick.AddListener(() =>
+       this.btnGetExample.onClick.AddListener(() => 
         {
             var url = string.Format("{0}:{1}/{2}", host, port, idUrl);
 
             Debug.Log(url);
-            StartCoroutine(this.GetData(url, (raw) => {
+            StartCoroutine(this.GetData(url, (raw) =>{
                 var res = JsonConvert.DeserializeObject<Protocols.Packets.common>(raw);
                 Debug.LogFormat("{0}, {1}", res.cmd, res.message);
             }));
@@ -73,10 +73,10 @@ public class UnityToNode : MonoBehaviour
         yield return webRequest.SendWebRequest();
 
         Debug.Log("Get : " + webRequest.downloadHandler.text);
-        if (webRequest.result == UnityWebRequest.Result.ConnectionError
+        if(webRequest.result == UnityWebRequest.Result.ConnectionError 
             || webRequest.result == UnityWebRequest.Result.ProtocolError)
         {
-            Debug.Log("네트워크 환경이 좋지 않아 통신 불가능");
+            Debug.Log("너트워크 환경이 좋지 않아 통신 불가능");
         }
         else
         {
@@ -92,10 +92,10 @@ public class UnityToNode : MonoBehaviour
         webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("content-Type", "application/json");
-
+        
         yield return webRequest.SendWebRequest();
 
-        if (webRequest.result == UnityWebRequest.Result.ConnectionError
+        if (webRequest.result == UnityWebRequest.Result.ConnectionError 
             || webRequest.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log("네트워크 환경이 좋지 않아 통신 불가능");
