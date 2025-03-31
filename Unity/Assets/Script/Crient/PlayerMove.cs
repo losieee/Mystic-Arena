@@ -13,11 +13,14 @@ public class PlayerMove : MonoBehaviour
 {
     public float curHealth; // 현재 체력
     public float maxHealth; // 최대 체력
+    public float healAmount; // 회복량 설정
+    public float interactionRange = 5f; // 피 회복 가능한 거리 설정
 
     public Transform spot;
     public Transform player;
     public Transform miniPlayer;
     public Transform dead;
+    public Transform LowHp;
     public TextMeshProUGUI countdownText;   // 카운트다운 UI 텍스트
     private float countdownTime = 5f;       // 5초 카운트다운
 
@@ -34,7 +37,8 @@ public class PlayerMove : MonoBehaviour
     private CapsuleCollider capsule;
     private NavMeshAgent agent;
     private Vector3 destination;
-    private bool isMove = false;
+    private bool isMove = false;    // 움직임 여부
+    private bool hasHealed = false; // 체력 회복 여부 추적
 
     public Transform respawnPoint; // 리스폰 위치
     private bool isDead = false; // 사망 여부 확인
@@ -53,6 +57,8 @@ public class PlayerMove : MonoBehaviour
         agent.updateRotation = false;   // NavMeshAgent의 회전을 비활성화
         curHealth = 100;
         dead.gameObject.SetActive(false);
+        LowHp.gameObject.SetActive(false);
+        healAmount = maxHealth / 2;
     }
 
     private void ChangeHealthBarAmount(float amount) //* HP 게이지 변경 
@@ -67,7 +73,24 @@ public class PlayerMove : MonoBehaviour
             return;
 
         curHealth -= damage;
-
+        if (curHealth <= 0)
+        {
+            StartCoroutine(RespawnCoroutine()); // 코루틴 시작
+        }
+        UpdateHealthUI(); // UI 업데이트
+    }
+    private void HealPlayer()
+    {
+        curHealth += healAmount;
+        if (curHealth > maxHealth)
+        {
+            curHealth = maxHealth;
+        }
+        UpdateHealthUI();
+        hasHealed = true; // 회복 완료 설정
+    }
+    private void UpdateHealthUI()
+    {
         // 체력 비율 계산
         float healthRatio = curHealth / maxHealth;
 
@@ -75,13 +98,21 @@ public class PlayerMove : MonoBehaviour
         infoBarImage.fillAmount = healthRatio;
         characterBarImage.fillAmount = healthRatio;
 
-
-        if (curHealth <= 0)
+        // 체력 비율에 따른 색깔 변경 및 LowHp 활성화/비활성화
+        if (healthRatio <= 0.15f) // 15% 이하
         {
-            if (!isDead) // 코루틴이 실행 중이 아닐 때만 실행
-            {
-                StartCoroutine(RespawnCoroutine()); // 리스폰 코루틴 실행
-            }
+            infoBarImage.color = Color.red;
+            LowHp.gameObject.SetActive(true);
+        }
+        else if (healthRatio <= 0.5f) // 15% 초과 50% 이하
+        {
+            infoBarImage.color = new Color(1f, 0.5f, 0f); // 주황색 (RGB: 255, 128, 0)
+            LowHp.gameObject.SetActive(false);
+        }
+        else // 50% 초과
+        {
+            infoBarImage.color = Color.white; // 원래 색깔 (흰색)
+            LowHp.gameObject.SetActive(false);
         }
     }
 
@@ -89,10 +120,13 @@ public class PlayerMove : MonoBehaviour
     {
         isDead = true; // 사망 상태 설정
         capsule.enabled = false; // capsule collider 비활성화 (+죽는 이모션 추가)
-        
+        LowHp.gameObject.SetActive(false); // 주황색 바탕 비활성화
         agent.isStopped = true; // 이동 중지
+        spot.gameObject.SetActive(false); // spot 비활성화 
         agent.enabled = false; // 네비게이션 비활성화
         dead.gameObject.SetActive(true);
+
+
 
         // 플레이어가 죽었을 때 viewAngle을 0으로 설정
         if (fieldOfView != null)
@@ -100,7 +134,6 @@ public class PlayerMove : MonoBehaviour
             fieldOfView.viewAngle = 0;
             smallFieldOfView.viewAngle = 0;
         }
-
         countdownTime = 5f; // 카운트다운 시간
         while (countdownTime > 0)
         {
@@ -110,6 +143,8 @@ public class PlayerMove : MonoBehaviour
         }
 
         Respawn(); // 리스폰 함수 실행
+        UpdateHealthUI(); // HP 바 색상 및 LowHp 상태 초기화
+
         if (fieldOfView != null)
         {
             fieldOfView.viewAngle = 69.47f;   //원래 값으로 변경
@@ -125,8 +160,11 @@ public class PlayerMove : MonoBehaviour
         agent.isStopped = false; // 다시 움직임
         isDead = false;
 
-        dead.gameObject.SetActive(false);
-        //countdownText.gameObject.SetActive(false); // 카운트다운 UI 숨기기
+        UpdateHealthUI(); // HP 바 색상 및 LowHp 상태 초기화
+
+        hasHealed = false; // 리스폰 시 회복 가능 상태로 초기화
+
+        dead.gameObject.SetActive(false); // 빨간색 바탕 비활성화
 
         // 체력 회복
         curHealth = maxHealth;
@@ -145,15 +183,38 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !isDead)
         {
             RaycastHit hit;
-            if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
             {
-                spot.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                spot.position = hit.point;
-                spot.gameObject.SetActive(true);
-                SetDestination(hit.point);
+                if (hit.collider.tag == "NPC")
+                {
+                    // NPC 클릭 시, 아직 회복하지 않았을 때만
+                    if (!hasHealed)
+                    {
+                        float distance = Vector3.Distance(transform.position, hit.point);
+                        if (distance <= interactionRange)
+                        {
+                            HealPlayer();
+                        }
+                    }
+                    spot.gameObject.SetActive(false); // spot 비활성화 (NPC 클릭 시 spot 표시 안 함)
+                }
+                else
+                {
+                    spot.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                    spot.position = hit.point;
+                    spot.gameObject.SetActive(true);
+                    SetDestination(hit.point); // NPC가 아닌 경우 자유롭게 이동
+                }
             }
         }
         LookMoveDirection();
+
+        if (isDead && LowHp.gameObject.activeSelf)
+        {
+            LowHp.gameObject.SetActive(false);
+        }
     }
 
     private void SetDestination(Vector3 dest)
