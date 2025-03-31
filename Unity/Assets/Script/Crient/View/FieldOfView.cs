@@ -36,6 +36,23 @@ public class FieldOfView : MonoBehaviour
         // 0.2초 간격으로 코루틴 호출
         StartCoroutine(FindTargetsWithDelay(0.2f));
     }
+    void OnEnable()
+    {
+        if (viewMesh == null)
+        {
+            viewMesh = new Mesh();
+            viewMesh.name = "View Mesh";
+        }
+        viewMeshFilter.mesh = viewMesh;
+
+        visibleTargets.Clear();
+        // FindVisibleTargets(); // OnEnable()에서 호출 제거
+        StartCoroutine(FindTargetsWithDelay(0.2f));
+    }
+    void OnDisable()
+    {
+        StopAllCoroutines();  // 비활성화될 때 실행 중인 코루틴을 정리
+    }
 
     IEnumerator FindTargetsWithDelay(float delay)
     {
@@ -46,43 +63,31 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-    void FindVisibleTargets()
+    public void FindVisibleTargets()
     {
         visibleTargets.Clear();
-        // viewRadius를 반지름으로 한 원 영역 내 targetMask 레이어인 콜라이더를 모두 가져옴
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
-        // 첫 번째 루프: 감지된 대상 목록을 만들고, 하위 오브젝트를 비활성화
         foreach (Collider targetCollider in targetsInViewRadius)
         {
             Transform target = targetCollider.transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
+            bool isVisible = false;
 
-            // 플레이어와 forward와 target이 이루는 각이 설정한 각도 내 라면
             if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                // 타겟으로 가는 레이캐스트에 obstacleMask가 걸리지 않으면 visibleTargets에 Add
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
+                    isVisible = true;
                 }
             }
-        }
-        // 감지된 대상의 하위 오브젝트 활성화 및 비활성화 처리
-        foreach (Collider targetCollider in targetsInViewRadius)
-        {
-            Transform target = targetCollider.transform;
-            bool isVisible = visibleTargets.Contains(target);
 
-            // 하위 오브젝트가 기존에 활성화/비활성화 상태인지 확인하고, 변경이 필요한 경우에만 처리
             foreach (Transform child in target)
             {
-                if (child.gameObject.activeSelf != isVisible)  // 상태가 다르면만 변경
-                {
-                    child.gameObject.SetActive(isVisible);  // 감지되었을 때만 활성화
-                }
+                child.gameObject.SetActive(isVisible);
             }
         }
     }
@@ -99,6 +104,12 @@ public class FieldOfView : MonoBehaviour
     }
     void DrawFieldOfView()
     {
+        if (viewAngle <= 0) // viewAngle이 0이하일경우 메시생성 중단.
+        {
+            viewMesh.Clear();
+            return;
+        }
+
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
         float stepAngleSize = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();

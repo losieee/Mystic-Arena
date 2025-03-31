@@ -18,7 +18,6 @@ public class Damage : MonoBehaviour
             if (playerMove != null)
             {
                 playerMove.Damage(30);
-                Debug.Log("현재 체력: " + playerMove.curHealth);
             }
         }
     }

@@ -36,6 +36,21 @@ public class SmallFieldOfView : MonoBehaviour
 
         StartCoroutine(FindTargetsWithDelay(0.2f));
     }
+    void OnEnable()
+    {
+        if (viewMesh == null)
+        {
+            viewMesh = new Mesh();
+            viewMesh.name = "View Mesh";
+        }
+        viewMeshFilter.mesh = viewMesh;  // 비활성화 후 다시 활성화될 때도 Mesh를 할당
+
+        StartCoroutine(FindTargetsWithDelay(0.2f));  // 비활성화 후 다시 활성화될 때도 코루틴 재시작
+    }
+    void OnDisable()
+    {
+        StopAllCoroutines();  // 비활성화될 때 실행 중인 코루틴을 정리
+    }
 
     void DisableEnemyChildren()
     {
@@ -111,6 +126,12 @@ public class SmallFieldOfView : MonoBehaviour
     }
     void DrawFieldOfView()
     {
+        if (viewAngle <= 0) // viewAngle이 0이하일경우 메시생성 중단.
+        {
+            viewMesh.Clear();
+            return;
+        }
+
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
         float stepAngleSize = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
