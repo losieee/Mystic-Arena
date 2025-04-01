@@ -66,6 +66,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log(isDashing);  // 오류 방지용 사용 표시
         camera = Camera.main;
         capsule = GetComponentInChildren<CapsuleCollider>();
         spotLight = GetComponentInChildren<Light>();
@@ -120,12 +121,12 @@ public class PlayerMove : MonoBehaviour
         characterBarImage.fillAmount = healthRatio;
 
         // 체력 비율에 따른 색깔 변경 및 LowHp 활성화/비활성화
-        if (healthRatio <= 0.15f) // 15% 이하
+        if (healthRatio <= 0.1f) // 10% 이하
         {
             infoBarImage.color = Color.red;
             LowHp.gameObject.SetActive(true);
         }
-        else if (healthRatio <= 0.5f) // 15% 초과 50% 이하
+        else if (healthRatio <= 0.5f) // 10% 초과 50% 이하
         {
             infoBarImage.color = new Color(1f, 0.5f, 0f); // 주황색 (RGB: 255, 128, 0)
             LowHp.gameObject.SetActive(false);
@@ -213,6 +214,21 @@ public class PlayerMove : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
+                Transform capsuleChild = null; // "capsule" 이름을 가진 자식 오브젝트를 찾기 위한 변수
+                foreach (Transform child in transform)
+                {
+                    if (child.name == "Capsule")
+                    {
+                        capsuleChild = child;
+                        break; // "capsule"을 찾았으면 루프 종료
+                    }
+                }
+                // 플레이어 자신 또는 자식 오브젝트를 클릭했는지 확인
+                if (hit.collider.gameObject == gameObject || (capsuleChild != null && hit.collider.gameObject == capsuleChild.gameObject))
+                {
+                    return; // 플레이어 자신 또는 자식 오브젝트를 클릭했다면 아무것도 하지 않고 함수 종료
+                }
+
                 if (hit.collider.tag == "NPC")
                 {
                     // NPC 클릭 시, 아직 회복하지 않았을 때만
@@ -283,7 +299,6 @@ public class PlayerMove : MonoBehaviour
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = startPosition + dashDirection * dashDistance;
 
-        // 부모 오브젝트를 이동
         while (elapsedTime < dashTime)
         {
             transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / dashTime);
