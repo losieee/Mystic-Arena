@@ -8,40 +8,55 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float curHealth; // 현재 체력
-    public float maxHealth; // 최대 체력
-    public float healAmount; // 회복량 설정
-    public float interactionRange = 5f; // 피 회복 가능한 거리 설정
-
     public Transform spot;
     public Transform player;
     public Transform miniPlayer;
-    public Transform dead;
-    public Transform LowHp;
-    public TextMeshProUGUI countdownText;   // 카운트다운 UI 텍스트
-    private float countdownTime = 5f;       // 5초 카운트다운
+    public Image death;
+    public Image LowHp;
+    public TextMeshProUGUI respawnCountdownText;   //카운트다운 UI 텍스트
+    public Transform deathMark;
+    public Image skillQCoolTime;    //스킬 쿨타임
+    public Image skillWCoolTime;
+    public Image skillECoolTime;
+    public Image skillGCoolTime;
 
     [SerializeField]
-    private Image infoBarImage;
+    private Image infoBarImage; //화면 왼쪽 아래 HP_Bar
     [SerializeField]
-    private Image characterBarImage;
+    private Image characterBarImage;  //플레이어 위 HP_Bar
     [SerializeField]
     private FieldOfView fieldOfView;
     [SerializeField]
     private SmallFieldOfView smallFieldOfView;
 
+    private float curHealth = 100; //현재 체력
+    private float maxHealth = 100; //최대 체력
+    private float healAmount; //회복량 설정
+    private float interactionRange = 3f; //피 회복 가능한 거리 설정
+    private bool isMove = false;    //움직임 여부
+    private bool hasHealed = false; //체력 회복 여부 추적
+    private float respawnTime = 5f;       //리스폰 시간 5초
+    private float skillCoolTime;        // 스킬 쿨타임
+    private float dashDistance = 3f;  // 도약 거리
+    private float dashSpeed = 10f;    // 도약 속도
+    private LayerMask obstacleMask;   // 장애물 감지
+
     private new Camera camera;
     private CapsuleCollider capsule;
+    private Light spotLight;
     private NavMeshAgent agent;
     private Vector3 destination;
-    private bool isMove = false;    // 움직임 여부
-    private bool hasHealed = false; // 체력 회복 여부 추적
 
     public Transform respawnPoint; // 리스폰 위치
     private bool isDead = false; // 사망 여부 확인
+    private bool isDashing = false; // 도약 중인지 확인
+    private bool isGSkillCoolTime = false; // G 스킬 사용 가능 여부
+    private bool isInvincible = false; // 무적 상태 여부
+
 
     public void SetHp(float amount) // Hp설정
     {
@@ -53,11 +68,17 @@ public class PlayerMove : MonoBehaviour
     {
         camera = Camera.main;
         capsule = GetComponentInChildren<CapsuleCollider>();
+        spotLight = GetComponentInChildren<Light>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;   // NavMeshAgent의 회전을 비활성화
         curHealth = 100;
-        dead.gameObject.SetActive(false);
+        death.gameObject.SetActive(false);
         LowHp.gameObject.SetActive(false);
+        deathMark.gameObject.SetActive(false);
+        skillQCoolTime.gameObject.SetActive(false);
+        skillWCoolTime.gameObject.SetActive(false);
+        skillECoolTime.gameObject.SetActive(false);
+        skillGCoolTime.gameObject.SetActive(false);
         healAmount = maxHealth / 2;
     }
 
@@ -69,7 +90,7 @@ public class PlayerMove : MonoBehaviour
 
     public void Damage(float damage) // 데미지 받는 함수
     {
-        if (maxHealth == 0 || curHealth <= 0 || isDead) // 이미 체력이 0 이하이거나 죽었으면 패스
+        if (maxHealth == 0 || curHealth <= 0 || isDead || isInvincible) // 무적 상태일 때 데미지 무시
             return;
 
         curHealth -= damage;
@@ -119,12 +140,16 @@ public class PlayerMove : MonoBehaviour
     private IEnumerator RespawnCoroutine()
     {
         isDead = true; // 사망 상태 설정
-        capsule.enabled = false; // capsule collider 비활성화 (+죽는 이모션 추가)
-        LowHp.gameObject.SetActive(false); // 주황색 바탕 비활성화
+        death.gameObject.SetActive(true);
+        deathMark.gameObject.SetActive(true); // 데스마크 활성화
         agent.isStopped = true; // 이동 중지
+        capsule.enabled = false; // capsule collider 비활성화 (+죽는 이모션 추가)
+        spotLight.enabled = false;  // light 비활성화
+        LowHp.gameObject.SetActive(false); // 주황색 바탕 비활성화
         spot.gameObject.SetActive(false); // spot 비활성화 
         agent.enabled = false; // 네비게이션 비활성화
-        dead.gameObject.SetActive(true);
+        
+
 
 
 
@@ -134,12 +159,12 @@ public class PlayerMove : MonoBehaviour
             fieldOfView.viewAngle = 0;
             smallFieldOfView.viewAngle = 0;
         }
-        countdownTime = 5f; // 카운트다운 시간
-        while (countdownTime > 0)
+        respawnTime = 5f; // 카운트다운 시간
+        while (respawnTime > 0)
         {
-            countdownText.text = Mathf.Round(countdownTime).ToString(); // 카운트 다운 UI에 표시
+            respawnCountdownText.text = Mathf.Round(respawnTime).ToString(); // 카운트 다운 UI에 표시
             yield return new WaitForSeconds(1f);
-            countdownTime--; // 1초씩 감소
+            respawnTime--; // 1초씩 감소
         }
 
         Respawn(); // 리스폰 함수 실행
@@ -154,8 +179,8 @@ public class PlayerMove : MonoBehaviour
 
     private void Respawn()
     {
-        // capsule collider 다시 활성화
-        capsule.enabled = true;
+        capsule.enabled = true; // capsule collider 다시 활성화
+        spotLight.enabled = true; // light 다시 활성화
         agent.enabled = true; // 네비게이션 다시 활성화
         agent.isStopped = false; // 다시 움직임
         isDead = false;
@@ -164,7 +189,8 @@ public class PlayerMove : MonoBehaviour
 
         hasHealed = false; // 리스폰 시 회복 가능 상태로 초기화
 
-        dead.gameObject.SetActive(false); // 빨간색 바탕 비활성화
+        death.gameObject.SetActive(false); // 빨간색 바탕 비활성화
+        deathMark.gameObject.SetActive(false); // 데스마크 비활성화
 
         // 체력 회복
         curHealth = maxHealth;
@@ -214,6 +240,79 @@ public class PlayerMove : MonoBehaviour
         if (isDead && LowHp.gameObject.activeSelf)
         {
             LowHp.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            skillCoolTime = 5f;
+            StartCoroutine(CooldownRoutine(skillQCoolTime, skillCoolTime));
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            skillCoolTime = 5f;
+            StartCoroutine(CooldownRoutine(skillWCoolTime, skillCoolTime));
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            skillCoolTime = 5f;
+            StartCoroutine(CooldownRoutine(skillECoolTime, skillCoolTime));
+        }
+        else if (Input.GetKeyDown(KeyCode.G) && !isGSkillCoolTime) // 쿨타임 중일 때 실행 X
+        {
+            isGSkillCoolTime = true; // G 스킬 사용 중으로 설정
+            skillCoolTime = 8f;
+            StartCoroutine(CooldownRoutine(skillGCoolTime, skillCoolTime)); // 쿨타임 UI 업데이트
+            StartCoroutine(DashForward()); // 도약 실행
+        }
+    }
+    private IEnumerator DashForward() // 대쉬 함수
+    {
+        isDashing = true; // 도약 상태 활성화
+        isInvincible = true; // 무적 상태 활성화
+
+        float dashTime = dashDistance / dashSpeed; // 도약 지속 시간 계산
+        Vector3 dashDirection = player.forward; // player가 바라보는 방향으로 이동
+
+        // 장애물 체크 (Raycast)
+        if (Physics.Raycast(transform.position, dashDirection, out RaycastHit hit, dashDistance, obstacleMask))
+        {
+            dashDistance = hit.distance - 0.5f; // 장애물과 충돌하지 않도록 조정
+        }
+
+        float elapsedTime = 0f;
+        Vector3 startPosition = transform.position;
+        Vector3 targetPosition = startPosition + dashDirection * dashDistance;
+
+        // 부모 오브젝트를 이동
+        while (elapsedTime < dashTime)
+        {
+            transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / dashTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition; // 최종 위치 조정
+        isDashing = false; // 도약 상태 해제
+        isInvincible = false; // 무적 상태 해제
+    }
+
+    IEnumerator CooldownRoutine(Image skillImage, float cooldownTime)   // 스킬 쿨타임 UI 표시
+    {
+        skillImage.gameObject.SetActive(true);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < cooldownTime)
+        {
+            elapsedTime += Time.deltaTime;
+            skillImage.fillAmount = 1 - (elapsedTime / cooldownTime);
+            yield return null;
+        }
+
+        skillImage.gameObject.SetActive(false);
+
+        if (skillImage == skillGCoolTime) // G 스킬이면 쿨타임 해제
+        {
+            isGSkillCoolTime = false;
         }
     }
 
