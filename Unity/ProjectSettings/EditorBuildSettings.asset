@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 53b3d347a46669345a81712b703a2470
   - enabled: 1
-    path: Assets/Scenes/Dead.unity
-    guid: 286fef9bf8c35ae41941ab6543df1975
+    path: Assets/Scenes/Character_Choice.unity
+    guid: 595659a786e39c7449a6031da025cdac
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 34f9d8bd5feda0a4886c77b46942aa91
   m_configObjects: {}
