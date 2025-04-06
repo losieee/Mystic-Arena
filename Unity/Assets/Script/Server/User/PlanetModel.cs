@@ -11,9 +11,8 @@ public class PlanetModel
 {
     public int id;
     public string name;
-    public int metal;
-    public int crystal;
-    public int deuterium;
+    public int player_count;
+
     public List<PlanetModel> Planets;
 
 
@@ -21,9 +20,8 @@ public class PlanetModel
     {
         this.id = id;
         this.name = name;
-        this.metal = 0;         // 추후 변경
-        this.crystal = 0;
-        this.deuterium = 0;
+        this.player_count = 0;
+
     }
 
 

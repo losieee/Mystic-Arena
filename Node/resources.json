@@ -26,5 +26,33 @@
       "deuterium": 100
     },
     "planets": []
+  },
+  "user03": {
+    "playerName": "user03",
+    "password": "2222",
+    "resources": {
+      "metal": 500,
+      "crystal": 300,
+      "deuterium": 100
+    },
+    "planets": []
+  },
+  "user04": {
+    "playerName": "user04",
+    "password": "1234",
+    "resources": {
+      "metal": 500,
+      "crystal": 300,
+      "deuterium": 100
+    },
+    "planets": []
+  },
+  "user05": {
+    "playerName": "user05",
+    "password": "1234",
+    "resources": {
+      "player_count": 0
+    },
+    "planets": []
   }
 }
