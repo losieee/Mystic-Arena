@@ -45,6 +45,10 @@ public class PlayerMove : MonoBehaviour
     private float dashSpeed = 10f;    // 도약 속도
     private LayerMask obstacleMask;   // 장애물 감지
 
+    private bool isQCoolTime = false;   // 쿨타임 여부
+    private bool isWCoolTime = false;
+    private bool isECoolTime = false;
+
     private new Camera camera;
     private CapsuleCollider capsule;
     private Light spotLight;
@@ -149,7 +153,7 @@ public class PlayerMove : MonoBehaviour
         LowHp.gameObject.SetActive(false); // 주황색 바탕 비활성화
         spot.gameObject.SetActive(false); // spot 비활성화 
         agent.enabled = false; // 네비게이션 비활성화
-        
+
 
 
 
@@ -258,27 +262,30 @@ public class PlayerMove : MonoBehaviour
             LowHp.gameObject.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && !isQCoolTime)
         {
+            isQCoolTime = true;
             skillCoolTime = 5f;
-            StartCoroutine(CooldownRoutine(skillQCoolTime, skillCoolTime));
+            StartCoroutine(CooldownRoutine(skillQCoolTime, skillCoolTime, () => isQCoolTime = false));
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.W) && !isWCoolTime)
         {
+            isWCoolTime = true;
             skillCoolTime = 5f;
-            StartCoroutine(CooldownRoutine(skillWCoolTime, skillCoolTime));
+            StartCoroutine(CooldownRoutine(skillWCoolTime, skillCoolTime, () => isWCoolTime = false));
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.E) && !isECoolTime)
         {
+            isECoolTime = true;
             skillCoolTime = 5f;
-            StartCoroutine(CooldownRoutine(skillECoolTime, skillCoolTime));
+            StartCoroutine(CooldownRoutine(skillECoolTime, skillCoolTime, () => isECoolTime = false));
         }
-        else if (Input.GetKeyDown(KeyCode.G) && !isGSkillCoolTime) // 쿨타임 중일 때 실행 X
+        else if (Input.GetKeyDown(KeyCode.G) && !isGSkillCoolTime)
         {
-            isGSkillCoolTime = true; // G 스킬 사용 중으로 설정
+            isGSkillCoolTime = true;
             skillCoolTime = 8f;
-            StartCoroutine(CooldownRoutine(skillGCoolTime, skillCoolTime)); // 쿨타임 UI 업데이트
-            StartCoroutine(DashForward()); // 도약 실행
+            StartCoroutine(CooldownRoutine(skillGCoolTime, skillCoolTime, () => isGSkillCoolTime = false));
+            StartCoroutine(DashForward());
         }
     }
     private IEnumerator DashForward() // 대쉬 함수
@@ -311,7 +318,7 @@ public class PlayerMove : MonoBehaviour
         isInvincible = false; // 무적 상태 해제
     }
 
-    IEnumerator CooldownRoutine(Image skillImage, float cooldownTime)   // 스킬 쿨타임 UI 표시
+    IEnumerator CooldownRoutine(Image skillImage, float cooldownTime, System.Action onCooldownEnd)
     {
         skillImage.gameObject.SetActive(true);
         float elapsedTime = 0f;
@@ -324,11 +331,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         skillImage.gameObject.SetActive(false);
-
-        if (skillImage == skillGCoolTime) // G 스킬이면 쿨타임 해제
-        {
-            isGSkillCoolTime = false;
-        }
+        onCooldownEnd?.Invoke();  // 쿨타임 끝났을 때 플래그 해제
     }
 
     private void SetDestination(Vector3 dest)
