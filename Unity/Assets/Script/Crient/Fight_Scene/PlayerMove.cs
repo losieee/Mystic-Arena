@@ -16,13 +16,15 @@ public class PlayerMove : MonoBehaviour
     public Transform player;
     public Transform miniPlayer;
     public Image death;
-    public Image LowHp;
+    public Image lowHp;
+    public Image heal;
     public TextMeshProUGUI respawnCountdownText;   //카운트다운 UI 텍스트
     public Transform deathMark;
     public Image skillQCoolTime;    //스킬 쿨타임
     public Image skillWCoolTime;
     public Image skillECoolTime;
     public Image skillGCoolTime;
+    public ParticleSystem healEffect;   // 힐 파티클
 
     [SerializeField]
     private Image infoBarImage; //화면 왼쪽 아래 HP_Bar
@@ -54,6 +56,7 @@ public class PlayerMove : MonoBehaviour
     private Light spotLight;
     private NavMeshAgent agent;
     private Vector3 destination;
+    private CanvasGroup healCanvasGroup;
 
     public Transform respawnPoint; // 리스폰 위치
     private bool isDead = false; // 사망 여부 확인
@@ -78,13 +81,24 @@ public class PlayerMove : MonoBehaviour
         agent.updateRotation = false;   // NavMeshAgent의 회전을 비활성화
         curHealth = 100;
         death.gameObject.SetActive(false);
-        LowHp.gameObject.SetActive(false);
+        lowHp.gameObject.SetActive(false);
+        heal.gameObject.SetActive(false);
         deathMark.gameObject.SetActive(false);
         skillQCoolTime.gameObject.SetActive(false);
         skillWCoolTime.gameObject.SetActive(false);
         skillECoolTime.gameObject.SetActive(false);
         skillGCoolTime.gameObject.SetActive(false);
         healAmount = maxHealth / 2;
+    }
+
+    private void Start()
+    {
+        healCanvasGroup = heal.GetComponent<CanvasGroup>();
+        if (healCanvasGroup == null)
+        {
+            healCanvasGroup = heal.gameObject.AddComponent<CanvasGroup>();
+        }
+        healCanvasGroup.alpha = 0f;
     }
 
     private void ChangeHealthBarAmount(float amount) //* HP 게이지 변경 
@@ -105,15 +119,50 @@ public class PlayerMove : MonoBehaviour
         }
         UpdateHealthUI(); // UI 업데이트
     }
+    private IEnumerator ShowHealEffectSmooth()  // 힐을 받으면 테두리가 서서히 나타났다 없어짐
+    {
+        heal.gameObject.SetActive(true);
+
+        // 페이드 인
+        for (float t = 0; t < 1f; t += Time.deltaTime / 0.3f)
+        {
+            healCanvasGroup.alpha = t;
+            yield return null;
+        }
+        healCanvasGroup.alpha = 1f;
+
+        yield return new WaitForSeconds(0.1f); // 완전 보이는 시간
+
+        // 페이드 아웃
+        for (float t = 1f; t > 0f; t -= Time.deltaTime / 0.3f)
+        {
+            healCanvasGroup.alpha = t;
+            yield return null;
+        }
+        healCanvasGroup.alpha = 0f;
+        heal.gameObject.SetActive(false);
+    }
+
     private void HealPlayer()
     {
+        if (curHealth >= maxHealth)     // 이미 최대 체력일 경우 힐 실행 안 함
+            return;
+            
         curHealth += healAmount;
+        StartCoroutine(ShowHealEffectSmooth());
+
         if (curHealth > maxHealth)
         {
             curHealth = maxHealth;
         }
+
         UpdateHealthUI();
-        hasHealed = true; // 회복 완료 설정
+        hasHealed = true;
+
+        if (healEffect != null)
+        {
+            healEffect.Play(); // Heal 파티클 재생
+        }
     }
     private void UpdateHealthUI()
     {
@@ -128,17 +177,17 @@ public class PlayerMove : MonoBehaviour
         if (healthRatio <= 0.1f) // 10% 이하
         {
             infoBarImage.color = Color.red;
-            LowHp.gameObject.SetActive(true);
+            lowHp.gameObject.SetActive(true);
         }
         else if (healthRatio <= 0.5f) // 10% 초과 50% 이하
         {
-            infoBarImage.color = new Color(1f, 0.5f, 0f); // 주황색 (RGB: 255, 128, 0)
-            LowHp.gameObject.SetActive(false);
+            infoBarImage.color = new Color(1f, 0.5f, 0f);
+            lowHp.gameObject.SetActive(false);
         }
         else // 50% 초과
         {
             infoBarImage.color = Color.white; // 원래 색깔 (흰색)
-            LowHp.gameObject.SetActive(false);
+            lowHp.gameObject.SetActive(false);
         }
     }
 
@@ -150,15 +199,12 @@ public class PlayerMove : MonoBehaviour
         agent.isStopped = true; // 이동 중지
         capsule.enabled = false; // capsule collider 비활성화 (+죽는 이모션 추가)
         spotLight.enabled = false;  // light 비활성화
-        LowHp.gameObject.SetActive(false); // 주황색 바탕 비활성화
+        lowHp.gameObject.SetActive(false); // 주황색 바탕 비활성화
         spot.gameObject.SetActive(false); // spot 비활성화 
         agent.enabled = false; // 네비게이션 비활성화
 
 
-
-
-
-        // 플레이어가 죽었을 때 viewAngle을 0으로 설정
+        // 플레이어가 죽었을 때 viewAngle을 0으로 설정 (오류방지)
         if (fieldOfView != null)
         {
             fieldOfView.viewAngle = 0;
@@ -189,6 +235,7 @@ public class PlayerMove : MonoBehaviour
         agent.enabled = true; // 네비게이션 다시 활성화
         agent.isStopped = false; // 다시 움직임
         isDead = false;
+        healEffect.Play(); // Heal 파티클 재생
 
         UpdateHealthUI(); // HP 바 색상 및 LowHp 상태 초기화
 
@@ -257,9 +304,9 @@ public class PlayerMove : MonoBehaviour
         }
         LookMoveDirection();
 
-        if (isDead && LowHp.gameObject.activeSelf)
+        if (isDead && lowHp.gameObject.activeSelf)
         {
-            LowHp.gameObject.SetActive(false);
+            lowHp.gameObject.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && !isQCoolTime)
