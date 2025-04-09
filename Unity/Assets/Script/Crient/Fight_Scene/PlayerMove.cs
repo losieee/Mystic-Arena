@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Unity.VisualScripting;
+using System;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -19,12 +20,21 @@ public class PlayerMove : MonoBehaviour
     public Image lowHp;
     public Image heal;
     public TextMeshProUGUI respawnCountdownText;   //카운트다운 UI 텍스트
+    public TextMeshProUGUI skillQTimeText;
+    public TextMeshProUGUI skillWTimeText;
+    public TextMeshProUGUI skillETimeText;
+    public TextMeshProUGUI skillGTimeText;
     public Transform deathMark;
     public Image skillQCoolTime;    //스킬 쿨타임
     public Image skillWCoolTime;
     public Image skillECoolTime;
     public Image skillGCoolTime;
+    public GameObject glowQ;        // 쿨타임 종료 시 반짝임
+    public GameObject glowW;
+    public GameObject glowE;
+    public GameObject glowG;
     public ParticleSystem healEffect;   // 힐 파티클
+
 
     [SerializeField]
     private Image infoBarImage; //화면 왼쪽 아래 HP_Bar
@@ -313,25 +323,25 @@ public class PlayerMove : MonoBehaviour
         {
             isQCoolTime = true;
             skillCoolTime = 5f;
-            StartCoroutine(CooldownRoutine(skillQCoolTime, skillCoolTime, () => isQCoolTime = false));
+            StartCoroutine(CooldownRoutine(skillQCoolTime, skillCoolTime, () => isQCoolTime = false, skillQTimeText, glowQ));
         }
         else if (Input.GetKeyDown(KeyCode.W) && !isWCoolTime)
         {
             isWCoolTime = true;
             skillCoolTime = 5f;
-            StartCoroutine(CooldownRoutine(skillWCoolTime, skillCoolTime, () => isWCoolTime = false));
+            StartCoroutine(CooldownRoutine(skillWCoolTime, skillCoolTime, () => isWCoolTime = false, skillWTimeText, glowW));
         }
         else if (Input.GetKeyDown(KeyCode.E) && !isECoolTime)
         {
             isECoolTime = true;
             skillCoolTime = 5f;
-            StartCoroutine(CooldownRoutine(skillECoolTime, skillCoolTime, () => isECoolTime = false));
+            StartCoroutine(CooldownRoutine(skillECoolTime, skillCoolTime, () => isECoolTime = false, skillETimeText, glowE));
         }
         else if (Input.GetKeyDown(KeyCode.G) && !isGSkillCoolTime)
         {
             isGSkillCoolTime = true;
             skillCoolTime = 8f;
-            StartCoroutine(CooldownRoutine(skillGCoolTime, skillCoolTime, () => isGSkillCoolTime = false));
+            StartCoroutine(CooldownRoutine(skillGCoolTime, skillCoolTime, () => isGSkillCoolTime = false, skillGTimeText, glowG));
             StartCoroutine(DashForward());
         }
     }
@@ -365,21 +375,42 @@ public class PlayerMove : MonoBehaviour
         isInvincible = false; // 무적 상태 해제
     }
 
-    IEnumerator CooldownRoutine(Image skillImage, float cooldownTime, System.Action onCooldownEnd)
+    IEnumerator CooldownRoutine(Image skillImage, float cooldownTime, System.Action onCooldownEnd, TextMeshProUGUI cooldownText = null, GameObject glowObject = null)
     {
         skillImage.gameObject.SetActive(true);
+        if (cooldownText != null)
+            cooldownText.gameObject.SetActive(true);
+
         float elapsedTime = 0f;
 
         while (elapsedTime < cooldownTime)
         {
             elapsedTime += Time.deltaTime;
+            float remaining = cooldownTime - elapsedTime;
             skillImage.fillAmount = 1 - (elapsedTime / cooldownTime);
+
+            if (cooldownText != null)
+                cooldownText.text = Mathf.CeilToInt(remaining).ToString();
+
             yield return null;
         }
 
         skillImage.gameObject.SetActive(false);
-        onCooldownEnd?.Invoke();  // 쿨타임 끝났을 때 플래그 해제
+        if (cooldownText != null)
+            cooldownText.gameObject.SetActive(false);
+
+        onCooldownEnd?.Invoke();
+
+        if (glowObject != null)
+            StartCoroutine(ShowGlowBriefly(glowObject));  // 반짝임 실행
     }
+
+    private IEnumerator ShowGlowBriefly(GameObject glowObject)
+{
+    glowObject.SetActive(true);
+    yield return new WaitForSeconds(0.2f);
+    glowObject.SetActive(false);
+}
 
     private void SetDestination(Vector3 dest)
     {
