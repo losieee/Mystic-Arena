@@ -81,35 +81,36 @@ public class SmallFieldOfView : MonoBehaviour
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
-        // smallViewRadius를 반지름으로 한 원 영역 내 targetMask 레이어인 콜라이더를 모두 가져옴
+
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, smallViewRadius, targetMask);
+
+        List<Transform> allDetected = new List<Transform>(); // 모든 대상 저장
 
         foreach (Collider targetCollider in targetsInViewRadius)
         {
             Transform target = targetCollider.transform;
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            allDetected.Add(target); // 후에 비활성화 대상 비교용
 
-            // 플레이어와 forward와 target이 이루는 각이 설정한 각도 내 라면
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
             if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                // 타겟으로 가는 레이캐스트에 obstacleMask가 걸리지 않으면 visibleTargets에 Add
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
                 }
             }
         }
-        // 감지된 대상의 하위 오브젝트 활성화 및 비활성화 처리
-        foreach (Collider targetCollider in targetsInViewRadius)
+
+        // 모든 감지된 대상 중 visibleTargets에 포함된 경우만 활성화
+        foreach (Transform target in allDetected)
         {
-            Transform target = targetCollider.transform;
             bool isVisible = visibleTargets.Contains(target);
 
             foreach (Transform child in target)
             {
-                child.gameObject.SetActive(isVisible);  // 감지되었을 때만 활성화
+                child.gameObject.SetActive(isVisible);
             }
         }
     }

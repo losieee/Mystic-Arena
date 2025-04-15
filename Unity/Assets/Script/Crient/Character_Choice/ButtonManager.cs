@@ -11,11 +11,15 @@ public class ButtonManager : MonoBehaviour
     private bool isTimeOver = false; // 시간 초과 여부
     public TMP_Text timerText; // UI에 표시할 타이머 텍스트
 
+    public GameObject selectedPrefab;
+
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject); // 씬 넘어가도 파괴 안 됨
         }
         else
         {
@@ -27,6 +31,26 @@ public class ButtonManager : MonoBehaviour
     {
         // 제한시간 카운트다운 시작
         Invoke("TimeOver", timeLimit);
+    }
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Lobby")
+        {
+            selectedButton = null;
+            isTimeOver = false;
+            timeLimit = 10f;
+            UpdateTimerUI();
+        }
     }
 
     void Update()
@@ -65,14 +89,11 @@ public class ButtonManager : MonoBehaviour
     private void TimeOver()
     {
         isTimeOver = true;
-        if (selectedButton != null)
-        {
-            SceneManager.LoadScene("SampleScene"); // 버튼이 눌렸다면 SampleScene으로 이동
-        }
-        else
-        {
-            SceneManager.LoadScene("Lobby"); // 아무 버튼도 안 눌렸다면 Lobby로 이동
-        }
+
+        string targetScene = (selectedButton != null) ? "SampleScene" : "Lobby";
+
+        // 다음 씬에서도 ButtonManager 유지
+        SceneManager.LoadScene(targetScene);
     }
 
     // 다른 버튼을 비활성화

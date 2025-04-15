@@ -11,6 +11,7 @@ public class ButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private bool isFlipped = false;
     private bool isSelected = false; // 버튼이 선택되었는지 여부
     private bool isDisabled = false; // 비활성화 여부
+    public GameObject prefabToSpawn;
 
 
     void Start()
@@ -42,9 +43,10 @@ public class ButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (!isFlipped && ButtonManager.Instance.CanSelect())
         {
-            isSelected = true; // 버튼 선택됨
-            ButtonManager.Instance.SetSelectedButton(this); // 선택한 버튼 등록
-            hoverImage.gameObject.SetActive(true); // 이미지 계속 표시
+            isSelected = true;
+            OnButtonClick(); // ← 여기에 프리팹 저장 및 선택 처리
+
+            hoverImage.gameObject.SetActive(true);
             StartCoroutine(FlipButton());
         }
     }
@@ -74,5 +76,13 @@ public class ButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         button.interactable = false;
         isDisabled = true;  // 버튼 비활성화 상태로 변경
         hoverImage.gameObject.SetActive(false); // hoverImage 숨김
+    }
+    public void OnButtonClick()
+    {
+        if (ButtonManager.Instance.CanSelect())
+        {
+            ButtonManager.Instance.selectedPrefab = prefabToSpawn; // 프리팹 저장
+            ButtonManager.Instance.SetSelectedButton(this);
+        }
     }
 }

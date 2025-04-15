@@ -13,7 +13,7 @@ public class Damage : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerMove playerMove = other.GetComponentInParent<PlayerMove>();
+            KnightMove playerMove = other.GetComponentInParent<KnightMove>();
 
             if (playerMove != null)
             {
