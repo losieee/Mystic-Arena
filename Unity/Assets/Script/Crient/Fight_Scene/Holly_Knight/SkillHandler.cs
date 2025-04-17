@@ -11,12 +11,48 @@ public class SkillHandler : MonoBehaviour
     public GameObject glowEffect;
     public UnityEngine.Events.UnityEvent onSkillUsed;
 
+    public AudioClip skillSound; // 효과음 클립
+    private AudioSource audioSource; //오디오 소스
+    
+    public AudioClip eKeySound;   // E 키 전용 사운드
+    public AudioClip wKeySound;   // W 키 전용 사운드
+    public AudioClip gKeySound;   // G 키 전용 사운드
+
     private bool isCooldown = false;
 
+
+    void Start()
+    {
+        // AudioSource 초기화
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+    }
+
+    void Update()
+    {
+        TryUseSkill();
+
+        // E키 효과음 재생
+        if (Input.GetKeyDown(KeyCode.E) && eKeySound != null)
+            audioSource.PlayOneShot(eKeySound);
+
+        // W키 효과음 재생
+        if (Input.GetKeyDown(KeyCode.W) && wKeySound != null)
+            audioSource.PlayOneShot(wKeySound);
+
+        // G키 효과음 재생
+        if (Input.GetKeyDown(KeyCode.G) && gKeySound != null)
+            audioSource.PlayOneShot(gKeySound);
+    }
     public void TryUseSkill()
     {
         if (!isCooldown && Input.GetKeyDown(skillData.activationKey))
         {
+            if (skillSound != null)
+            audioSource.PlayOneShot(skillSound);
             StartCoroutine(CooldownRoutine());
         }
     }

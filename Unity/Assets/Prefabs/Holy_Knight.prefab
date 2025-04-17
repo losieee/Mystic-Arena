@@ -98,6 +98,10 @@ MonoBehaviour:
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
+  skillSound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
+  eKeySound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
+  wKeySound: {fileID: 0}
+  gKeySound: {fileID: 0}
 --- !u!1 &385433290382082380
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,6 +962,10 @@ MonoBehaviour:
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
+  skillSound: {fileID: 0}
+  eKeySound: {fileID: 0}
+  wKeySound: {fileID: 0}
+  gKeySound: {fileID: 0}
 --- !u!1 &2070621289302389395
 GameObject:
   m_ObjectHideFlags: 0
@@ -7763,6 +7771,10 @@ MonoBehaviour:
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
+  skillSound: {fileID: 0}
+  eKeySound: {fileID: 0}
+  wKeySound: {fileID: 0}
+  gKeySound: {fileID: 0}
 --- !u!1 &5708857056448303304
 GameObject:
   m_ObjectHideFlags: 0
@@ -7995,6 +8007,10 @@ MonoBehaviour:
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
+  skillSound: {fileID: 0}
+  eKeySound: {fileID: 0}
+  wKeySound: {fileID: 0}
+  gKeySound: {fileID: 0}
 --- !u!1 &6024830790824042328
 GameObject:
   m_ObjectHideFlags: 0
