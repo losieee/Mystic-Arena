@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SignIn_SingnUp_Scene.unity
     guid: 7408490215b826f46a5af9f31df6603f
   - enabled: 1
