@@ -5006,10 +5006,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2024340437}
-  - component: {fileID: 2024340436}
-  - component: {fileID: 2024340438}
   - component: {fileID: 2024340439}
-  - component: {fileID: 2024340440}
   m_Layer: 0
   m_Name: Web
   m_TagString: Untagged
@@ -5017,22 +5014,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2024340436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024340435}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b2bf06f39299e14791d0184942afc31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hello: {fileID: 1594873796}
-  host: http://127.0.0.1
-  port: 3000
-  route: /
 --- !u!4 &2024340437
 Transform:
   m_ObjectHideFlags: 0
@@ -5048,28 +5029,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2024340438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024340435}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45773540c5c72e245aa688e4a40981a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  btnGetExample: {fileID: 1594873796}
-  btnPostExample: {fileID: 265145076}
-  btnRosExample: {fileID: 1105261638}
-  host: http://127.0.0.1
-  port: 3000
-  idUrl: 
-  postUrl: userdata
-  resUrl: userdata/list
-  id: 0
-  data: 
 --- !u!114 &2024340439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5088,25 +5047,6 @@ MonoBehaviour:
   signIn_ch_Bbutton: {fileID: 1907263628}
   signUp_ch_Bbutton: {fileID: 1004401214}
   signUP_UI: {fileID: 796708165}
---- !u!114 &2024340440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024340435}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01d33b0852b71c7428af5eb27ef35698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usernameInput: {fileID: 2122440420}
-  passwordInput: {fileID: 1273792588}
-  registerButton: {fileID: 1863843852}
-  loginButton: {fileID: 0}
-  logoutButton: {fileID: 0}
-  getDataButton: {fileID: 0}
-  statusText: {fileID: 714758060}
 --- !u!1 &2058904066
 GameObject:
   m_ObjectHideFlags: 0
