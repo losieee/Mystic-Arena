@@ -1,10 +1,15 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
 
 public class ButtonManager : MonoBehaviour
 {
+    public AudioClip transitionSound;
+    private AudioSource audioSource;
+
+    public Kino.DigitalGlitch glitchEffect;
+    public Kino.AnalogGlitch analogGlitch;
     public static ButtonManager Instance { get; private set; }
     private ButtonEffect selectedButton = null;
     private float timeLimit = 10f; // 제한시간 10초
@@ -12,7 +17,6 @@ public class ButtonManager : MonoBehaviour
     public TMP_Text timerText; // UI에 표시할 타이머 텍스트
 
     public GameObject selectedPrefab;
-
 
     void Awake()
     {
@@ -29,9 +33,19 @@ public class ButtonManager : MonoBehaviour
 
     void Start()
     {
-        // 제한시간 카운트다운 시작
-        Invoke("TimeOver", timeLimit);
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+
+        // 초기화는 씬이 로드될 때 진행
+        if (SceneManager.GetActiveScene().name == "Main_Lobby")
+        {
+            InitializeTimer();
+        }
     }
+
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -44,22 +58,77 @@ public class ButtonManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Lobby")
+        if (scene.name == "Character_Choice")
         {
-            selectedButton = null;
-            isTimeOver = false;
-            timeLimit = 10f;
-            UpdateTimerUI();
+            StartCoroutine(DelayedInitializeTimer());
         }
+
+        // 메인 카메라에서 글리치 컴포넌트 찾아서 참조 및 비활성화
+        Camera mainCam = Camera.main;
+        if (mainCam != null)
+        {
+            glitchEffect = mainCam.GetComponent<Kino.DigitalGlitch>();
+            analogGlitch = mainCam.GetComponent<Kino.AnalogGlitch>();
+
+            if (glitchEffect != null)
+                glitchEffect.enabled = false;
+
+            if (analogGlitch != null)
+                analogGlitch.enabled = false;
+        }
+    }
+
+    private IEnumerator DelayedInitializeTimer()
+    {
+        // 한 프레임 대기
+        yield return null;
+
+        var textObj = GameObject.Find("TimerText");
+        if (textObj != null)
+        {
+            timerText = textObj.GetComponent<TMP_Text>();
+        }
+
+        InitializeTimer();
+    }
+
+    void InitializeTimer()
+    {
+        selectedButton = null;    // 선택된 버튼 초기화
+        isTimeOver = false;       // 시간 초과 여부 초기화
+        timeLimit = 10f;          // 타이머 초기화
+        UpdateTimerUI();          // 타이머 UI 업데이트
     }
 
     void Update()
     {
         if (!isTimeOver)
         {
-            timeLimit -= Time.deltaTime; // 남은 시간 감소
-            if (timeLimit < 0) timeLimit = 0; // 0초 이하로 내려가지 않도록 방지
-            UpdateTimerUI();
+            timeLimit -= Time.deltaTime;
+            if (timeLimit <= 0f)
+            {
+                timeLimit = 0f;
+                UpdateTimerUI();
+                TimeOver();  // 이 줄이 중요! 0초일 때 씬 전환
+            }
+            else
+            {
+                UpdateTimerUI();
+            }
+        }
+    }
+
+    // 타이머를 1초마다 업데이트하는 함수
+    void UpdateTimer()
+    {
+        if (timeLimit > 0)
+        {
+            timeLimit -= 1f;
+        }
+        else
+        {
+            CancelInvoke("UpdateTimer"); // 타이머가 끝나면 더 이상 호출하지 않음
+            TimeOver(); // 타이머 종료 후 TimeOver 호출
         }
     }
 
@@ -90,10 +159,55 @@ public class ButtonManager : MonoBehaviour
     {
         isTimeOver = true;
 
-        string targetScene = (selectedButton != null) ? "SampleScene" : "Lobby";
+        string targetScene = (selectedButton != null) ? "SampleScene" : "Main_Lobby";
 
-        // 다음 씬에서도 ButtonManager 유지
-        SceneManager.LoadScene(targetScene);
+        // Transition 효과가 끝난 후 씬 전환
+        StartCoroutine(PlayTransitionAndLoadScene(targetScene));
+    }
+
+    private IEnumerator PlayTransitionAndLoadScene(string sceneName)
+    {
+        if (glitchEffect != null && analogGlitch != null)
+        {
+            glitchEffect.enabled = true;
+            analogGlitch.enabled = true;
+            StartCoroutine(IncreaseGlitch());
+        }
+
+        // 효과음 재생
+        float soundDuration = 2f;
+        if (transitionSound != null)
+        {
+            audioSource.PlayOneShot(transitionSound);
+            soundDuration = transitionSound.length;
+        }
+
+        // 효과음 끝날 때까지 대기
+        yield return new WaitForSeconds(soundDuration);
+
+        // 씬 전환
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private IEnumerator IncreaseGlitch()
+    {
+        float duration = transitionSound != null ? transitionSound.length : 2f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+
+            analogGlitch.scanLineJitter = Mathf.Lerp(0.1f, 1.0f, t);
+            analogGlitch.verticalJump = Mathf.Lerp(0.05f, 0.5f, t);
+            analogGlitch.horizontalShake = Mathf.Lerp(0.1f, 0.8f, t);
+            analogGlitch.colorDrift = Mathf.Lerp(0.1f, 1.0f, t);
+
+            glitchEffect.intensity = Mathf.Lerp(0.0f, 1.0f, t);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 
     // 다른 버튼을 비활성화

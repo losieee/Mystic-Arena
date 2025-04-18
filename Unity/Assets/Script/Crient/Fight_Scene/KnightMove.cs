@@ -47,7 +47,7 @@ public class KnightMove : MonoBehaviour
     private NavMeshAgent agent;
     private CapsuleCollider capsule;
     private Light spotLight;
-    private new Camera camera;
+    private Camera mainCamera;
     public CanvasGroup healCanvasGroup;
 
     private Vector3 destination;
@@ -64,7 +64,7 @@ public class KnightMove : MonoBehaviour
         gSkillHandler.onSkillUsed.AddListener(() => StartCoroutine(DashForward()));
         respawnCountdownText = death.GetComponentInChildren<TextMeshProUGUI>();
 
-        camera = Camera.main;
+        mainCamera = Camera.main;
         capsule = GetComponentInChildren<CapsuleCollider>();
         spotLight = GetComponentInChildren<Light>();
         agent = GetComponent<NavMeshAgent>();
@@ -105,7 +105,7 @@ public class KnightMove : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(1)) return;
 
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (hit.collider.CompareTag("NPC") && !hasHealed &&

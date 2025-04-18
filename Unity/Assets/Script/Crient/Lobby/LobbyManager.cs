@@ -1,12 +1,18 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Kino;
+using UnityEditor;
 
 public class LobbyManager : MonoBehaviour
 {
-    public AudioClip startSound; // Start 버튼 효과음
+    public AudioClip startSound;
     private AudioSource audioSource;
 
-    private bool isClicked = false; // 중복 클릭 방지
+    public DigitalGlitch glitchEffect;
+    public AnalogGlitch analogglitch;
+
+    private bool isClicked = false;
 
     void Start()
     {
@@ -15,24 +21,74 @@ public class LobbyManager : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
 
         audioSource.playOnAwake = false;
+
+        if (glitchEffect != null)
+        {
+            glitchEffect.enabled = false;
+            analogglitch.enabled = false;
+        }
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
-    // "게임 시작" 버튼을 누르면 효과음 재생 후 Character_Choice 씬으로 이동
     public void StartGame()
     {
-        if (isClicked) return; // 중복 클릭 방지
+        if (isClicked) return;
         isClicked = true;
 
-        if (startSound != null)
-            audioSource.PlayOneShot(startSound);
+        glitchEffect.intensity = 0f;
+        analogglitch.scanLineJitter = 0f;
+        analogglitch.verticalJump = 0f;
+        analogglitch.horizontalShake = 0f;
+        analogglitch.colorDrift = 0f;
 
-        // 효과음 길이만큼 기다렸다가 씬 전환
-        float delay = startSound != null ? startSound.length : 0f;
-        Invoke(nameof(LoadNextScene), delay);
+        StartCoroutine(DelayedGlitchAndSound());
     }
 
-    private void LoadNextScene()
+    private IEnumerator DelayedGlitchAndSound()
     {
+        yield return new WaitForSeconds(1f); // 1초 대기
+
+        // 글리치 켜기
+        if (glitchEffect != null && analogglitch != null)
+        {
+            glitchEffect.enabled = true;
+            analogglitch.enabled = true;
+            StartCoroutine(IncreaseGlitch());
+        }
+
+        // 효과음 재생
+        if (startSound != null)
+        {
+            audioSource.PlayOneShot(startSound);
+            yield return new WaitForSeconds(startSound.length);
+        }
+
         SceneManager.LoadScene("Character_Choice");
+    }
+
+    private IEnumerator IncreaseGlitch()
+    {
+        float duration = startSound != null ? startSound.length : 2f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+
+            // Analog 글리치 점점 증가
+            analogglitch.scanLineJitter = Mathf.Lerp(0.1f, 1.0f, t);
+            analogglitch.verticalJump = Mathf.Lerp(0.05f, 0.5f, t);
+            analogglitch.horizontalShake = Mathf.Lerp(0.1f, 0.8f, t);
+            analogglitch.colorDrift = Mathf.Lerp(0.1f, 1.0f, t);
+
+            // Digital 글리치 점점 증가
+            glitchEffect.intensity = Mathf.Lerp(0.0f, 1.0f, t);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 }
