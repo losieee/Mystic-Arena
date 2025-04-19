@@ -5,68 +5,141 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using System.Linq;
 
 public class PhotonTest : MonoBehaviourPunCallbacks
 {
-     public TMP_InputField m_InputField;
-     public TextMeshProUGUI m_textConnectLog;
-     public TextMeshProUGUI m_textPlayerList;
+    public TMP_InputField m_InputField;
+    public TextMeshProUGUI[] nameTexts = new TextMeshProUGUI[4];
 
     void Start()
     {
         Screen.SetResolution(960, 600, false);
-
-        m_InputField = GameObject.Find("Canvas/InputField").GetComponent<TMP_InputField>();
-        m_textPlayerList = GameObject.Find("Canvas/text1").GetComponent<TextMeshProUGUI>();
-        m_textConnectLog = GameObject.Find("Canvas/text2").GetComponent<TextMeshProUGUI>();
-
-        m_textConnectLog.text = "접속로그\n";
+        StartCoroutine(InitializeUI());
     }
 
-    public override void OnConnectedToMaster()
+    IEnumerator InitializeUI()
     {
-        RoomOptions options = new RoomOptions();
-        options.MaxPlayers = 5;
+        yield return new WaitForEndOfFrame();
 
-        PhotonNetwork.LocalPlayer.NickName = m_InputField.text;
-        PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
+        GameObject inputObj = GameObject.Find("Canvas/InputField");
+        if (inputObj != null)
+        {
+            m_InputField = inputObj.GetComponent<TMP_InputField>();
+        }
+        else
+        {
+            Debug.LogError("[UI] InputField 오브젝트를 찾을 수 없습니다.");
+        }
 
-    }
-    public override void OnJoinedRoom()
-    {
-        updatePlayer();
-        m_textConnectLog.text += m_InputField.text;
-        m_textConnectLog.text += " 님이 방에 참가하였습니다.\n";
-    }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        updatePlayer();
-        m_textConnectLog.text += newPlayer.NickName;
-        m_textConnectLog.text += " 님이 입장하였습니다.\n";
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        updatePlayer();
-        m_textConnectLog.text += otherPlayer.NickName;
-        m_textConnectLog.text += " 님이 퇴장하였습니다.\n";
+        for (int i = 0; i < 4; i++)
+        {
+            string objectName = $"Canvas/Text{i + 1}";
+            GameObject go = GameObject.Find(objectName);
+            if (go != null)
+            {
+                nameTexts[i] = go.GetComponent<TextMeshProUGUI>();
+                nameTexts[i].text = "";
+            }
+            else
+            {
+                Debug.LogError($"[UI] {objectName} 오브젝트를 찾을 수 없습니다.");
+            }
+        }
     }
 
     public void Connect()
     {
+        if (m_InputField == null)
+        {
+            Debug.LogError("[Connect] m_InputField가 null입니다.");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(m_InputField.text))
+        {
+            m_InputField.text = "Player" + Random.Range(1000, 9999);
+        }
+
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    void updatePlayer()
+    public override void OnConnectedToMaster()
     {
-        m_textPlayerList.text = "접속자";
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        if (m_InputField == null)
         {
-            m_textPlayerList.text += "\n";
-            m_textPlayerList.text += PhotonNetwork.PlayerList[i].NickName;
+            Debug.LogError("[Photon] OnConnectedToMaster에서 m_InputField가 null입니다.");
+            return;
+        }
+
+        PhotonNetwork.LocalPlayer.NickName = m_InputField.text;
+
+        RoomOptions options = new RoomOptions { MaxPlayers = 4 };
+        PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        UpdatePlayerListUI();
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        UpdatePlayerListUI();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        UpdatePlayerListUI();
+    }
+
+    void UpdatePlayerListUI()
+    {
+        // 모든 플레이어 정렬 (UID 기준, 일관성 있게)
+        Player[] sortedPlayers = PhotonNetwork.PlayerList.OrderBy(p => p.ActorNumber).ToArray();
+
+        for (int i = 0; i < nameTexts.Length; i++)
+        {
+            if (i < sortedPlayers.Length)
+            {
+                string nickname = sortedPlayers[i].NickName;
+
+                // 본인은 항상 Text1
+                if (sortedPlayers[i] == PhotonNetwork.LocalPlayer)
+                {
+                    nameTexts[0].text = nickname;
+                }
+                else
+                {
+                    // 다른 유저는 Text2~Text4
+                    int otherIndex = GetOtherPlayerIndex(sortedPlayers[i]);
+                    if (otherIndex >= 1 && otherIndex < nameTexts.Length)
+                    {
+                        nameTexts[otherIndex].text = nickname;
+                    }
+                }
+            }
+            else
+            {
+                // 빈 슬롯은 지우기
+                nameTexts[i].text = "";
+            }
         }
     }
 
-}
+    int GetOtherPlayerIndex(Player player)
+    {
+        // 정렬된 순서에서 현재 플레이어를 기준으로 다른 유저의 순번을 구함
+        Player[] sortedPlayers = PhotonNetwork.PlayerList.OrderBy(p => p.ActorNumber).ToArray();
+        int index = System.Array.IndexOf(sortedPlayers, player);
+        int myIndex = System.Array.IndexOf(sortedPlayers, PhotonNetwork.LocalPlayer);
 
+        // 나보다 먼저 등장하면 그대로, 나보다 뒤면 -1 해서 빈자리로 맞춤
+        if (index < myIndex)
+            return index + 1;
+        else if (index > myIndex)
+            return index;
+
+        return 0; // 본인
+    }
+}
