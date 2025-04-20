@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+  - AI
   layers:
   - Default
   - TransparentFX
