@@ -99,9 +99,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   skillSound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
-  eKeySound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
-  wKeySound: {fileID: 0}
-  gKeySound: {fileID: 0}
 --- !u!1 &385433290382082380
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,9 +960,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   skillSound: {fileID: 0}
-  eKeySound: {fileID: 0}
-  wKeySound: {fileID: 0}
-  gKeySound: {fileID: 0}
 --- !u!1 &2070621289302389395
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,7 +1551,7 @@ MonoBehaviour:
   fieldOfView: {fileID: 4156953517408996348}
   smallFieldOfView: {fileID: 6406783938264752655}
   spot: {fileID: 4349184155793918436, guid: 1816ce0e5ed0d184998e0eeaf7d52767, type: 3}
-  respawnPoint: {fileID: 5764608897431426713, guid: 469f7d0b33849d9488227821e4a7da47, type: 3}
+  respawnPoint: {fileID: 3217648949987734392, guid: 869cda33fa45b15499cb311a3feef925, type: 3}
   healCanvasGroup: {fileID: 0}
 --- !u!54 &8056739961771345594
 Rigidbody:
@@ -1962,7 +1956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4530213706150110122
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2182,7 +2176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1953368082964177571}
   - component: {fileID: 3491785142144981180}
-  - component: {fileID: 6978443347270082690}
+  - component: {fileID: 8040616515074354380}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2256,7 +2250,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6978443347270082690
+--- !u!81 &8040616515074354380
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2575,7 +2569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7581008171264845235
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7539,7 +7533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5081093252114363694
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7772,9 +7766,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   skillSound: {fileID: 0}
-  eKeySound: {fileID: 0}
-  wKeySound: {fileID: 0}
-  gKeySound: {fileID: 0}
 --- !u!1 &5708857056448303304
 GameObject:
   m_ObjectHideFlags: 0
@@ -8008,9 +7999,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   skillSound: {fileID: 0}
-  eKeySound: {fileID: 0}
-  wKeySound: {fileID: 0}
-  gKeySound: {fileID: 0}
 --- !u!1 &6024830790824042328
 GameObject:
   m_ObjectHideFlags: 0
@@ -9557,7 +9545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7250565014558872729
 RectTransform:
   m_ObjectHideFlags: 0

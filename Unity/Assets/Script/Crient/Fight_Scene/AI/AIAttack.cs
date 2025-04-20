@@ -15,25 +15,41 @@ public class AIAttack : MonoBehaviour
     }
     void Update()
     {
-        FindClosestPlayer();
+        FindClosestTarget();
 
         if (target != null)
             agent.SetDestination(target.position);
     }
 
-    void FindClosestPlayer()
+    void FindClosestTarget()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] potentialTargets = GameObject.FindGameObjectsWithTag("Player"); // 플레이어
+        List<GameObject> allTargets = new List<GameObject>(potentialTargets);
 
-        foreach (GameObject player in players)
+        // 추가로 AI들도 감지 대상에 포함
+        GameObject[] aiTargets = GameObject.FindGameObjectsWithTag("AI");
+
+        foreach (GameObject ai in aiTargets)
         {
-            float dist = Vector3.Distance(transform.position, player.transform.position);
-            if (dist < detectionRadius)
+            // 자기 자신은 제외
+            if (ai != this.gameObject)
+                allTargets.Add(ai);
+        }
+
+        float closestDist = Mathf.Infinity;
+        Transform closestTarget = null;
+
+        foreach (GameObject obj in allTargets)
+        {
+            float dist = Vector3.Distance(transform.position, obj.transform.position);
+            if (dist < detectionRadius && dist < closestDist)
             {
-                target = player.transform;
-                break;
+                closestDist = dist;
+                closestTarget = obj.transform;
             }
         }
+
+        target = closestTarget;
     }
     void OnDrawGizmosSelected()
     {
