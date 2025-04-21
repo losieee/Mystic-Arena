@@ -47,6 +47,41 @@ public class LobbyManager : MonoBehaviour
         StartCoroutine(DelayedGlitchAndSound());
     }
 
+    public void Tutorial()
+    {
+        if (isClicked) return;
+        isClicked = true;
+
+        glitchEffect.intensity = 0f;
+        analogglitch.scanLineJitter = 0f;
+        analogglitch.verticalJump = 0f;
+        analogglitch.horizontalShake = 0f;
+        analogglitch.colorDrift = 0f;
+
+        StartCoroutine(ToTutorialGlitchAndSound());
+    }
+    private IEnumerator ToTutorialGlitchAndSound()
+    {
+        yield return new WaitForSeconds(1f); // 1초 대기
+
+        // 글리치 켜기
+        if (glitchEffect != null && analogglitch != null)
+        {
+            glitchEffect.enabled = true;
+            analogglitch.enabled = true;
+            StartCoroutine(IncreaseGlitch());
+        }
+
+        // 효과음 재생
+        if (startSound != null)
+        {
+            audioSource.PlayOneShot(startSound);
+            yield return new WaitForSeconds(startSound.length);
+        }
+
+        SceneManager.LoadScene("Tutorial");
+    }
+
     private IEnumerator DelayedGlitchAndSound()
     {
         yield return new WaitForSeconds(1f); // 1초 대기
