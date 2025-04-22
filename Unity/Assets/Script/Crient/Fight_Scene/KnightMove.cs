@@ -103,7 +103,7 @@ public class KnightMove : MonoBehaviour
 
     private void HandleMoveInput()
     {
-        if (!Input.GetMouseButtonDown(1)) return;
+        if (!Input.GetMouseButtonDown(0)) return;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
@@ -272,6 +272,7 @@ public class KnightMove : MonoBehaviour
 
         Respawn();
     }
+
     private void Respawn()
     {
         capsule.enabled = true;
@@ -289,6 +290,7 @@ public class KnightMove : MonoBehaviour
         UpdateHealthUI();
         healEffect?.Play();
     }
+
     private IEnumerator DashForward()
     {
         isDashing = true;
@@ -318,6 +320,7 @@ public class KnightMove : MonoBehaviour
         isDashing = false;
         isInvincible = false;
     }
+
     private void ShowDeathUI()
     {
         death.gameObject.SetActive(true);
