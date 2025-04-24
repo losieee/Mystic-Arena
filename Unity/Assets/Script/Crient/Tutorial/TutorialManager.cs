@@ -4,11 +4,11 @@ using System.Collections;
 using TMPro;
 using System.Collections.Generic;
 
-public class DialogueManager : MonoBehaviour
+public class TutorialManager : MonoBehaviour
 {
     public enum ImagePosition
     {
-        G, Q, W, E
+        G, Q, W, E, Cool
     }
 
     [System.Serializable]
@@ -31,21 +31,23 @@ public class DialogueManager : MonoBehaviour
     public Image imageQ;
     public Image imageW;
     public Image imageE;
+    public Image imageCool;
 
     public TextMeshProUGUI explanationText_G;
     public TextMeshProUGUI explanationText_Q;
     public TextMeshProUGUI explanationText_W;
     public TextMeshProUGUI explanationText_E;
+    public TextMeshProUGUI explanationText_Cool;
 
     public List<ExplanationData> explanations = new List<ExplanationData>();
     public RectTransform explanationTextBox;
-    public Vector2 positionForG;
-    public Vector2 positionForQ;
-    public Vector2 positionForW;
-    public Vector2 positionForE;
 
     [Header("Hint Message")]
     public GameObject hintMessage;
+
+    [Header("Input Blocker")]
+    public GameObject blockInputPanel;
+    public GameObject tutorialInputBlocker; // Inspector 창에서 할당
 
     private AudioSource audioSource;
     private bool isTyping = false;
@@ -56,6 +58,7 @@ public class DialogueManager : MonoBehaviour
     private float waitTime = 3f;
     private int dialogueIndex = 0;
     private int currentExplanationIndex = 0;
+    private bool isInputBlocked = false; // 입력 차단 상태
 
     private string[] dialogues = {
         "안녕하세요 영웅이여!",
@@ -70,20 +73,23 @@ public class DialogueManager : MonoBehaviour
         audioSource.playOnAwake = false;
 
         // 설명 텍스트 임시 세팅
-        if (explanations.Count >= 4)
+        if (explanations.Count >= 5) // explanations 리스트 크기를 5 이상으로 확인
         {
             explanations[0].text = "G는 차원이동(대쉬) 스킬입니다.\n사용시 일정 거리를 빠르게 이동할 수 있으며\n사용중에는 데미지를 받지 않습니다.";
             explanations[1].text = "Q는 공격 스킬입니다.\n캐릭터별 특성에 맞춰 다양한 효과를 냅니다.";
             explanations[2].text = "W는 시야 스킬입니다.\n캐릭터 주변의 시야를 밝혀줍니다.";
             explanations[3].text = "E는 버프 스킬입니다.\n캐릭터에게 이로운 효과를 부여합니다.";
+            explanations[4].text = "스킬 쿨타임이 끝나게 되면\n스킬 이미지 주변이 빛나게 됩니다.";
         }
 
         dialoguePanel.SetActive(true);
+        BlockInput(true); // 다이얼로그 시작 시 입력 막기
         StartCoroutine(TypeDialogue());
     }
 
     void Update()
     {
+        // 다이얼로그 패널이 활성화되어 있을 때 클릭 감지
         if (dialoguePanel.activeSelf && Input.GetMouseButtonDown(0))
         {
             if (isTyping)
@@ -108,11 +114,13 @@ public class DialogueManager : MonoBehaviour
                     imageExplanationPanel.SetActive(true);
                     isExplaining = true;
                     currentExplanationIndex = 0;
+                    BlockInput(true); // 설명 시작 시 입력 막기
                     StartCoroutine(ShowExplanationSequence());
                 }
             }
         }
 
+        // 설명 패널이 활성화되어 있을 때 클릭 감지
         if (isExplaining && Input.GetMouseButtonDown(0))
         {
             if (isTypingExplanation)
@@ -132,15 +140,22 @@ public class DialogueManager : MonoBehaviour
                 {
                     isExplaining = false;
                     imageExplanationPanel.SetActive(false);
+                    BlockInput(false); // 설명 종료 시 입력 허용
                 }
             }
         }
 
+        // 다이얼로그와 설명이 모두 끝났을 때
         if (dialogueEnded && !isExplaining)
         {
             if (Input.anyKeyDown)
             {
                 inactivityTimer = 0f;
+                if (hintMessage != null && hintMessage.activeSelf)
+                {
+                    hintMessage.SetActive(false);
+                    BlockInput(false); // 힌트 메시지 닫힐 때 입력 허용
+                }
             }
             else
             {
@@ -149,6 +164,7 @@ public class DialogueManager : MonoBehaviour
                 {
                     ShowHintMessage();
                     dialogueEnded = false;
+                    BlockInput(true); // 힌트 메시지 표시 시 입력 막기
                 }
             }
         }
@@ -187,11 +203,13 @@ public class DialogueManager : MonoBehaviour
         imageQ.gameObject.SetActive(false);
         imageW.gameObject.SetActive(false);
         imageE.gameObject.SetActive(false);
+        imageCool.gameObject.SetActive(false);
 
         explanationText_G.gameObject.SetActive(false);
         explanationText_Q.gameObject.SetActive(false);
         explanationText_W.gameObject.SetActive(false);
         explanationText_E.gameObject.SetActive(false);
+        explanationText_Cool.gameObject.SetActive(false);
 
         Image targetImage = null;
         TextMeshProUGUI targetText = null;
@@ -201,7 +219,6 @@ public class DialogueManager : MonoBehaviour
             case ImagePosition.G:
                 targetImage = imageG;
                 targetText = explanationText_G;
-                Debug.Log("G 스킬 설명 - targetText 할당: " + targetText); // 로그 추가
                 break;
             case ImagePosition.Q:
                 targetImage = imageQ;
@@ -215,6 +232,10 @@ public class DialogueManager : MonoBehaviour
                 targetImage = imageE;
                 targetText = explanationText_E;
                 break;
+            case ImagePosition.Cool:
+                targetImage = imageCool;
+                targetText = explanationText_Cool;
+                break;
         }
 
         if (targetImage != null)
@@ -227,21 +248,10 @@ public class DialogueManager : MonoBehaviour
         if (targetText != null)
         {
             targetText.gameObject.SetActive(true);
-            targetText.text = ""; // 텍스트 초기화
-            int charCount = 0;
-
-            // 한 글자씩 출력
-            foreach (char letter in explanation.text.ToCharArray())
-            {
-                targetText.text += letter; // 한 글자씩 추가
-                charCount++;
-                if (typingSound != null && audioSource != null && charCount % 3 == 0)
-                {
-                    audioSource.PlayOneShot(typingSound); // 타이핑 사운드
-                }
-                yield return new WaitForSeconds(typingSpeed); // 타이핑 속도에 맞게 대기
-            }
+            targetText.text = explanation.text;  // 타이핑 효과 없이 즉시 출력
         }
+
+        yield return null;
 
         isTypingExplanation = false;
     }
@@ -263,6 +273,9 @@ public class DialogueManager : MonoBehaviour
             case ImagePosition.E:
                 explanationText_E.text = explanation.text;
                 break;
+            case ImagePosition.Cool:
+                explanationText_Cool.text = explanation.text;
+                break;
         }
     }
 
@@ -272,5 +285,18 @@ public class DialogueManager : MonoBehaviour
         {
             hintMessage.SetActive(true);
         }
+    }
+
+    public void BlockInput(bool block)
+    {
+        isInputBlocked = block;
+        if (tutorialInputBlocker != null)
+        {
+            tutorialInputBlocker.SetActive(block);
+        }
+    }
+    public bool IsInputBlocked()
+    {
+        return isInputBlocked;
     }
 }

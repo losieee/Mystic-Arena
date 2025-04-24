@@ -23,7 +23,7 @@ public class KnightMove : MonoBehaviour
     [SerializeField] private Image heal;
     [SerializeField] private Transform deathMark;
     [SerializeField] private ParticleSystem healEffect;
-    [SerializeField] private TextMeshProUGUI respawnCountdownText;   // 카운트다운 UI 텍스트
+    [SerializeField] private TextMeshProUGUI respawnCountdownText;    // 카운트다운 UI 텍스트
 
     [Header("Field of View")]
     [SerializeField] private FieldOfView fieldOfView;
@@ -32,6 +32,7 @@ public class KnightMove : MonoBehaviour
     [Header("Other")]
     public Transform spot;
     public Transform respawnPoint;
+    public TutorialManager tutorialManager; // Inspector 창에서 할당
 
     private float curHealth;
     private float maxHealth;
@@ -82,6 +83,12 @@ public class KnightMove : MonoBehaviour
     {
         healCanvasGroup = heal.GetComponent<CanvasGroup>() ?? heal.gameObject.AddComponent<CanvasGroup>();
         healCanvasGroup.alpha = 0f;
+
+        // TutorialManager가 할당되지 않았다면 오류 로그
+        if (tutorialManager == null)
+        {
+            Debug.LogError("TutorialManager가 KnightMove 스크립트에 할당되지 않았습니다!");
+        }
     }
 
     private void Update()
@@ -103,7 +110,13 @@ public class KnightMove : MonoBehaviour
 
     private void HandleMoveInput()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
+        // 튜토리얼 중 입력이 막혀있다면 이동 입력을 처리하지 않음
+        if (tutorialManager != null && tutorialManager.IsInputBlocked())
+        {
+            return;
+        }
+
+        if (!Input.GetMouseButtonDown(1)) return;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
