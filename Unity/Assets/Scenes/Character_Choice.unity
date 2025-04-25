@@ -2402,7 +2402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverImage: {fileID: 339404864}
-  flippedSprite: {fileID: 21300000, guid: edad98330302f3b4bbb7464b46dd3677, type: 3}
+  flippedSprite: {fileID: 21300000, guid: b27ff5579877f5c4fbeac09b133ba83c, type: 3}
   prefabToSpawn: {fileID: 2747052180251145353, guid: 423166c14c46817479ce6c21e4f3c7bc, type: 3}
 --- !u!1 &2069880426
 GameObject:
