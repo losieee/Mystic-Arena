@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.ComponentModel;
 
 public class KnightMove : MonoBehaviour
 {
@@ -49,7 +50,7 @@ public class KnightMove : MonoBehaviour
     private CapsuleCollider capsule;
     private Light spotLight;
     private Camera mainCamera;
-    public CanvasGroup healCanvasGroup;
+    private CanvasGroup healCanvasGroup;
 
     private Vector3 destination;
     private bool isMove = false;
@@ -81,10 +82,11 @@ public class KnightMove : MonoBehaviour
 
     private void Start()
     {
+        mainCamera = Camera.main;  
+
         healCanvasGroup = heal.GetComponent<CanvasGroup>() ?? heal.gameObject.AddComponent<CanvasGroup>();
         healCanvasGroup.alpha = 0f;
 
-        // TutorialManager가 할당되지 않았다면 오류 로그
         if (tutorialManager == null)
         {
             Debug.LogError("TutorialManager가 KnightMove 스크립트에 할당되지 않았습니다!");
@@ -106,8 +108,8 @@ public class KnightMove : MonoBehaviour
 
         if (isDead && lowHp.gameObject.activeSelf)
             lowHp.gameObject.SetActive(false);
-    }
 
+    }
     private void HandleMoveInput()
     {
         // 튜토리얼 중 입력이 막혀있다면 이동 입력을 처리하지 않음
@@ -116,24 +118,25 @@ public class KnightMove : MonoBehaviour
             return;
         }
 
-        if (!Input.GetMouseButtonDown(1)) return;
-
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Input.GetMouseButtonDown(1))
         {
-            if (hit.collider.CompareTag("NPC") && !hasHealed &&
-                Vector3.Distance(transform.position, hit.point) <= interactionRange)
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                HealPlayer();
-                spot.gameObject.SetActive(false);
-                return;
-            }
+                if (hit.collider.CompareTag("NPC") && !hasHealed &&
+                    Vector3.Distance(transform.position, hit.point) <= interactionRange)
+                {
+                    HealPlayer();
+                    spot.gameObject.SetActive(false);
+                    return;
+                }
 
-            spot.position = hit.point;
-            spot.transform.localScale = Vector3.one * 1.5f;
-            spot.gameObject.SetActive(true);
-            StartCoroutine(ShrinkSpot());
-            SetDestination(hit.point);
+                spot.position = hit.point;
+                spot.transform.localScale = Vector3.one * 1.5f;
+                spot.gameObject.SetActive(true);
+                StartCoroutine(ShrinkSpot());
+                SetDestination(hit.point);
+            }
         }
     }
 

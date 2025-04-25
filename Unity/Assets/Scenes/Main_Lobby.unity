@@ -3389,7 +3389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startSound: {fileID: 8300000, guid: 914cbb0560820ed4cb86bd5dddd9ed5d, type: 3}
   glitchEffect: {fileID: 810530394}
-  analogglitch: {fileID: 0}
+  analogglitch: {fileID: 810530395}
 --- !u!1 &1429953911
 GameObject:
   m_ObjectHideFlags: 0
@@ -4256,7 +4256,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1374874171}
         m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
         m_MethodName: Tutorial
         m_Mode: 1

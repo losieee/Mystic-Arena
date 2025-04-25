@@ -8,7 +8,7 @@ public class TutorialManager : MonoBehaviour
 {
     public enum ImagePosition
     {
-        G, Q, W, E, Cool
+        G, Q, W, E, Cool, Heal
     }
 
     [System.Serializable]
@@ -32,21 +32,21 @@ public class TutorialManager : MonoBehaviour
     public Image imageW;
     public Image imageE;
     public Image imageCool;
+    public Image imageHeal;
 
     public TextMeshProUGUI explanationText_G;
     public TextMeshProUGUI explanationText_Q;
     public TextMeshProUGUI explanationText_W;
     public TextMeshProUGUI explanationText_E;
     public TextMeshProUGUI explanationText_Cool;
+    public TextMeshProUGUI explanationText_Heal;
+
+    public AudioClip skillAudio;
 
     public List<ExplanationData> explanations = new List<ExplanationData>();
     public RectTransform explanationTextBox;
 
-    [Header("Hint Message")]
-    public GameObject hintMessage;
-
     [Header("Input Blocker")]
-    public GameObject blockInputPanel;
     public GameObject tutorialInputBlocker; // Inspector 창에서 할당
 
     private AudioSource audioSource;
@@ -73,13 +73,14 @@ public class TutorialManager : MonoBehaviour
         audioSource.playOnAwake = false;
 
         // 설명 텍스트 임시 세팅
-        if (explanations.Count >= 5) // explanations 리스트 크기를 5 이상으로 확인
+        if (explanations.Count >= 6) // explanations 리스트 크기를 6 이상으로 확인
         {
             explanations[0].text = "G는 차원이동(대쉬) 스킬입니다.\n사용시 일정 거리를 빠르게 이동할 수 있으며\n사용중에는 데미지를 받지 않습니다.";
             explanations[1].text = "Q는 공격 스킬입니다.\n캐릭터별 특성에 맞춰 다양한 효과를 냅니다.";
             explanations[2].text = "W는 시야 스킬입니다.\n캐릭터 주변의 시야를 밝혀줍니다.";
             explanations[3].text = "E는 버프 스킬입니다.\n캐릭터에게 이로운 효과를 부여합니다.";
             explanations[4].text = "스킬 쿨타임이 끝나게 되면\n스킬 이미지 주변이 빛나게 됩니다.";
+            explanations[5].text = "전투 중 피가 닳게 되었을 때 체력을 회복하는 수단입니다.\n목숨 당 한번이므로 신중하게 활용하셔야 합니다!";
         }
 
         dialoguePanel.SetActive(true);
@@ -151,20 +152,13 @@ public class TutorialManager : MonoBehaviour
             if (Input.anyKeyDown)
             {
                 inactivityTimer = 0f;
-                if (hintMessage != null && hintMessage.activeSelf)
-                {
-                    hintMessage.SetActive(false);
-                    BlockInput(false); // 힌트 메시지 닫힐 때 입력 허용
-                }
             }
             else
             {
                 inactivityTimer += Time.deltaTime;
                 if (inactivityTimer >= waitTime)
                 {
-                    ShowHintMessage();
                     dialogueEnded = false;
-                    BlockInput(true); // 힌트 메시지 표시 시 입력 막기
                 }
             }
         }
@@ -204,12 +198,15 @@ public class TutorialManager : MonoBehaviour
         imageW.gameObject.SetActive(false);
         imageE.gameObject.SetActive(false);
         imageCool.gameObject.SetActive(false);
+        imageHeal.gameObject.SetActive(false);
+        
 
         explanationText_G.gameObject.SetActive(false);
         explanationText_Q.gameObject.SetActive(false);
         explanationText_W.gameObject.SetActive(false);
         explanationText_E.gameObject.SetActive(false);
         explanationText_Cool.gameObject.SetActive(false);
+        explanationText_Heal.gameObject.SetActive(false);
 
         Image targetImage = null;
         TextMeshProUGUI targetText = null;
@@ -219,22 +216,32 @@ public class TutorialManager : MonoBehaviour
             case ImagePosition.G:
                 targetImage = imageG;
                 targetText = explanationText_G;
+                audioSource.PlayOneShot(skillAudio);
                 break;
             case ImagePosition.Q:
                 targetImage = imageQ;
                 targetText = explanationText_Q;
+                audioSource.PlayOneShot(skillAudio);
                 break;
             case ImagePosition.W:
                 targetImage = imageW;
                 targetText = explanationText_W;
+                audioSource.PlayOneShot(skillAudio);
                 break;
             case ImagePosition.E:
                 targetImage = imageE;
                 targetText = explanationText_E;
+                audioSource.PlayOneShot(skillAudio);
                 break;
             case ImagePosition.Cool:
                 targetImage = imageCool;
                 targetText = explanationText_Cool;
+                audioSource.PlayOneShot(skillAudio);
+                break;
+            case ImagePosition.Heal:
+                targetImage = imageHeal;
+                targetText = explanationText_Heal;
+                audioSource.PlayOneShot(skillAudio);
                 break;
         }
 
@@ -276,14 +283,6 @@ public class TutorialManager : MonoBehaviour
             case ImagePosition.Cool:
                 explanationText_Cool.text = explanation.text;
                 break;
-        }
-    }
-
-    void ShowHintMessage()
-    {
-        if (hintMessage != null)
-        {
-            hintMessage.SetActive(true);
         }
     }
 
