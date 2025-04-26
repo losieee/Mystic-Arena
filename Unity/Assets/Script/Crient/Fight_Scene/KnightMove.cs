@@ -24,7 +24,7 @@ public class KnightMove : MonoBehaviour
     [SerializeField] private Image heal;
     [SerializeField] private Transform deathMark;
     [SerializeField] private ParticleSystem healEffect;
-    [SerializeField] private TextMeshProUGUI respawnCountdownText;    // 카운트다운 UI 텍스트
+    [SerializeField] private TextMeshProUGUI respawnCountdownText;
 
     [Header("Field of View")]
     [SerializeField] private FieldOfView fieldOfView;
@@ -33,7 +33,6 @@ public class KnightMove : MonoBehaviour
     [Header("Other")]
     public Transform spot;
     public Transform respawnPoint;
-    public TutorialManager tutorialManager; // Inspector 창에서 할당
 
     private float curHealth;
     private float maxHealth;
@@ -64,6 +63,7 @@ public class KnightMove : MonoBehaviour
         dashSpeed = holly_Knight_Stats.dashSpeed;
         interactionRange = holly_Knight_Stats.interactionRange;
         gSkillHandler.onSkillUsed.AddListener(() => StartCoroutine(DashForward()));
+
         respawnCountdownText = death.GetComponentInChildren<TextMeshProUGUI>();
 
         mainCamera = Camera.main;
@@ -73,7 +73,6 @@ public class KnightMove : MonoBehaviour
         agent.updateRotation = false;
         agent.enabled = true;
 
-        // UI 초기화
         death.gameObject.SetActive(false);
         lowHp.gameObject.SetActive(false);
         heal.gameObject.SetActive(false);
@@ -82,15 +81,9 @@ public class KnightMove : MonoBehaviour
 
     private void Start()
     {
-        mainCamera = Camera.main;  
-
+        mainCamera = Camera.main;
         healCanvasGroup = heal.GetComponent<CanvasGroup>() ?? heal.gameObject.AddComponent<CanvasGroup>();
         healCanvasGroup.alpha = 0f;
-
-        if (tutorialManager == null)
-        {
-            Debug.LogError("TutorialManager가 KnightMove 스크립트에 할당되지 않았습니다!");
-        }
     }
 
     private void Update()
@@ -108,16 +101,10 @@ public class KnightMove : MonoBehaviour
 
         if (isDead && lowHp.gameObject.activeSelf)
             lowHp.gameObject.SetActive(false);
-
     }
+
     private void HandleMoveInput()
     {
-        // 튜토리얼 중 입력이 막혀있다면 이동 입력을 처리하지 않음
-        if (tutorialManager != null && tutorialManager.IsInputBlocked())
-        {
-            return;
-        }
-
         if (Input.GetMouseButtonDown(1))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -265,7 +252,7 @@ public class KnightMove : MonoBehaviour
         spotLight.enabled = false;
         spot.gameObject.SetActive(false);
 
-        ShowDeathUI();  // 죽음 UI 일괄 표시
+        ShowDeathUI();
 
         if (fieldOfView != null)
         {
@@ -301,7 +288,7 @@ public class KnightMove : MonoBehaviour
         isDead = false;
 
         transform.SetPositionAndRotation(respawnPoint.position, respawnPoint.rotation);
-        HideDeathUI();  // 죽음 UI 숨기기
+        HideDeathUI();
 
         UpdateHealthUI();
         healEffect?.Play();
@@ -318,7 +305,7 @@ public class KnightMove : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, dashDirection, out hit, dashDistance))
         {
-            dashDistance = hit.distance - 0.3f;  // 장애물 고려
+            dashDistance = hit.distance - 0.3f;
         }
 
         float elapsed = 0f;

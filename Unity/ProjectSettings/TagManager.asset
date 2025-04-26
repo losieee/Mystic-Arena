@@ -8,6 +8,7 @@ TagManager:
   - AI
   - Obstacle
   - Wall
+  - EnemySpawn
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Invisible
   - Spot
   - Wall
-  - 
+  - Field
   - 
   - 
   - 
