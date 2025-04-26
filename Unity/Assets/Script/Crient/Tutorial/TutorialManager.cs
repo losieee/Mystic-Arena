@@ -156,7 +156,9 @@ public class TutorialManager : MonoBehaviour
         yield return StartCoroutine(TypeDialogue());
 
         waitingForHeal = true;
-        BlockInput(false); // 움직일 수 있게
+        BlockInput(false); // 입력 허용 (움직일 수 있게)
+
+        knightMove.EnableMovement();
 
         // 사용자가 클릭할 때까지 대기
         while (!Input.GetMouseButtonDown(0))
@@ -165,10 +167,10 @@ public class TutorialManager : MonoBehaviour
         }
 
         dialoguePanel.SetActive(false);
-        knightMove.SetHealthToLow(); // 체력 10 (클릭 후에 체력을 낮춥니다.)
+        knightMove.SetHealthToLow();
     }
 
-    public IEnumerator TypeDialogue()
+    IEnumerator TypeDialogue()
     {
         isTyping = true;
         dialogueText.text = "";
@@ -180,20 +182,16 @@ public class TutorialManager : MonoBehaviour
             charCount++;
 
             if (typingSound != null && audioSource != null && charCount % 4 == 0)
-            {
                 audioSource.PlayOneShot(typingSound);
-            }
 
             yield return new WaitForSeconds(typingSpeed);
         }
 
         isTyping = false;
 
-        // 타이핑이 끝났으면 오디오 재생을 멈춥니다.
-        if (audioSource != null && audioSource.isPlaying && typingSound != null)
-        {
-            audioSource.clip = null;
-        }
+        // 타이핑 끝나면 사운드 완전 정리
+        if (audioSource.isPlaying)
+            audioSource.Stop();
     }
 
     IEnumerator ShowExplanationSequence()

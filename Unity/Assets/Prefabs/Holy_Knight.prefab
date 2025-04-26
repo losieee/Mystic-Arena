@@ -1472,8 +1472,10 @@ GameObject:
   m_Component:
   - component: {fileID: 690658185614119313}
   - component: {fileID: 4294037542342702883}
-  - component: {fileID: 9158364216887570320}
   - component: {fileID: 8056739961771345594}
+  - component: {fileID: -2364688686867311618}
+  - component: {fileID: 4408090870251496913}
+  - component: {fileID: -5928444813213886698}
   m_Layer: 0
   m_Name: Holy_Knight
   m_TagString: Player
@@ -1523,36 +1525,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &9158364216887570320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2747052180251145353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79c6cb2427b68444aea6e8b1bc8972a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  holly_Knight_Stats: {fileID: 11400000, guid: 5a5b4524284fba14f891b4f75c68e720, type: 2}
-  qSkillHandler: {fileID: 6166940701706927769}
-  wSkillHandler: {fileID: 2557721566132599384}
-  eSkillHandler: {fileID: 7667099126994203811}
-  gSkillHandler: {fileID: 2403063206651083144}
-  infoBarImage: {fileID: 141586882719534902}
-  characterBarImage: {fileID: 1291712145381078357}
-  death: {fileID: 5252365141741968518}
-  lowHp: {fileID: 7258059349373476082}
-  heal: {fileID: 5137610241107486258}
-  deathMark: {fileID: 4989311528732901896}
-  healEffect: {fileID: 6711795149845046748}
-  respawnCountdownText: {fileID: 2495430890732485139}
-  fieldOfView: {fileID: 4156953517408996348}
-  smallFieldOfView: {fileID: 6406783938264752655}
-  spot: {fileID: 4349184155793918436, guid: 1816ce0e5ed0d184998e0eeaf7d52767, type: 3}
-  respawnPoint: {fileID: 3217648949987734392, guid: 869cda33fa45b15499cb311a3feef925, type: 3}
-  healCanvasGroup: {fileID: 0}
 --- !u!54 &8056739961771345594
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1580,6 +1552,68 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2364688686867311618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2747052180251145353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140d4c45d2a539f4898c03c1856b68c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  _prefabBall:
+    RawGuidValue: 00000000000000000000000000000000
+  thirdPersonCamera: {fileID: 0}
+  rotationSpeed: 720
+--- !u!114 &4408090870251496913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2747052180251145353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2858758876
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -2364688686867311618}
+  ForceRemoteRenderTimeframe: 0
+--- !u!143 &-5928444813213886698
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2747052180251145353}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2831797506508095842
 GameObject:
   m_ObjectHideFlags: 0
