@@ -1161,7 +1161,7 @@
             <summary>Can be used to remove/hide the AppId from websocket connect paths.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.PhotonPeer.ClientSdkId">
-            <summary>A simplified identifier for client SDKs. Helps debugging. Only Photon APIs should set this.</summary>
+            <summary>A simplified identifier for client SDKs. Photon's APIs might modify this (as a dll can be used in more than one product). Helps debugging.</summary>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.ClientSdkIdShifted">
             <summary>For the Init-request, we shift the ClientId by one and the last bit signals a "debug" (0) or "release" build (1).</summary>
@@ -1614,15 +1614,15 @@
             <summary>
             Defines the initial size of an internally used StreamBuffer for Tcp.
             The StreamBuffer is used to aggregate operation into (less) send calls,
-            which uses less resources.
+            which uses less resoures.
             </summary>
             <remarks>
-            The size is not restricting the buffer and does not affect when outgoing data is actually sent.
+            The size is not restricing the buffer and does not affect when outgoing data is actually sent.
             </remarks>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.MaximumTransferUnit">
             <summary>
-            The Maximum Transfer Unit (MTU) defines the (network-level) packet-content size that is
+            The Maximum Trasfer Unit (MTU) defines the (network-level) packet-content size that is
             guaranteed to arrive at the server in one piece. The Photon Protocol uses this
             size to split larger data into packets and for receive-buffers of packets.
             </summary>
