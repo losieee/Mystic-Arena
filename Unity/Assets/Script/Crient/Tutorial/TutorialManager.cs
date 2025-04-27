@@ -17,12 +17,14 @@ public class TutorialManager : MonoBehaviour
         public ImagePosition imagePosition;
     }
 
+    // 기본 대사 패널
     [Header("Dialogue Settings")]
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
     public AudioClip typingSound;
     public float typingSpeed = 0.05f;
 
+    // 이미지 설명 패널
     [Header("Explanation Settings")]
     public GameObject imageExplanationPanel;
     public Image imageG, imageQ, imageW, imageE, imageCool, imageHeal;
@@ -32,28 +34,33 @@ public class TutorialManager : MonoBehaviour
     public List<ExplanationData> explanations = new List<ExplanationData>();
     public RectTransform explanationTextBox;
 
+    // 튜토리얼 중 캐릭터 움직임 제한
     [Header("Input Blocker")]
     public GameObject tutorialInputBlocker;
 
+    // 캐릭터 스크립트 연결
     [Header("Linked Character")]
     public Tutorial_Knight_Move knightMove;
 
+    // 글리치 효과
     [Header("Glitch")]
     public AudioClip startSound;
     public DigitalGlitch glitchEffect;
     public AnalogGlitch analogglitch;
     private AudioSource audioSource;
 
-    private bool isTyping = false;
-    private bool isTypingExplanation = false;
-    private bool isExplaining = false;
-    public int dialogueIndex = 0;
-    private int currentExplanationIndex = 0;
-    private bool isInputBlocked = false;
-    private bool waitingForHeal = false;
-    private bool healed = false;
-    private bool isRespawning = false;
+    private bool isTyping = false;           // 현재 타이핑 중인지
+    private bool isTypingExplanation = false;   // 설명 타이핑 중인지
+    private bool isExplaining = false;       // 설명 중인지
+    public int dialogueIndex = 0;               // 현재 대화 인덱스
+    private int currentExplanationIndex = 0; // 현재 설명 인덱스
+    private bool isInputBlocked = false;        // 입력 막힘 여부
+    private bool waitingForHeal = false;     // 힐 기다리는 중인지
+    private bool healed = false;                // 회복 완료했는지
+    private bool isRespawning = false;       // 리스폰 대기중인지
+    private bool sceneLoading = false;          // 씬 넘어가는 중인지
 
+    // 튜토리얼 대사들
     private string[] dialogues = {
         "안녕하세요 영웅이여!",
         "이곳은 여러 차원이 모이는 전장. 미스틱 아레나입니다!",
@@ -66,18 +73,20 @@ public class TutorialManager : MonoBehaviour
         "이런! 적 진영 안으로 들어가셨군요!",
         "적 진영 안으로 들어가게 되면 죽게됩니다! 조심하세요!",
         "이제 모든 안내를 마쳤으니 돌아갈 시간입니다.",
-        "행운을 빌겠습니다!"
+        "행운을 빌겠습니다!",
     };
     void Start()
     {
-        Debug.Log(isTypingExplanation);
+        Debug.Log(isTypingExplanation); //디버그 오류 방지
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
 
+        // 씬 들어오자마자 튜토리얼 시작
         BlockInput(true);
         dialoguePanel.SetActive(true);
         StartCoroutine(TypeDialogue());
 
+        // 이미지 설명 패널에서 나올 설명들
         if (explanations.Count >= 6)
         {
             explanations[0].text = "G는 차원이동(대쉬) 스킬입니다.\n사용 시 일정 거리를 빠르게 이동할 수 있으며\n사용 중에는 데미지를 받지 않습니다.";
@@ -90,6 +99,16 @@ public class TutorialManager : MonoBehaviour
     }
     void Update()
     {
+        // 인덱스 4가 끝난 상태에서 힐 안받고 밖으로 나갔을 때
+        if (waitingForHeal && !healed)
+        {
+            float distance = Vector3.Distance(knightMove.transform.position, knightMove.respawnPoint.position);
+            if (distance > 5f) // ５미터 이상 멀어지면
+            {
+                ForceRespawn(); // 강제 리스폰
+            }
+        }
+
         // 설명 중일 때 클릭 감지
         if (isExplaining && Input.GetMouseButtonDown(0))
         {
@@ -104,56 +123,89 @@ public class TutorialManager : MonoBehaviour
                 imageExplanationPanel.SetActive(false);
                 dialoguePanel.SetActive(true);
 
-                // 설명 끝난 후 자동 대사 출력
                 dialogueIndex = 4;
                 StartCoroutine(ShowHealInstruction());
             }
         }
 
-        // 일반 대사 클릭 처리
+        // 인덱스 7일 때는 클릭하면 패널 끄기
+        if (dialogueIndex == 7 && !isTyping && dialoguePanel.activeSelf)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                dialoguePanel.SetActive(false);
+                BlockInput(false);
+            }
+
+            return;
+        }
+
+        // 일반 대사 클릭 처리 (7번 아닐 때만)
         if (dialoguePanel.activeSelf && !isTyping && Input.GetMouseButtonDown(0))
         {
             dialogueIndex++;
+
+            // 인덱스 4 대사 뜨고 넘어가면 회복 해야만 다음 인덱스 뜸
             if (dialogueIndex == 4)
             {
-                // 스킬 설명 시작
                 dialoguePanel.SetActive(false);
                 imageExplanationPanel.SetActive(true);
                 isExplaining = true;
                 currentExplanationIndex = 0;
                 StartCoroutine(ShowExplanationSequence());
             }
+            // 아직 남은 대사가 있으면 다음 대사 출력
             else if (dialogueIndex < dialogues.Length)
             {
                 StartCoroutine(TypeDialogue());
             }
             else
             {
-                // 모든 대화가 끝났으면 씬 이동
-                LoadNextScene();
+                // 대사가 전부 끝났으면 씬 이동
+                if (!sceneLoading)
+                {
+                    sceneLoading = true;
+                    dialoguePanel.SetActive(false);
+                    BlockInput(false);
+                    LoadNextScene();
+                }
             }
         }
-        // 인덱스 7번 대사가 나왔으면
-        if (dialogueIndex == 7 && !isTyping && dialoguePanel.activeSelf)
-        {
-            dialoguePanel.SetActive(false); // 대화 패널 숨기기
-            BlockInput(false); // 입력 허용 (움직일 수 있게)
-        }
 
-        // 리스폰 중이고, 대화 패널이 닫혀 있다면 다음 대사 시작
+        // 리스폰 이후 처리
         if (isRespawning && !dialoguePanel.activeSelf)
         {
-            BlockInput(true); // 입력 다시 막기
+            BlockInput(true);
             dialoguePanel.SetActive(true);
-            dialogueIndex = 8; // 다음 대사 인덱스
+            dialogueIndex = 8;
             StartCoroutine(TypeDialogue());
-            isRespawning = false; // 리스폰 상태 초기화
+            isRespawning = false;
         }
     }
+    private void ForceRespawn()
+    {
+        // 위치를 리스폰 포인트로 강제 이동
+        knightMove.transform.SetPositionAndRotation(knightMove.respawnPoint.position, knightMove.respawnPoint.rotation);
 
+        knightMove.StopAgentImmediately(); // NavMeshAgent 즉시 멈추기 (필요)
+
+        // 힐 기다리는 상태 유지
+        if (!dialoguePanel.activeSelf)
+        {
+            dialoguePanel.SetActive(true);
+        }
+
+        dialogueText.text = "힐 먼저 받고 가셔야 합니다!";
+    }
+
+    // 체력 회복 하면 다음 대사 뜨는 함수
     IEnumerator ShowHealInstruction()
     {
         yield return StartCoroutine(TypeDialogue());
+
+        // 타이핑 끝나고 소리 완전 정리
+        if (audioSource.isPlaying)
+            audioSource.Stop();
 
         waitingForHeal = true;
         BlockInput(false); // 입력 허용 (움직일 수 있게)
@@ -170,6 +222,7 @@ public class TutorialManager : MonoBehaviour
         knightMove.SetHealthToLow();
     }
 
+    // 대사 타이핑 출력
     IEnumerator TypeDialogue()
     {
         isTyping = true;
@@ -194,6 +247,7 @@ public class TutorialManager : MonoBehaviour
             audioSource.Stop();
     }
 
+    // 이미지 + 설명 출력(스킬, 힐)
     IEnumerator ShowExplanationSequence()
     {
         isTypingExplanation = true;
@@ -246,6 +300,7 @@ public class TutorialManager : MonoBehaviour
         yield return null;
     }
 
+    // 대사가 나오고 있을 때 캐릭터 못움직이게
     public void BlockInput(bool block)
     {
         isInputBlocked = block;
@@ -253,6 +308,7 @@ public class TutorialManager : MonoBehaviour
             tutorialInputBlocker.SetActive(block);
     }
 
+    // 캐릭터 스크립트와 연결 되어있음 (입력 제한)
     public bool IsInputBlocked()
     {
         return isInputBlocked;
@@ -261,7 +317,16 @@ public class TutorialManager : MonoBehaviour
     {
         return waitingForHeal && !healed;
     }
+    public void OnCharacterDeath()
+    {
+        waitingForHeal = false; // 힐 대기 상태 종료
+    }
+    public void OnCharacterRespawn()
+    {
+        isRespawning = true;
+    }
 
+    // 힐을 했다면 나오는 대사
     public void OnHealed()
     {
         if (healed) return;
@@ -274,14 +339,8 @@ public class TutorialManager : MonoBehaviour
         dialogueIndex = 5; // "좋아요! 체력이 회복되었습니다!"
         StartCoroutine(TypeDialogue());
     }
-    public void OnCharacterDeath()
-    {
-        waitingForHeal = false; // 힐 대기 상태 종료
-    }
-    public void OnCharacterRespawn()
-    {
-        isRespawning = true;
-    }
+    
+    // 글리치 나오면서 씬 전환
     private void LoadNextScene()
     {
         glitchEffect.intensity = 0f;

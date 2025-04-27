@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using Unity.PlasticSCM.Editor.WebApi;
 
 public class Tutorial_Knight_Move : MonoBehaviour
 {
@@ -272,6 +273,8 @@ public class Tutorial_Knight_Move : MonoBehaviour
     private IEnumerator RespawnCoroutine()
     {
         // 코루틴이 이미 실행 중이더라도 다시 시작하도록 수정 (리스폰 후 재사망 케이스)
+        curHealth = 0;
+        UpdateHealthUI();
         isDead = true;
         death.gameObject.SetActive(true);
         deathMark.gameObject.SetActive(true);
@@ -362,5 +365,13 @@ public class Tutorial_Knight_Move : MonoBehaviour
     {
         curHealth = 10f;
         UpdateHealthUI();
+    }
+    public void StopAgentImmediately()
+    {
+        if (agent != null)
+        {
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+        }
     }
 }
