@@ -5,6 +5,7 @@ using Kino;
 
 public class LobbyManager : MonoBehaviour
 {
+    public GameObject NetworkManagerUI;
     public AudioClip clickSound;     // 새로 추가: 버튼 클릭 효과음
     public AudioClip glitchSound;    // 원래 있던 글리치 효과음
     private AudioSource audioSource;
@@ -14,6 +15,7 @@ public class LobbyManager : MonoBehaviour
     public float clickSoundVolume = 0.5f;
 
     private bool isClicked = false;
+    private bool isNetwork = false;
 
     void Start()
     {
@@ -69,6 +71,20 @@ public class LobbyManager : MonoBehaviour
         analogglitch.colorDrift = 0f;
 
         StartCoroutine(ToTutorialGlitchAndSound());
+    }
+
+    public void NetworkObject()
+    {
+        if (isNetwork)
+        {
+            NetworkManagerUI.SetActive(false);
+            isNetwork = false;
+        }
+        else if (!isNetwork)
+        {
+            NetworkManagerUI.SetActive(true);
+            isNetwork = true;
+        }
     }
 
     private IEnumerator ToTutorialGlitchAndSound()
