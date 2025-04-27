@@ -8,10 +8,11 @@ MonoImporter:
   - cooldownImage: {instanceID: 0}
   - cooldownText: {instanceID: 0}
   - glowEffect: {instanceID: 0}
-  - skillSound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
-  - eKeySound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
-  - wKeySound: {instanceID: 0}
+  - skillSound: {instanceID: 0}
   - gKeySound: {instanceID: 0}
+  - qKeySound: {instanceID: 0}
+  - wKeySound: {instanceID: 0}
+  - eKeySound: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

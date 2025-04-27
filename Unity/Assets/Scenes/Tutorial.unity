@@ -8957,6 +8957,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   skillSound: {fileID: 0}
+  gKeySound: {fileID: 8300000, guid: 4e8a937bb6d294f469b438e6d322feb9, type: 3}
+  qKeySound: {fileID: 0}
+  wKeySound: {fileID: 0}
+  eKeySound: {fileID: 0}
 --- !u!1 &2468262649143864025
 GameObject:
   m_ObjectHideFlags: 0
@@ -9201,6 +9205,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   skillSound: {fileID: 0}
+  gKeySound: {fileID: 0}
+  qKeySound: {fileID: 0}
+  wKeySound: {fileID: 0}
+  eKeySound: {fileID: 0}
 --- !u!224 &2578374647710322736
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10883,6 +10891,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   skillSound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
+  gKeySound: {fileID: 0}
+  qKeySound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
+  wKeySound: {fileID: 0}
+  eKeySound: {fileID: 0}
 --- !u!108 &6194746096765344255
 Light:
   m_ObjectHideFlags: 0
@@ -16405,6 +16417,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   skillSound: {fileID: 0}
+  gKeySound: {fileID: 0}
+  qKeySound: {fileID: 0}
+  wKeySound: {fileID: 0}
+  eKeySound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
 --- !u!224 &7736973244277731336
 RectTransform:
   m_ObjectHideFlags: 0

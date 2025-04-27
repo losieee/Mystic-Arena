@@ -15,4 +15,5 @@ MonoBehaviour:
   skillName: Knight_W
   cooldownTime: 5
   activationKey: 119
-  skillIcon: {fileID: 0}
+  skillIcon: {fileID: 21300000, guid: 1a425771e7a3bc247b9703c1f05f7776, type: 3}
+  skillSound: {fileID: 0}

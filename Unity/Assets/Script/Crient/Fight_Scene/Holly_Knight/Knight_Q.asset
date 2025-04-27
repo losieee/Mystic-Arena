@@ -15,4 +15,5 @@ MonoBehaviour:
   skillName: Knight_Q
   cooldownTime: 5
   activationKey: 113
-  skillIcon: {fileID: 0}
+  skillIcon: {fileID: 21300000, guid: 44afa3d06587d794e836ee595112e868, type: 3}
+  skillSound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}

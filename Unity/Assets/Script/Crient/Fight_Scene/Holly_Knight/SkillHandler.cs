@@ -12,8 +12,13 @@ public class SkillHandler : MonoBehaviour
     public GameObject glowEffect;
     public UnityEngine.Events.UnityEvent onSkillUsed;
 
-    public AudioClip skillSound; 
-    private AudioSource audioSource; 
+    public AudioClip skillSound; // 일반 스킬 사운드
+    public AudioClip gKeySound;
+    public AudioClip qKeySound;
+    public AudioClip wKeySound;
+    public AudioClip eKeySound;
+
+    private AudioSource audioSource;
 
     private bool isCooldown = false;
 
@@ -27,12 +32,41 @@ public class SkillHandler : MonoBehaviour
         audioSource.playOnAwake = false;
     }
 
+    void Update()
+    {
+        // G 키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
+        if (Input.GetKeyDown(KeyCode.G) && gKeySound != null && !isCooldown)
+        {
+            audioSource.PlayOneShot(gKeySound);
+        }
+
+        // Q 키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
+        if (Input.GetKeyDown(KeyCode.Q) && qKeySound != null && !isCooldown)
+        {
+            audioSource.PlayOneShot(qKeySound);
+        }
+
+        // W 키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
+        if (Input.GetKeyDown(KeyCode.W) && wKeySound != null && !isCooldown)
+        {
+            audioSource.PlayOneShot(wKeySound);
+        }
+
+        // E 키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
+        if (Input.GetKeyDown(KeyCode.E) && eKeySound != null && !isCooldown)
+        {
+            audioSource.PlayOneShot(eKeySound);
+        }
+
+        TryUseSkill();
+    }
+
     public void TryUseSkill()
     {
         if (!isCooldown && Input.GetKeyDown(skillData.activationKey))
         {
             if (skillSound != null)
-                audioSource.PlayOneShot(skillSound); // 효과음 재생
+                audioSource.PlayOneShot(skillSound); // 일반 스킬 효과음 재생
 
             StartCoroutine(CooldownRoutine());
         }

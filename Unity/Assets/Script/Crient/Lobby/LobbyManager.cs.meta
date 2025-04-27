@@ -4,7 +4,10 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - startSound: {fileID: 8300000, guid: 914cbb0560820ed4cb86bd5dddd9ed5d, type: 3}
+  - clickSound: {fileID: 8300000, guid: 7082aa91476434073809693d3d5988a6, type: 3}
+  - glitchSound: {fileID: 8300000, guid: 914cbb0560820ed4cb86bd5dddd9ed5d, type: 3}
+  - glitchEffect: {instanceID: 0}
+  - analogglitch: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

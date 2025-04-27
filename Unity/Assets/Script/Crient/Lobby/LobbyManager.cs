@@ -2,15 +2,16 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Kino;
-using UnityEditor;
 
 public class LobbyManager : MonoBehaviour
 {
-    public AudioClip startSound;
+    public AudioClip clickSound;     // 새로 추가: 버튼 클릭 효과음
+    public AudioClip glitchSound;    // 원래 있던 글리치 효과음
     private AudioSource audioSource;
 
     public DigitalGlitch glitchEffect;
     public AnalogGlitch analogglitch;
+    public float clickSoundVolume = 0.5f;
 
     private bool isClicked = false;
 
@@ -28,6 +29,8 @@ public class LobbyManager : MonoBehaviour
             analogglitch.enabled = false;
         }
     }
+
+
     public void QuitGame()
     {
         Application.Quit();
@@ -52,6 +55,13 @@ public class LobbyManager : MonoBehaviour
         if (isClicked) return;
         isClicked = true;
 
+        // 1. 튜토리얼 버튼 클릭하자마자 버튼 효과음 재생
+        if (clickSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clickSound, clickSoundVolume);
+        }
+
+
         glitchEffect.intensity = 0f;
         analogglitch.scanLineJitter = 0f;
         analogglitch.verticalJump = 0f;
@@ -60,11 +70,12 @@ public class LobbyManager : MonoBehaviour
 
         StartCoroutine(ToTutorialGlitchAndSound());
     }
+
     private IEnumerator ToTutorialGlitchAndSound()
     {
         yield return new WaitForSeconds(1f); // 1초 대기
 
-        // 글리치 켜기
+        // 2. 글리치 이펙트 켜기
         if (glitchEffect != null && analogglitch != null)
         {
             glitchEffect.enabled = true;
@@ -72,11 +83,11 @@ public class LobbyManager : MonoBehaviour
             StartCoroutine(IncreaseGlitch());
         }
 
-        // 효과음 재생
-        if (startSound != null)
+        // 3. 글리치 효과음 재생
+        if (glitchSound != null)
         {
-            audioSource.PlayOneShot(startSound);
-            yield return new WaitForSeconds(startSound.length);
+            audioSource.PlayOneShot(glitchSound);
+            yield return new WaitForSeconds(glitchSound.length);
         }
 
         SceneManager.LoadScene("Tutorial");
@@ -86,7 +97,6 @@ public class LobbyManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f); // 1초 대기
 
-        // 글리치 켜기
         if (glitchEffect != null && analogglitch != null)
         {
             glitchEffect.enabled = true;
@@ -94,11 +104,10 @@ public class LobbyManager : MonoBehaviour
             StartCoroutine(IncreaseGlitch());
         }
 
-        // 효과음 재생
-        if (startSound != null)
+        if (glitchSound != null)
         {
-            audioSource.PlayOneShot(startSound);
-            yield return new WaitForSeconds(startSound.length);
+            audioSource.PlayOneShot(glitchSound);
+            yield return new WaitForSeconds(glitchSound.length);
         }
 
         SceneManager.LoadScene("Character_Choice");
@@ -106,20 +115,17 @@ public class LobbyManager : MonoBehaviour
 
     private IEnumerator IncreaseGlitch()
     {
-        float duration = startSound != null ? startSound.length : 2f;
+        float duration = glitchSound != null ? glitchSound.length : 2f;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
             float t = elapsed / duration;
 
-            // Analog 글리치 점점 증가
             analogglitch.scanLineJitter = Mathf.Lerp(0.1f, 1.0f, t);
             analogglitch.verticalJump = Mathf.Lerp(0.05f, 0.5f, t);
             analogglitch.horizontalShake = Mathf.Lerp(0.1f, 0.8f, t);
             analogglitch.colorDrift = Mathf.Lerp(0.1f, 1.0f, t);
-
-            // Digital 글리치 점점 증가
             glitchEffect.intensity = Mathf.Lerp(0.0f, 1.0f, t);
 
             elapsed += Time.deltaTime;
