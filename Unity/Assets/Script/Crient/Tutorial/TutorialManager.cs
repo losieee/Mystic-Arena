@@ -59,6 +59,7 @@ public class TutorialManager : MonoBehaviour
     private bool healed = false;                // 회복 완료했는지
     private bool isRespawning = false;       // 리스폰 대기중인지
     private bool sceneLoading = false;          // 씬 넘어가는 중인지
+    private bool isForceRespawning = false;  // 강제 리스폰을 했는지(튜토리얼 중 범위 넘어갔을 때)
 
     // 튜토리얼 대사들
     private string[] dialogues = {
@@ -143,6 +144,14 @@ public class TutorialManager : MonoBehaviour
         // 일반 대사 클릭 처리 (7번 아닐 때만)
         if (dialoguePanel.activeSelf && !isTyping && Input.GetMouseButtonDown(0))
         {
+            // 강제 리스폰 안내 중이면 패널만 끄고 끝
+            if (isForceRespawning)
+            {
+                dialoguePanel.SetActive(false);
+                isForceRespawning = false;
+                return;
+            }
+
             dialogueIndex++;
 
             // 인덱스 4 대사 뜨고 넘어가면 회복 해야만 다음 인덱스 뜸
@@ -187,7 +196,7 @@ public class TutorialManager : MonoBehaviour
         // 위치를 리스폰 포인트로 강제 이동
         knightMove.transform.SetPositionAndRotation(knightMove.respawnPoint.position, knightMove.respawnPoint.rotation);
 
-        knightMove.StopAgentImmediately(); // NavMeshAgent 즉시 멈추기 (필요)
+        knightMove.StopAgentImmediately(); // 움직임 제한
 
         // 힐 기다리는 상태 유지
         if (!dialoguePanel.activeSelf)
@@ -196,6 +205,8 @@ public class TutorialManager : MonoBehaviour
         }
 
         dialogueText.text = "힐 먼저 받고 가셔야 합니다!";
+
+        isForceRespawning = true;
     }
 
     // 체력 회복 하면 다음 대사 뜨는 함수
@@ -333,6 +344,8 @@ public class TutorialManager : MonoBehaviour
 
         healed = true;
         waitingForHeal = false;
+
+        isForceRespawning = false;
 
         BlockInput(true);
         dialoguePanel.SetActive(true);

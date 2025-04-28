@@ -8,5 +8,5 @@ public class SkillData : ScriptableObject
     public float cooldownTime;
     public KeyCode activationKey;
     public Sprite skillIcon;
-    public AudioClip skillSound; // 스킬 효과음
+    public AudioClip skillSound;
 }

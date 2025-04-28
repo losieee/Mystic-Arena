@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using Unity.PlasticSCM.Editor.WebApi;
+using Unity.VisualScripting;
 
 public class Tutorial_Knight_Move : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class Tutorial_Knight_Move : MonoBehaviour
     public Transform respawnPoint;
     public TutorialManager tutorialManager;
 
+    public Animator animator;
+
     private float curHealth;
     private float maxHealth;
     private float interactionRange;
@@ -45,16 +48,16 @@ public class Tutorial_Knight_Move : MonoBehaviour
     private bool isDead = false;
     private bool isDashing = false;
     private bool isInvincible = false;
+    private bool isMove = false;
+    private bool canMove = false;
+    private bool hasDied = false;
 
     private NavMeshAgent agent;
     private CapsuleCollider capsule;
     private Light spotLight;
     private Camera mainCamera;
     private CanvasGroup healCanvasGroup;
-
     private Vector3 destination;
-    private bool isMove = false;
-    private bool canMove = false;
 
     private void Awake()
     {
@@ -70,6 +73,7 @@ public class Tutorial_Knight_Move : MonoBehaviour
         capsule = GetComponentInChildren<CapsuleCollider>();
         spotLight = GetComponentInChildren<Light>();
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
         agent.updateRotation = false;
         agent.enabled = true;
 
@@ -84,6 +88,9 @@ public class Tutorial_Knight_Move : MonoBehaviour
         mainCamera = Camera.main;
         healCanvasGroup = heal.GetComponent<CanvasGroup>() ?? heal.gameObject.AddComponent<CanvasGroup>();
         healCanvasGroup.alpha = 0f;
+        animator.applyRootMotion = false;
+        // 애니메이션 초기화(시작하자마자 스킬 쓰는것 방지)
+        animator.ResetTrigger("Qskill");
     }
     public void EnableMovement()
     {
@@ -220,7 +227,11 @@ public class Tutorial_Knight_Move : MonoBehaviour
 
     private void LookMoveDirection()
     {
-        if (!isMove) return;
+        if (!isMove)
+        {
+            animator.SetBool("isRunning", false);
+            return;
+        }
 
         Vector3 moveDirection = agent.velocity.normalized;
         if (moveDirection != Vector3.zero)
@@ -233,6 +244,11 @@ public class Tutorial_Knight_Move : MonoBehaviour
         {
             isMove = false;
             agent.ResetPath();
+            animator.SetBool("isRunning", false);
+        }
+        else
+        {
+            animator.SetBool("isRunning", true);
         }
     }
 
@@ -272,10 +288,17 @@ public class Tutorial_Knight_Move : MonoBehaviour
 
     private IEnumerator RespawnCoroutine()
     {
-        // 코루틴이 이미 실행 중이더라도 다시 시작하도록 수정 (리스폰 후 재사망 케이스)
+        // 죽으면 체력은 0으로 고정
         curHealth = 0;
         UpdateHealthUI();
         isDead = true;
+        // 사망 애니메이션 한번만 실행
+        if (isDead && !hasDied)
+        {
+            animator.SetBool("isDead", true);
+            hasDied = true;
+        }
+
         death.gameObject.SetActive(true);
         deathMark.gameObject.SetActive(true);
         agent.isStopped = true;
@@ -288,7 +311,6 @@ public class Tutorial_Knight_Move : MonoBehaviour
         if (tutorialManager != null && !hasHealed)
         {
             tutorialManager.OnCharacterDeath();
-            yield break; // 리스폰 코루틴 종료
         }
 
         float countdown = respawnTime;
@@ -316,7 +338,10 @@ public class Tutorial_Knight_Move : MonoBehaviour
 
         curHealth = maxHealth;
         hasHealed = false;
-        isDead = false; // 리스폰 시 isDead를 false로 설정
+        isDead = false;
+
+        hasDied = false;
+        animator.SetBool("isDead", false);
 
         UpdateHealthUI();
         healEffect?.Play();
@@ -335,6 +360,7 @@ public class Tutorial_Knight_Move : MonoBehaviour
     {
         isDashing = true;
         isInvincible = true;
+        animator.SetBool("isDashing", true);
 
         float dashTime = dashDistance / dashSpeed;
         Vector3 dashDirection = capsule.transform.forward;
@@ -359,6 +385,7 @@ public class Tutorial_Knight_Move : MonoBehaviour
         transform.position = end;
         isDashing = false;
         isInvincible = false;
+        animator.SetBool("isDashing", false);
     }
 
     public void SetHealthToLow()

@@ -12,11 +12,15 @@ public class SkillHandler : MonoBehaviour
     public GameObject glowEffect;
     public UnityEngine.Events.UnityEvent onSkillUsed;
 
-    public AudioClip skillSound; // 일반 스킬 사운드
+    public AudioClip skillSound; // 스킬 사운드
     public AudioClip gKeySound;
     public AudioClip qKeySound;
     public AudioClip wKeySound;
     public AudioClip eKeySound;
+
+    private Animator animator;  // 스킬 애니메이션
+
+    public Tutorial_Knight_Move knight_Move;
 
     private AudioSource audioSource;
 
@@ -24,35 +28,32 @@ public class SkillHandler : MonoBehaviour
 
     void Start()
     {
-        // AudioSource 초기화
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
-
+        animator = GetComponent<Animator>();
         audioSource.playOnAwake = false;
     }
 
     void Update()
     {
-        // G 키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
+        // G키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
         if (Input.GetKeyDown(KeyCode.G) && gKeySound != null && !isCooldown)
         {
             audioSource.PlayOneShot(gKeySound);
         }
 
-        // Q 키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
         if (Input.GetKeyDown(KeyCode.Q) && qKeySound != null && !isCooldown)
         {
             audioSource.PlayOneShot(qKeySound);
+            knight_Move.animator.SetTrigger("Qskill");
         }
 
-        // W 키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
         if (Input.GetKeyDown(KeyCode.W) && wKeySound != null && !isCooldown)
         {
             audioSource.PlayOneShot(wKeySound);
         }
 
-        // E 키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
         if (Input.GetKeyDown(KeyCode.E) && eKeySound != null && !isCooldown)
         {
             audioSource.PlayOneShot(eKeySound);
