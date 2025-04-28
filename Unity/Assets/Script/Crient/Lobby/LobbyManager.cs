@@ -2,18 +2,27 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Kino;
+using TMPro;
+using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
 {
+    //public GameObject NetworkManagerUI;
     public AudioClip clickSound;     // 새로 추가: 버튼 클릭 효과음
     public AudioClip glitchSound;    // 원래 있던 글리치 효과음
+    public AudioClip plusSound; // + 클릭할 때 효과음
     private AudioSource audioSource;
+    public TMP_InputField roomNameInputField;
+    public GameObject playerSlotPanel;
+    public GameObject backgroundBlocker;
 
     public DigitalGlitch glitchEffect;
     public AnalogGlitch analogglitch;
     public float clickSoundVolume = 0.5f;
 
     private bool isClicked = false;
+    private bool isNetwork = false;
+    private bool isSlotPanelActive = false;
 
     void Start()
     {
@@ -28,6 +37,12 @@ public class LobbyManager : MonoBehaviour
             glitchEffect.enabled = false;
             analogglitch.enabled = false;
         }
+
+        if (playerSlotPanel != null)
+            playerSlotPanel.SetActive(false);
+
+        if (backgroundBlocker != null)
+            backgroundBlocker.SetActive(false);
     }
 
 
@@ -69,6 +84,36 @@ public class LobbyManager : MonoBehaviour
         analogglitch.colorDrift = 0f;
 
         StartCoroutine(ToTutorialGlitchAndSound());
+    }
+
+    //public void NetworkObject()
+    //{
+    //    if (isNetwork)
+    //    {
+    //        NetworkManagerUI.SetActive(false);
+    //        isNetwork = false;
+    //    }
+    //    else if (!isNetwork)
+    //    {
+    //        NetworkManagerUI.SetActive(true);
+    //        isNetwork = true;
+    //    }
+    //}
+    public void TogglePlayerSlotPanel()
+    {
+        if (isSlotPanelActive)
+        {
+            playerSlotPanel.SetActive(false);
+            backgroundBlocker.SetActive(false);
+        }
+        else
+        {
+            audioSource.PlayOneShot(plusSound);
+            playerSlotPanel.SetActive(true);
+            backgroundBlocker.SetActive(true);
+        }
+
+        isSlotPanelActive = !isSlotPanelActive;
     }
 
     private IEnumerator ToTutorialGlitchAndSound()
@@ -130,6 +175,40 @@ public class LobbyManager : MonoBehaviour
 
             elapsed += Time.deltaTime;
             yield return null;
+        }
+    }
+    public void OnHostButtonClicked()
+    {
+        if (string.IsNullOrEmpty(roomNameInputField.text))
+            NetworkManager.Instance.SetRoomName("TestRoom"); // 기본값
+        else
+            NetworkManager.Instance.SetRoomName(roomNameInputField.text);
+
+        NetworkManager.Instance.StartAsHost();
+    }
+
+    public void OnJoinButtonClicked()
+    {
+        if (string.IsNullOrEmpty(roomNameInputField.text))
+            NetworkManager.Instance.SetRoomName("TestRoom");
+        else
+            NetworkManager.Instance.SetRoomName(roomNameInputField.text);
+
+        NetworkManager.Instance.StartAsClient();
+    }
+
+    // 패널말고 다른 곳 클릭했을 때 패널 비활성화
+    private void ActivateBackgroundBlocker(bool active)
+    {
+        backgroundBlocker.SetActive(active);
+    }
+    public void OnBackgroundClicked()
+    {
+        if (isSlotPanelActive)
+        {
+            playerSlotPanel.SetActive(false);
+            backgroundBlocker.SetActive(false);
+            isSlotPanelActive = false;
         }
     }
 }
