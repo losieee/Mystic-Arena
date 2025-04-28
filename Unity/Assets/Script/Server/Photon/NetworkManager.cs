@@ -14,7 +14,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner _runner;
     private NetworkInputHandler _inputHandler;
     private string _roomName = "TestRoom"; // 기본 방 이름
-    [SerializeField] private string _gameSceneName = "Tutorial"; // 게임 씬 이름
+    [SerializeField] private string _gameSceneName = "GameScene"; // 게임 씬 이름
     public Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
     private static NetworkManager _instance;
@@ -49,70 +49,56 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
         _inputHandler = gameObject.AddComponent<NetworkInputHandler>();
     }
-    //private void OnGUI()
-    //{
-    //    if (_runner == null)
-    //    {
-    //        // 방 이름 입력 필드
-    //        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-    //        GUILayout.Label("방 번호:");
-    //        _roomName = GUILayout.TextField(_roomName);
-
-    //        // 호스트 버튼
-    //        if (GUILayout.Button("호스트"))
-    //        {
-    //            StartGame(GameMode.Host);
-    //        }
-    //        // 참가 버튼
-    //        if (GUILayout.Button("참가"))
-    //        {
-    //            StartGame(GameMode.Client);
-    //        }
-    //        GUILayout.EndArea();
-    //    }
-    //    else
-    //    {
-    //        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-    //        if (GameManager.Instance != null && GameManager.Instance.IsGameStarted)
-    //        {
-    //            GUILayout.Label("게임 진행 중");
-    //        }
-    //        else
-    //        {
-    //            if (GUILayout.Button("Ready"))
-    //            {
-    //                Debug.Log("Ready button clicked");
-    //                if (GameManager.Instance != null)
-    //                {
-    //                    GameManager.Instance.RPC_PlayerReady(_runner.LocalPlayer);
-    //                }
-    //                else
-    //                {
-    //                    Debug.LogError("GameManager instance is null");
-    //                }
-    //            }
-    //            if (GameManager.Instance != null)
-    //            {
-    //                GUILayout.Label($"현재 플레이어 수: {GameManager.Instance.PlayerCount}");
-    //                GUILayout.Label($"준비 상태: {GameManager.Instance.GetPlayerState(_runner.LocalPlayer)}");
-    //            }
-    //        }
-    //        GUILayout.EndArea();
-    //    }
-    //}
-    public void SetRoomName(string name)
+    private void OnGUI()
     {
-        _roomName = name;
-    }
+        if (_runner == null)
+        {
+            // 방 이름 입력 필드
+            GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+            GUILayout.Label("방 번호:");
+            _roomName = GUILayout.TextField(_roomName);
 
-    public void StartAsHost()
-    {
-        StartGame(GameMode.Host);
-    }
-
-    public void StartAsClient()
-    {
-        StartGame(GameMode.Client);
+            // 호스트 버튼
+            if (GUILayout.Button("호스트"))
+            {
+                StartGame(GameMode.Host);
+            }
+            // 참가 버튼
+            if (GUILayout.Button("참가"))
+            {
+                StartGame(GameMode.Client);
+            }
+            GUILayout.EndArea();
+        }
+        else
+        {
+            GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+            if (GameManager.Instance != null && GameManager.Instance.IsGameStarted)
+            {
+                GUILayout.Label("게임 진행 중");
+            }
+            else
+            {
+                if (GUILayout.Button("Ready"))
+                {
+                    Debug.Log("Ready button clicked");
+                    if (GameManager.Instance != null)
+                    {
+                        GameManager.Instance.RPC_PlayerReady(_runner.LocalPlayer);
+                    }
+                    else
+                    {
+                        Debug.LogError("GameManager instance is null");
+                    }
+                }
+                if (GameManager.Instance != null)
+                {
+                    GUILayout.Label($"현재 플레이어 수: {GameManager.Instance.PlayerCount}");
+                    GUILayout.Label($"준비 상태: {GameManager.Instance.GetPlayerState(_runner.LocalPlayer)}");
+                }
+            }
+            GUILayout.EndArea();
+        }
     }
 
     async void StartGame(GameMode mode)

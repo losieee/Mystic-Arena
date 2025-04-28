@@ -26,18 +26,18 @@ public class NetworkInputHandler : MonoBehaviour
         data.direction = new Vector3(horizontal, 0, vertical);
 
         Camera mainCamera = Camera.main;
-        //if (mainCamera != null)
-        //{
-        //    Vector3 cameraForward = mainCamera.transform.forward;
-        //    Vector3 cameraRight = mainCamera.transform.right;
+        if (mainCamera != null)
+        {
+            Vector3 cameraForward = mainCamera.transform.forward;
+            Vector3 cameraRight = mainCamera.transform.right;
 
-        //    cameraForward.y = 0;
-        //    cameraRight.y = 0;
-        //    cameraForward.Normalize();
-        //    cameraRight.Normalize();
+            cameraForward.y = 0;
+            cameraRight.y = 0;
+            cameraForward.Normalize();
+            cameraRight.Normalize();
 
-        //    data.direction = cameraRight * horizontal + cameraForward * vertical;
-        //}
+            data.direction = cameraRight * horizontal + cameraForward * vertical;
+        }
 
         if (data.direction.magnitude > 1)
         {

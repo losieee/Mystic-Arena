@@ -22,7 +22,7 @@ public class GameManager : NetworkBehaviour
     [Networked] public int PlayerCount { get; set; }
     [Networked] private NetworkDictionary<PlayerRef, NetworkBool> PlayerReadyStates => default;
 
-    public const int MAX_PLAYERS = 2;
+    public const int MAX_PLAYERS = 4;
 
     public delegate void GameStartDelegate();
     public event GameStartDelegate OnGameStart;

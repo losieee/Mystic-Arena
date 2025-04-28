@@ -179,22 +179,22 @@ public class LobbyManager : MonoBehaviour
     }
     public void OnHostButtonClicked()
     {
-        if (string.IsNullOrEmpty(roomNameInputField.text))
-            NetworkManager.Instance.SetRoomName("TestRoom"); // 기본값
-        else
-            NetworkManager.Instance.SetRoomName(roomNameInputField.text);
+        //if (string.IsNullOrEmpty(roomNameInputField.text))
+        //    NetworkManager.Instance.SetRoomName("TestRoom"); // 기본값
+        //else
+        //    NetworkManager.Instance.SetRoomName(roomNameInputField.text);
 
-        NetworkManager.Instance.StartAsHost();
+        //NetworkManager.Instance.StartAsHost();
     }
 
     public void OnJoinButtonClicked()
     {
-        if (string.IsNullOrEmpty(roomNameInputField.text))
-            NetworkManager.Instance.SetRoomName("TestRoom");
-        else
-            NetworkManager.Instance.SetRoomName(roomNameInputField.text);
+        //if (string.IsNullOrEmpty(roomNameInputField.text))
+        //    NetworkManager.Instance.SetRoomName("TestRoom");
+        //else
+        //    NetworkManager.Instance.SetRoomName(roomNameInputField.text);
 
-        NetworkManager.Instance.StartAsClient();
+        //NetworkManager.Instance.StartAsClient();
     }
 
     // 패널말고 다른 곳 클릭했을 때 패널 비활성화
