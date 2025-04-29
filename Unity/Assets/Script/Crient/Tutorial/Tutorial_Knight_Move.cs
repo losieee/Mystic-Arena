@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 //using Unity.PlasticSCM.Editor.WebApi;
 //using Unity.VisualScripting;
 
@@ -10,6 +11,8 @@ public class Tutorial_Knight_Move : MonoBehaviour
 {
     [Header("Stat Data")]
     [SerializeField] private Holly_Knight_Stats holly_Knight_Stats;
+    public float attackRange = 1.5f;
+    public float attackCooldown = 1f;
 
     [Header("Skill Handlers")]
     [SerializeField] private SkillHandler qSkillHandler;
@@ -44,8 +47,10 @@ public class Tutorial_Knight_Move : MonoBehaviour
     private float dashDistance;
     private float dashSpeed;
     private float respawnTime = 5f;
+    private float attackTimer = 0f;
+
     private bool hasHealed = false;
-    private bool isDead = false;
+    public bool isDead = false;
     private bool isDashing = false;
     private bool isInvincible = false;
     private bool isMove = false;
@@ -58,6 +63,10 @@ public class Tutorial_Knight_Move : MonoBehaviour
     private Camera mainCamera;
     private CanvasGroup healCanvasGroup;
     private Vector3 destination;
+    private List<Renderer> currentObstructions = new List<Renderer>();
+    private Dictionary<Renderer, Material[]> originalMaterials = new Dictionary<Renderer, Material[]>();
+    private Transform attackTarget = null;
+
 
     private void Awake()
     {
@@ -115,13 +124,15 @@ public class Tutorial_Knight_Move : MonoBehaviour
 
         if (isDead && lowHp.gameObject.activeSelf)
             lowHp.gameObject.SetActive(false);
+
+        HandleCameraObstructions();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("EnemySpawn") && !isDead)
         {
-            // "EnemySpawn" 태그를 가진 콜라이더에 진입했고, 아직 죽지 않았다면 사망 처리
+            // "EnemySpawn" 에 진입하면 즉시 사망
             StartCoroutine(RespawnCoroutine());
         }
     }
@@ -134,30 +145,70 @@ public class Tutorial_Knight_Move : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            int characterLayerMask = 1 << LayerMask.NameToLayer("Field");
 
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, characterLayerMask))
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                spot.position = hit.point;
-                spot.transform.localScale = Vector3.one * 1.5f;
-                spot.gameObject.SetActive(true);
-                StartCoroutine(ShrinkSpot());
-                SetDestination(hit.point);
-            }
-            if (Physics.Raycast(ray, out hit))
-            {
+                // 적 감지
+                if (hit.collider.CompareTag("AI"))
+                {
+                    attackTarget = hit.collider.transform;
+                    SetDestination(attackTarget.position);
+                    return;
+                }
+
+                // NPC 힐 처리
                 if (hit.collider.CompareTag("NPC") && !hasHealed &&
                     Vector3.Distance(transform.position, hit.point) <= interactionRange)
                 {
                     if (tutorialManager != null && tutorialManager.IsWaitingForHeal())
-                    {
-                        tutorialManager.OnHealed(); // 다음 대사 이어짐
-                    }
+                        tutorialManager.OnHealed();
+
                     HealPlayer();
                     spot.gameObject.SetActive(false);
                     return;
                 }
+
+                // 일반 이동 처리
+                int characterLayerMask = 1 << LayerMask.NameToLayer("Field");
+                if (((1 << hit.collider.gameObject.layer) & characterLayerMask) != 0)
+                {
+                    spot.position = hit.point;
+                    spot.transform.localScale = Vector3.one * 1.5f;
+                    spot.gameObject.SetActive(true);
+                    StartCoroutine(ShrinkSpot());
+
+                    attackTarget = null;
+                    SetDestination(hit.point);
+                }
             }
+        }
+        if (attackTarget != null && !isDead)
+        {
+            float dist = Vector3.Distance(transform.position, attackTarget.position);
+            if (dist <= attackRange)
+            {
+                agent.ResetPath();
+                transform.LookAt(attackTarget);
+
+                attackTimer += Time.deltaTime;
+                if (attackTimer >= attackCooldown)
+                {
+                    attackTimer = 0f;
+                    PerformBasicAttack();
+                }
+            }
+        }
+    }
+    // 기본공격
+    private void PerformBasicAttack()
+    {
+        animator.SetTrigger("Attack");
+
+        // 데미지 처리 (애니메이션 이벤트 또는 즉시 처리)
+        var enemy = attackTarget.GetComponent<AIAttack>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(10f);
         }
     }
 
@@ -295,7 +346,7 @@ public class Tutorial_Knight_Move : MonoBehaviour
         // 사망 애니메이션 한번만 실행
         if (isDead && !hasDied)
         {
-            animator.SetBool("isDead", true);
+            animator.SetTrigger("isDead");
             hasDied = true;
         }
 
@@ -335,13 +386,13 @@ public class Tutorial_Knight_Move : MonoBehaviour
         agent.enabled = true;
         agent.isStopped = false;
         spotLight.enabled = true;
+        
 
         curHealth = maxHealth;
         hasHealed = false;
         isDead = false;
 
         hasDied = false;
-        animator.SetBool("isDead", false);
 
         UpdateHealthUI();
         healEffect?.Play();
@@ -355,12 +406,12 @@ public class Tutorial_Knight_Move : MonoBehaviour
             tutorialManager.OnCharacterRespawn();
         }
     }
-
+    // 대쉬
     private IEnumerator DashForward()
     {
         isDashing = true;
         isInvincible = true;
-        animator.SetBool("isDashing", true);
+        animator.SetTrigger("isDashing");
 
         float dashTime = dashDistance / dashSpeed;
         Vector3 dashDirection = capsule.transform.forward;
@@ -385,7 +436,6 @@ public class Tutorial_Knight_Move : MonoBehaviour
         transform.position = end;
         isDashing = false;
         isInvincible = false;
-        animator.SetBool("isDashing", false);
     }
 
     public void SetHealthToLow()
@@ -401,4 +451,66 @@ public class Tutorial_Knight_Move : MonoBehaviour
             agent.velocity = Vector3.zero;
         }
     }
+    // 스킬 쓰는 도중 움직일수 없게
+    public IEnumerator DisableMovementDuringSkill(float duration)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(duration);
+        canMove = true;
+    }
+
+    // 카메라와 캐릭터 사이 장애물 처리
+    private void HandleCameraObstructions()
+    {
+        foreach (var rend in currentObstructions)
+        {
+            if (rend != null && originalMaterials.ContainsKey(rend))
+            {
+                rend.materials = originalMaterials[rend];
+            }
+        }
+
+        currentObstructions.Clear();
+        originalMaterials.Clear();
+
+        Vector3 direction = transform.position - mainCamera.transform.position;
+        float distance = Vector3.Distance(mainCamera.transform.position, transform.position);
+
+        RaycastHit[] hits = Physics.RaycastAll(mainCamera.transform.position, direction, distance);
+
+        foreach (RaycastHit hit in hits)
+        {
+            Renderer rend = hit.collider.GetComponent<Renderer>();
+            if (rend != null && rend.gameObject != gameObject && !currentObstructions.Contains(rend))
+            {
+                originalMaterials[rend] = rend.materials;
+
+                Material[] transparentMats = new Material[rend.materials.Length];
+                for (int i = 0; i < transparentMats.Length; i++)
+                {
+                    Material mat = new Material(rend.materials[i]);
+                    mat.SetFloat("_Mode", 2); // Fade 모드
+                    mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                    mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    mat.SetInt("_ZWrite", 0);
+                    mat.DisableKeyword("_ALPHATEST_ON");
+                    mat.EnableKeyword("_ALPHABLEND_ON");
+                    mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                    mat.renderQueue = 3000;
+                    Color c = mat.color;
+                    c.a = 0.3f;
+                    mat.color = c;
+                    transparentMats[i] = mat;
+                }
+
+                rend.materials = transparentMats;
+                currentObstructions.Add(rend);
+            }
+        }
+    }
+    public IEnumerator DisableRootMotionAfter(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        animator.applyRootMotion = false;
+    }    
 }

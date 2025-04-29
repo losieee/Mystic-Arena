@@ -89,17 +89,20 @@ public class SmallFieldOfView : MonoBehaviour
         foreach (Collider targetCollider in targetsInViewRadius)
         {
             Transform target = targetCollider.transform;
-            allDetected.Add(target); // 후에 비활성화 대상 비교용
+            allDetected.Add(target);
 
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
-            {
-                float dstToTarget = Vector3.Distance(transform.position, target.position);
+            float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
-                {
-                    visibleTargets.Add(target);
-                }
+            // 시야 각도 조건 완화
+            bool isWithinView = viewAngle >= 360f || Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2;
+
+            // 장애물 체크 제거 또는 필요 시 무시
+            // bool isNotBlocked = !Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask);
+
+            if (isWithinView)
+            {
+                visibleTargets.Add(target);
             }
         }
 
@@ -108,9 +111,10 @@ public class SmallFieldOfView : MonoBehaviour
         {
             bool isVisible = visibleTargets.Contains(target);
 
-            foreach (Transform child in target)
+            foreach (Transform child in target.GetComponentsInChildren<Transform>(true))
             {
-                child.gameObject.SetActive(isVisible);
+                if (child != target)
+                    child.gameObject.SetActive(isVisible);
             }
         }
     }

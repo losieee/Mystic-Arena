@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Wall
   - EnemySpawn
+  - Weapon
   layers:
   - Default
   - TransparentFX

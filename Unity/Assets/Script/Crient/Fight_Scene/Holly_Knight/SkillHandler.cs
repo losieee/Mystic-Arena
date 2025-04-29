@@ -46,6 +46,7 @@ public class SkillHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && qKeySound != null && !isCooldown)
         {
             audioSource.PlayOneShot(qKeySound);
+            knight_Move.StopAgentImmediately();    // 스킬 사용할때 못움직이게
             knight_Move.animator.SetTrigger("Qskill");
         }
 
