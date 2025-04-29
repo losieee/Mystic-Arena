@@ -15,8 +15,8 @@ public class ThirdPersonCamera : MonoBehaviour
         if (target == null) return;
 
         // 마우스 이동에 따른 회전 처리
-        _currentX += Input.GetAxis("Mouse X") * sensitivity;
-        _currentY -= Input.GetAxis("Mouse Y") * sensitivity;
+        //_currentX += Input.GetAxis("Mouse X") * sensitivity;
+        //_currentY -= Input.GetAxis("Mouse Y") * sensitivity;
 
         // 수직 회전 각도를 제한하여 카메라가 땅 밑으로 내려가는 것을 방지
         _currentY = Mathf.Clamp(_currentY, rotationLimits.x, rotationLimits.y);

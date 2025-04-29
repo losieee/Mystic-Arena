@@ -3,8 +3,8 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using Unity.PlasticSCM.Editor.WebApi;
-using Unity.VisualScripting;
+//using Unity.PlasticSCM.Editor.WebApi;
+//using Unity.VisualScripting;
 
 public class Tutorial_Knight_Move : MonoBehaviour
 {

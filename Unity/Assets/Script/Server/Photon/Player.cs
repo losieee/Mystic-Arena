@@ -6,8 +6,6 @@ public class Player : NetworkBehaviour
 {
     private NetworkCharacterController _cc;
     public float moveSpeed = 5.0f;
-
-    [SerializeField] private NetworkPrefabRef _prefabBall;
     [Networked] private TickTimer delay { get; set; }
     [Networked] private NetworkButtons _networkButtons { get; set; }
 

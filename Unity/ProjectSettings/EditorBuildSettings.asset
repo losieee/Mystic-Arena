@@ -20,9 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 53b3d347a46669345a81712b703a2470
-  - enabled: 0
-    path: Assets/Scenes/MultiTest.unity
-    guid: 9a70b1f1bf03f0b4a9fdf74cb81d5f99
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: d2cdec6dcf0185345ac4dc1b0ff81e06
