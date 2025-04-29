@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Kino;
 using TMPro;
 using UnityEngine.UI;
+using Fusion;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -20,12 +21,14 @@ public class LobbyManager : MonoBehaviour
     public AnalogGlitch analogglitch;
     public float clickSoundVolume = 0.5f;
 
+    public NetworkManager networkManager;
+
     private bool isClicked = false;
-    private bool isNetwork = false;
     private bool isSlotPanelActive = false;
 
     void Start()
     {
+        networkManager = GetComponent<NetworkManager>();
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -86,19 +89,6 @@ public class LobbyManager : MonoBehaviour
         StartCoroutine(ToTutorialGlitchAndSound());
     }
 
-    //public void NetworkObject()
-    //{
-    //    if (isNetwork)
-    //    {
-    //        NetworkManagerUI.SetActive(false);
-    //        isNetwork = false;
-    //    }
-    //    else if (!isNetwork)
-    //    {
-    //        NetworkManagerUI.SetActive(true);
-    //        isNetwork = true;
-    //    }
-    //}
     public void TogglePlayerSlotPanel()
     {
         if (isSlotPanelActive)
@@ -179,22 +169,16 @@ public class LobbyManager : MonoBehaviour
     }
     public void OnHostButtonClicked()
     {
-        //if (string.IsNullOrEmpty(roomNameInputField.text))
-        //    NetworkManager.Instance.SetRoomName("TestRoom"); // 기본값
-        //else
-        //    NetworkManager.Instance.SetRoomName(roomNameInputField.text);
-
-        //NetworkManager.Instance.StartAsHost();
+        Debug.Log("방이 생성 되었습니다.");
+        networkManager.StartGame(GameMode.Host);
+        
     }
 
     public void OnJoinButtonClicked()
     {
-        //if (string.IsNullOrEmpty(roomNameInputField.text))
-        //    NetworkManager.Instance.SetRoomName("TestRoom");
-        //else
-        //    NetworkManager.Instance.SetRoomName(roomNameInputField.text);
-
-        //NetworkManager.Instance.StartAsClient();
+        Debug.Log("방에 참여 했습니다.");
+        networkManager.StartGame(GameMode.Client);
+       
     }
 
     // 패널말고 다른 곳 클릭했을 때 패널 비활성화

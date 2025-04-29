@@ -105,7 +105,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    async void StartGame(GameMode mode)
+     public async void StartGame(GameMode mode)
     {
         // Fusion 러너를 생성하고 사용자 입력을 제공할 것임을 알림
         _runner = gameObject.AddComponent<NetworkRunner>();
