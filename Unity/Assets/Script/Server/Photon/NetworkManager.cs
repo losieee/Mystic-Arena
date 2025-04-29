@@ -187,7 +187,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     private Vector3 GetNextSpawnPosition()
     {
         // 간단한 예: 플레이어 수에 따라 원형으로 배치
-        float angle = _spawnedCharacters.Count * (360f / 4); // 최대 8명의 플레이어 가정
+        float angle = _spawnedCharacters.Count * (360f / 4); // 최대 4명의 플레이어 가정
         float radius = 5f; // 스폰 반경
         float x = Mathf.Cos(angle * Mathf.Deg2Rad) * radius;
         float z = Mathf.Sin(angle * Mathf.Deg2Rad) * radius;
