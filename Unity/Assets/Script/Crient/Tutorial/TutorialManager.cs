@@ -5,6 +5,7 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Kino;
+using UnityEditor;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -70,11 +71,8 @@ public class TutorialManager : MonoBehaviour
         "피가 없을 때를 가정하여\n오브젝트를 클릭하여 체력을 회복해보세요!",
         "좋아요! 체력이 회복되었습니다!",
         "하지만 조심하세요. 이 회복은 한 목숨당 한 번뿐입니다.",
-        "자, 이제 적을 직접 처치해봅시다!",
-        "이런! 사망하셨군요!",
-        "앞으로는 더 강한 적들이 있을겁니다",
-        "부디 무사히 돌아오시길",
-        "행운을 빌겠습니다!",
+        "자, 이제 전투를 시작하세요!",
+        "나가고 싶으시면 언제든 나가기를 눌러 나가시면 됩니다."
     };
     void Start()
     {
@@ -129,8 +127,8 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        // 인덱스 7일 때는 클릭하면 패널 끄기
-        if (dialogueIndex == 7 && !isTyping && dialoguePanel.activeSelf)
+        // 인덱스 8일 때는 클릭하면 패널 끄기
+        if (dialogueIndex == 8 && !isTyping && dialoguePanel.activeSelf)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -171,25 +169,32 @@ public class TutorialManager : MonoBehaviour
             else
             {
                 // 대사가 전부 끝났으면 씬 이동
-                if (!sceneLoading)
-                {
-                    sceneLoading = true;
-                    dialoguePanel.SetActive(false);
-                    BlockInput(false);
-                    LoadNextScene();
-                }
+                //if (!sceneLoading)
+                //{
+                //    sceneLoading = true;
+                //    dialoguePanel.SetActive(false);
+                //    BlockInput(false);
+                //    //LoadNextScene();
+                //}
             }
         }
+
+
+
 
         // 리스폰 이후 처리
         if (isRespawning && !dialoguePanel.activeSelf)
         {
-            BlockInput(true);
-            dialoguePanel.SetActive(true);
-            dialogueIndex = 8;
-            StartCoroutine(TypeDialogue());
+            //BlockInput(true);
+            //dialoguePanel.SetActive(true);
+            //dialogueIndex = 8;
+            //StartCoroutine(TypeDialogue());
             isRespawning = false;
         }
+    }
+    public void GoToLobby()
+    {
+        LoadNextScene();
     }
     private void ForceRespawn()
     {
@@ -352,7 +357,7 @@ public class TutorialManager : MonoBehaviour
         dialogueIndex = 5; // "좋아요! 체력이 회복되었습니다!"
         StartCoroutine(TypeDialogue());
     }
-    
+
     // 글리치 나오면서 씬 전환
     private void LoadNextScene()
     {

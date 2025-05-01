@@ -3160,6 +3160,7 @@ MonoBehaviour:
   moveSpeed: 5
   thirdPersonCamera: {fileID: 0}
   rotationSpeed: 720
+  _animator: {fileID: 0}
 --- !u!1 &530242555
 GameObject:
   m_ObjectHideFlags: 0
@@ -17218,7 +17219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2107215338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17952,6 +17953,14 @@ PrefabInstance:
     - target: {fileID: 3695345135739664674, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
       propertyPath: m_Name
       value: TestPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695345135739664674, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8225232887779499309, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
+      propertyPath: m_Name
+      value: WordCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

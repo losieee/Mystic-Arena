@@ -20,7 +20,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
     // 싱그톤 처리
-    private static NetworkManager _instance;                                                                                
+    private static NetworkManager _instance;
     public static NetworkManager Instance
     {
         get
@@ -30,7 +30,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
                 _instance = FindObjectOfType<NetworkManager>();         // _instance를 찾아오고
                 if (_instance == null)                                  // _instance 존재 하지 않으면
                 {
-                    GameObject newManager = new GameObject("NetworkManager");      
+                    GameObject newManager = new GameObject("NetworkManager");
                     _instance = newManager.AddComponent<NetworkManager>();
                 }
             }
@@ -50,62 +50,62 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             Destroy(gameObject);                                        // 기존 인스턴스가 있으면 새로 생성된 인스턴스를 파괴
         }
 
-        _inputHandler = gameObject.AddComponent<NetworkInputHandler>(); 
+        _inputHandler = gameObject.AddComponent<NetworkInputHandler>();
     }
-    private void OnGUI()
-    {
-        if (_runner == null)                                            // 만약 _runner 존재하지 않으면
-        {
-            // 방 이름 입력 필드
-            // 사각형 형태로 좌측상단 좌표(x = 10, y = 10)에 (x = 300 y = 300) 크기로 생성
-            GUILayout.BeginArea(new Rect(10, 10, 300, 300));            
-            GUILayout.Label("방 번호:");
-            _roomName = GUILayout.TextField(_roomName);
+    //private void OnGUI()
+    //{
+    //    if (_runner == null)                                            // 만약 _runner 존재하지 않으면
+    //    {
+    //        // 방 이름 입력 필드
+    //        // 사각형 형태로 좌측상단 좌표(x = 10, y = 10)에 (x = 300 y = 300) 크기로 생성
+    //        GUILayout.BeginArea(new Rect(10, 10, 300, 300));            
+    //        GUILayout.Label("방 번호:");
+    //        _roomName = GUILayout.TextField(_roomName);
 
-            // 호스트 버튼
-            if (GUILayout.Button("호스트"))                            
-            {
-                StartGame(GameMode.Host);
-            }
-            // 참가 버튼
-            if (GUILayout.Button("참가"))
-            {
-                StartGame(GameMode.Client);
-            }
-            GUILayout.EndArea();
-        }
-        else
-        {
-            GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-            if (GameManager.Instance != null && GameManager.Instance.IsGameStarted)
-            {
-                GUILayout.Label("게임 진행 중");
-            }
-            else
-            {
-                if (GUILayout.Button("Ready"))
-                {
-                    Debug.Log("Ready button clicked");
-                    if (GameManager.Instance != null)
-                    {
-                        GameManager.Instance.RPC_PlayerReady(_runner.LocalPlayer);
-                    }
-                    else
-                    {
-                        Debug.LogError("GameManager instance is null");
-                    }
-                }
-                if (GameManager.Instance != null)
-                {
-                    GUILayout.Label($"현재 플레이어 수: {GameManager.Instance.PlayerCount}");
-                    GUILayout.Label($"준비 상태: {GameManager.Instance.GetPlayerState(_runner.LocalPlayer)}");
-                }
-            }
-            GUILayout.EndArea();
-        }
-    }
+    //        // 호스트 버튼
+    //        if (GUILayout.Button("호스트"))                            
+    //        {
+    //            StartGame(GameMode.Host);
+    //        }
+    //        // 참가 버튼
+    //        if (GUILayout.Button("참가"))
+    //        {
+    //            StartGame(GameMode.Client);
+    //        }
+    //        GUILayout.EndArea();
+    //    }
+    //    else
+    //    {
+    //        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+    //        if (GameManager.Instance != null && GameManager.Instance.IsGameStarted)
+    //        {
+    //            GUILayout.Label("게임 진행 중");
+    //        }
+    //        else
+    //        {
+    //            if (GUILayout.Button("Ready"))
+    //            {
+    //                Debug.Log("Ready button clicked");
+    //                if (GameManager.Instance != null)
+    //                {
+    //                    GameManager.Instance.RPC_PlayerReady(_runner.LocalPlayer);
+    //                }
+    //                else
+    //                {
+    //                    Debug.LogError("GameManager instance is null");
+    //                }
+    //            }
+    //            if (GameManager.Instance != null)
+    //            {
+    //                GUILayout.Label($"현재 플레이어 수: {GameManager.Instance.PlayerCount}");
+    //                GUILayout.Label($"준비 상태: {GameManager.Instance.GetPlayerState(_runner.LocalPlayer)}");
+    //            }
+    //        }
+    //        GUILayout.EndArea();
+    //    }
+    //}
 
-     public async void StartGame(GameMode mode)
+    public async void StartGame(GameMode mode)
     {
         // Fusion 러너를 생성하고 사용자 입력을 제공할 것임을 알림
         _runner = gameObject.AddComponent<NetworkRunner>();
