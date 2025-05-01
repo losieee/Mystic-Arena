@@ -23094,10 +23094,10 @@ MonoBehaviour:
   respawnCountdownText: {fileID: 2495430889816051224}
   fieldOfView: {fileID: 7008502949124992806}
   smallFieldOfView: {fileID: 7008502949124992805}
-  spot: {fileID: 4349184155793918436, guid: 1816ce0e5ed0d184998e0eeaf7d52767, type: 3}
   respawnPoint: {fileID: 1337082589}
   tutorialManager: {fileID: 935800718}
   animator: {fileID: 7008502949124992807}
+  isDead: 0
 --- !u!114 &8074282780130148844
 MonoBehaviour:
   m_ObjectHideFlags: 0

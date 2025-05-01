@@ -6,8 +6,8 @@ using UnityEngine;
 // NetworkInputData 구조체 정의
 public struct NetworkInputData : INetworkInput
 {
-    public const byte MOUSEBUTTON0 = 0x01;
-    public const byte MOUSEBUTTON1 = 0x02;
+    //public const byte MOUSEBUTTON0 = 0x01;
+    //public const byte MOUSEBUTTON1 = 0x02;
     public NetworkButtons buttons;
     public Vector3 direction;
     public Vector3 lookDirection;
@@ -46,8 +46,8 @@ public class NetworkInputHandler : MonoBehaviour
 
         data.lookDirection = mainCamera != null ? mainCamera.transform.forward : Vector3.forward;
 
-        data.buttons.Set(NetworkInputData.MOUSEBUTTON0, Input.GetMouseButton(0));
-        data.buttons.Set(NetworkInputData.MOUSEBUTTON1, Input.GetMouseButton(1));
+        //data.buttons.Set(NetworkInputData.MOUSEBUTTON0, Input.GetMouseButton(0));
+        //data.buttons.Set(NetworkInputData.MOUSEBUTTON1, Input.GetMouseButton(1));
 
         return data;
     }

@@ -35,10 +35,8 @@ public class Tutorial_Knight_Move : MonoBehaviour
     [SerializeField] private SmallFieldOfView smallFieldOfView;
 
     [Header("Other")]
-    public Transform spot;
     public Transform respawnPoint;
     public TutorialManager tutorialManager;
-
     public Animator animator;
 
     private float curHealth;
@@ -101,6 +99,7 @@ public class Tutorial_Knight_Move : MonoBehaviour
         // 애니메이션 초기화(시작하자마자 스킬 쓰는것 방지)
         animator.ResetTrigger("Qskill");
     }
+    // 캐릭터 이동
     public void EnableMovement()
     {
         canMove = true;
@@ -132,7 +131,6 @@ public class Tutorial_Knight_Move : MonoBehaviour
     {
         if (other.CompareTag("EnemySpawn") && !isDead)
         {
-            // "EnemySpawn" 에 진입하면 즉시 사망
             StartCoroutine(RespawnCoroutine());
         }
     }
@@ -164,7 +162,6 @@ public class Tutorial_Knight_Move : MonoBehaviour
                         tutorialManager.OnHealed();
 
                     HealPlayer();
-                    spot.gameObject.SetActive(false);
                     return;
                 }
 
@@ -172,11 +169,6 @@ public class Tutorial_Knight_Move : MonoBehaviour
                 int characterLayerMask = 1 << LayerMask.NameToLayer("Field");
                 if (((1 << hit.collider.gameObject.layer) & characterLayerMask) != 0)
                 {
-                    spot.position = hit.point;
-                    spot.transform.localScale = Vector3.one * 1.5f;
-                    spot.gameObject.SetActive(true);
-                    StartCoroutine(ShrinkSpot());
-
                     attackTarget = null;
                     SetDestination(hit.point);
                 }
@@ -204,7 +196,7 @@ public class Tutorial_Knight_Move : MonoBehaviour
     {
         animator.SetTrigger("Attack");
 
-        // 데미지 처리 (애니메이션 이벤트 또는 즉시 처리)
+        // 데미지 처리
         var enemy = attackTarget.GetComponent<AIAttack>();
         if (enemy != null)
         {
@@ -246,20 +238,6 @@ public class Tutorial_Knight_Move : MonoBehaviour
 
         healCanvasGroup.alpha = 0f;
         heal.gameObject.SetActive(false);
-    }
-
-    private IEnumerator ShrinkSpot()
-    {
-        float shrinkAmount = 0.3f;
-        float duration = 0.1f;
-
-        while (spot.transform.localScale.x > 0.1f)
-        {
-            spot.transform.localScale -= Vector3.one * shrinkAmount;
-            yield return new WaitForSeconds(duration);
-        }
-
-        spot.gameObject.SetActive(false);
     }
 
     private void SetDestination(Vector3 dest)
@@ -356,7 +334,6 @@ public class Tutorial_Knight_Move : MonoBehaviour
         agent.enabled = false;
         capsule.enabled = false;
         spotLight.enabled = false;
-        spot.gameObject.SetActive(false);
 
         // 튜토리얼 매니저가 있고, 아직 힐 튜토리얼을 완료하지 않았다면 사망 처리
         if (tutorialManager != null && !hasHealed)
@@ -512,5 +489,5 @@ public class Tutorial_Knight_Move : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         animator.applyRootMotion = false;
-    }    
+    }
 }

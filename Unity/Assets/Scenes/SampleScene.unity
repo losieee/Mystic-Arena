@@ -105,15 +105,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 3
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
+    agentRadius: 0.36
+    agentHeight: 2.42
     agentSlope: 45
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.120000005
     manualTileSize: 0
     tileSize: 256
     buildHeightMesh: 0
@@ -3031,6 +3031,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holly_Knight_Stats: {fileID: 11400000, guid: 5a5b4524284fba14f891b4f75c68e720, type: 2}
+  attackRange: 1.5
+  attackCooldown: 1
   qSkillHandler: {fileID: 1097981884}
   wSkillHandler: {fileID: 801829738}
   eSkillHandler: {fileID: 275951662}
@@ -3045,10 +3047,10 @@ MonoBehaviour:
   respawnCountdownText: {fileID: 329640339}
   fieldOfView: {fileID: 1153681249}
   smallFieldOfView: {fileID: 1153681248}
-  spot: {fileID: 4349184155793918436, guid: 1816ce0e5ed0d184998e0eeaf7d52767, type: 3}
   respawnPoint: {fileID: 1877146477}
   tutorialManager: {fileID: 2107215338}
   animator: {fileID: 0}
+  isDead: 0
 --- !u!54 &529494200
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5142,6 +5144,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4d89e33d92362c348bd4802c0656186d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 940600053}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4d89e33d92362c348bd4802c0656186d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1877146477}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4d89e33d92362c348bd4802c0656186d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1980064541}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4d89e33d92362c348bd4802c0656186d, type: 3}
       insertIndex: -1
@@ -16228,12 +16236,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877146476}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.41, y: 0.9580002, z: -23.63}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.6532815, y: -0.27059805, z: -0.27059805, w: 0.6532815}
+  m_LocalPosition: {x: 0.30146223, y: -1.3761703, z: 0.41506627}
+  m_LocalScale: {x: 0.7692308, y: 0.76923066, z: 0.76923066}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 843447317}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1882394971
 GameObject:
@@ -16529,12 +16537,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1980064537}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.34918055, z: -0, w: 0.93705547}
-  m_LocalPosition: {x: -25.76, y: 0.8800001, z: -25.81}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.51767343, y: -0.48167855, z: -0.48167855, w: 0.51767343}
+  m_LocalPosition: {x: 0.20899448, y: 1.0878255, z: 0.35506645}
+  m_LocalScale: {x: 0.7692307, y: 0.7692307, z: 0.7692308}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 843447317}
   m_LocalEulerAnglesHint: {x: 0, y: -40.874, z: 0}
 --- !u!1001 &1988639537
 PrefabInstance:
@@ -18018,8 +18026,6 @@ SceneRoots:
   - {fileID: 723654971227788260}
   - {fileID: 529494198}
   - {fileID: 854075540}
-  - {fileID: 1877146477}
-  - {fileID: 1980064541}
   - {fileID: 1146614447}
   - {fileID: 2107215339}
   - {fileID: 530242556}
