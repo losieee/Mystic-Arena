@@ -164,6 +164,17 @@ public class Tutorial_Knight_Move : MonoBehaviour
                     HealPlayer();
                     return;
                 }
+                // 이미 힐 했을때 다시 힐 하면 텍스트 활성화
+                else if (hit.collider.CompareTag("NPC") && hasHealed &&
+                        Vector3.Distance(transform.position, hit.point) <= interactionRange)
+                {
+                    var healNotice = hit.collider.GetComponentInChildren<TextMeshProUGUI>(true);
+                    if (healNotice != null)
+                    {
+                        healNotice.gameObject.SetActive(true);
+                        StartCoroutine(HideAfterSeconds(healNotice.gameObject, 2f));
+                    }
+                }
 
                 // 일반 이동 처리
                 int characterLayerMask = 1 << LayerMask.NameToLayer("Field");
@@ -190,6 +201,12 @@ public class Tutorial_Knight_Move : MonoBehaviour
                 }
             }
         }
+    }
+    // 힐 텍스트 자동 비활성화
+    private IEnumerator HideAfterSeconds(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
     }
     // 기본공격
     private void PerformBasicAttack()
@@ -363,13 +380,17 @@ public class Tutorial_Knight_Move : MonoBehaviour
         agent.enabled = true;
         agent.isStopped = false;
         spotLight.enabled = true;
-        
 
         curHealth = maxHealth;
         hasHealed = false;
         isDead = false;
-
         hasDied = false;
+
+        // 시야 정보 초기화
+        if (fieldOfView != null)
+        {
+            fieldOfView.HideAllVisibleTargets();
+        }
 
         UpdateHealthUI();
         healEffect?.Play();

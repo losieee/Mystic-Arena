@@ -520,9 +520,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  distance: 5
-  sensitivity: 3
-  rotationLimits: {x: -40, y: 80}
+  height: 8.4
+  distance: 6.18
+  angle: -29.9
+  followSpeed: 10
 --- !u!81 &111868468
 AudioListener:
   m_ObjectHideFlags: 0
@@ -570,7 +571,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 3839
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3158,9 +3159,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  _prefabBall:
+    RawGuidValue: 00000000000000000000000000000000
   thirdPersonCamera: {fileID: 0}
   rotationSpeed: 720
-  _animator: {fileID: 0}
+  _CurrentState: 
 --- !u!1 &530242555
 GameObject:
   m_ObjectHideFlags: 0
@@ -17906,6 +17909,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 996904364815063243, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
+      propertyPath: mainCameraTransform
+      value: 
+      objectReference: {fileID: 111868470}
     - target: {fileID: 1365134053520453244, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
       propertyPath: SortKey
       value: 3192602831
@@ -17950,6 +17957,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3533151266776145665, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
+      propertyPath: StateHashes.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533151266776145665, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
+      propertyPath: TriggerHashes.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533151266776145665, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
+      propertyPath: StateHashes.Array.data[3]
+      value: 646380074
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533151266776145665, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
+      propertyPath: StateHashes.Array.data[4]
+      value: -1546996312
+      objectReference: {fileID: 0}
     - target: {fileID: 3695345135739664674, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
       propertyPath: m_Name
       value: TestPlayer
@@ -17957,10 +17980,6 @@ PrefabInstance:
     - target: {fileID: 3695345135739664674, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8225232887779499309, guid: d3fa478266552b24cbd2bb61a6058b26, type: 3}
-      propertyPath: m_Name
-      value: WordCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -5,8 +5,9 @@ using TMPro;
 using System.Collections;
 using System.ComponentModel;
 using Fusion;
+using static Fusion.NetworkBehaviour;
 
-public class KnightMove : MonoBehaviour
+public class KnightMove : NetworkBehaviour
 {
     [Header("NetWork")]
     private NetworkCharacterController _cc;
@@ -60,7 +61,6 @@ public class KnightMove : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log(isDashing);
         curHealth = holly_Knight_Stats.maxHealth;
         maxHealth = holly_Knight_Stats.maxHealth;
         dashDistance = holly_Knight_Stats.dashDistance;
@@ -131,7 +131,7 @@ public class KnightMove : MonoBehaviour
         }
     }
 
-    private void HealPlayer()
+    public void HealPlayer()
     {
         if (curHealth >= maxHealth) return;
 
@@ -181,7 +181,7 @@ public class KnightMove : MonoBehaviour
         spot.gameObject.SetActive(false);
     }
 
-    private void SetDestination(Vector3 dest)
+    public void SetDestination(Vector3 dest)
     {
         agent.SetDestination(dest);
         destination = dest;

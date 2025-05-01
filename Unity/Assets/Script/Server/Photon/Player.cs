@@ -6,6 +6,8 @@ public class Player : NetworkBehaviour
 {
     private NetworkCharacterController _cc;
     public float moveSpeed = 5.0f;
+
+    [SerializeField] private NetworkPrefabRef _prefabBall;
     [Networked] private TickTimer delay { get; set; }
     [Networked] private NetworkButtons _networkButtons { get; set; }
 
@@ -18,23 +20,50 @@ public class Player : NetworkBehaviour
 
     public float rotationSpeed = 720.0f;
 
-    // 애니메이션 관련 선어
+    // 애니메이션 관련 선언
     public NetworkMecanimAnimator _animator;
-
 
     private void Awake()
     {
         _cc = GetComponent<NetworkCharacterController>();
     }
 
+    [Networked] public string CurrentState { get; set; }
+
     public override void Spawned()
     {
-
         if (Object.HasInputAuthority)
         {
             SetupCamera();
         }
+        CurrentState = "Waiting";
     }
+
+    public void SetPlayerState(string newState)
+    {
+        CurrentState = newState;
+
+        switch (newState)
+        {
+            case "Playing":
+                // 게임 시작 시 필요한 로직
+                break;
+            case "Finished":
+                // 게임 종료 시 필요한 로직
+                break;
+            case "Spectating":
+                DisablePlayerControls();
+                break;
+        }
+    }
+
+    private void DisablePlayerControls()
+    {
+        // 플레이어 컨트롤 비활성화 로직
+        _cc.enabled = false;
+        _animator.enabled = false;
+    }
+
 
     private void SetupCamera()
     {
@@ -87,6 +116,7 @@ public class Player : NetworkBehaviour
         {
             // 움직이지 않을 때도 중력은 적용
             _cc.Move(Vector3.zero);
+            _animator.Animator.SetFloat("MoveSpeed", 0);
         }
     }
 
@@ -107,5 +137,4 @@ public class Player : NetworkBehaviour
             MovePlayer(data.direction);
         }
     }
-
 }

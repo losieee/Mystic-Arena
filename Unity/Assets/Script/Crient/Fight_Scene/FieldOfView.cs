@@ -64,12 +64,16 @@ public class FieldOfView : MonoBehaviour
 
     public void FindVisibleTargets()
     {
+        visibleTargets.RemoveAll(t => t == null); // 방어 코드
+
         visibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
         foreach (Collider targetCollider in targetsInViewRadius)
         {
             Transform target = targetCollider.transform;
+            if (target == null) continue;
+
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             bool isVisible = false;
 
@@ -84,12 +88,18 @@ public class FieldOfView : MonoBehaviour
                 }
             }
 
-            foreach (Transform child in target)
+            if (target != null && target.gameObject != null)
             {
-                child.gameObject.SetActive(isVisible);
+                foreach (Transform child in target)
+                {
+                    if (child != null)
+                        child.gameObject.SetActive(isVisible);
+                }
             }
         }
     }
+
+
 
     // y축 오일러 각을 3차원 방향 벡터로 변환한다.
     public Vector3 DirFromAngle(float angleDegrees, bool angleIsGlobal)
@@ -232,5 +242,16 @@ public class FieldOfView : MonoBehaviour
         }
 
         return new Edge(minPoint, maxPoint);
+    }
+    public void HideAllVisibleTargets()
+    {
+        foreach (Transform t in visibleTargets)
+        {
+            foreach (Transform child in t)
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+        visibleTargets.Clear();
     }
 }
