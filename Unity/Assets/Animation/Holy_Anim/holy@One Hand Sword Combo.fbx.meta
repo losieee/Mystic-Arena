@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5d47281abb4ac9b418d091fd981abb5f
+guid: 29f6683a29f46024fbd279e712e69af9
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -24,7 +24,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack
+      name: One Hand Sword Combo
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 122
+      lastFrame: 136
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
