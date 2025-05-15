@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class Fight_Demo : MonoBehaviour
 {
     [Header("Skill Handlers")]
     [SerializeField] private SkillHandler qSkillHandler;
-    [SerializeField] private SkillHandler wSkillHandler;
     [SerializeField] private SkillHandler eSkillHandler;
-    [SerializeField] private SkillHandler gSkillHandler;
+    [SerializeField] private SkillHandler shiftSkillHandler;
 
     [Header("Dash Settings")]
     [SerializeField] private float dashDistance = 5f;
@@ -31,6 +31,7 @@ public class Fight_Demo : MonoBehaviour
     private NavMeshAgent agent;
     private Camera mainCamera;
     private Vector3 destination;
+    private Coroutine comboResetCoroutine;
 
     private Quaternion idleAttackRotationOffset;
 
@@ -41,10 +42,9 @@ public class Fight_Demo : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         mainCamera = Camera.main;
 
-        // 오른쪽으로 45도 회전 오프셋 (Y축)
+        // 오른쪽으로 30도 회전 오프셋 (Y축)
         idleAttackRotationOffset = Quaternion.Euler(0f, 30f, 0f);
 
-        // 극적인 방향회전 (일부러 한거임)
         agent.updateRotation = false;
         agent.enabled = true;
         agent.acceleration = 1000f;
@@ -52,7 +52,7 @@ public class Fight_Demo : MonoBehaviour
         agent.stoppingDistance = 0.4f;
         agent.autoBraking = true;
 
-        gSkillHandler.onSkillUsed.AddListener(() => StartCoroutine(DashForward()));
+        shiftSkillHandler.onSkillUsed.AddListener(() => StartCoroutine(DashForward()));
     }
 
     private void Update()
@@ -61,46 +61,26 @@ public class Fight_Demo : MonoBehaviour
 
         if (canMove && !isAttacking)
         {
-            HandleMoveInput();
+            HandleKeyboardMoveInput();
 
             qSkillHandler.TryUseSkill();
-            wSkillHandler.TryUseSkill();
             eSkillHandler.TryUseSkill();
-            gSkillHandler.TryUseSkill();
+            shiftSkillHandler.TryUseSkill();
         }
 
         LookMoveDirection();
     }
 
-    private void HandleMoveInput()
+    private void HandleKeyboardMoveInput()
     {
-        if (Input.GetMouseButtonDown(1))
+        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        input = input.normalized;
+
+        if (input != Vector3.zero)
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                int fieldLayerMask = 1 << LayerMask.NameToLayer("Field");
-
-                if (((1 << hit.collider.gameObject.layer) & fieldLayerMask) != 0)
-                {
-                    SetDestination(hit.point);
-                }
-            }
-        }
-    }
-
-    private void SetDestination(Vector3 dest)
-    {
-        agent.SetDestination(dest);
-        destination = dest;
-        isMove = true;
-
-        Vector3 direction = (destination - transform.position).normalized;
-        if (direction != Vector3.zero)
-        {
-            direction.y = 0;
-            capsule.transform.rotation = Quaternion.LookRotation(direction);
+            Vector3 moveDir = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0) * input;
+            agent.SetDestination(transform.position + moveDir);
+            isMove = true;
         }
     }
 
@@ -147,24 +127,34 @@ public class Fight_Demo : MonoBehaviour
         agent.ResetPath();
         isMove = false;
 
-        // 회전 고정 (오른쪽 45도 오프셋 적용)
-        capsule.transform.rotation = Quaternion.LookRotation(capsule.transform.forward) * idleAttackRotationOffset;
+        // 마우스 위치 기준 회전
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Field")))
+        {
+            Vector3 dir = hit.point - transform.position;
+            dir.y = 0;
+            if (dir != Vector3.zero)
+            {
+                capsule.transform.rotation = Quaternion.LookRotation(dir) * idleAttackRotationOffset;
+            }
+        }
 
         comboStep = 1;
         isAttacking = true;
         animator.SetInteger("ComboCount", comboStep);
     }
 
-    // 애니메이션 이벤트로 호출됨
     public void EnableNextCombo()
     {
         canQueueNextCombo = true;
     }
 
-    // 애니메이션 종료 시 호출 (애니메이션 이벤트)
     public void EndCombo()
     {
-        StartCoroutine(DelayedComboReset());
+        if (comboResetCoroutine != null)
+            StopCoroutine(comboResetCoroutine);
+
+        comboResetCoroutine = StartCoroutine(DelayedComboReset());
     }
 
     private IEnumerator DelayedComboReset()
@@ -185,6 +175,10 @@ public class Fight_Demo : MonoBehaviour
             isAttacking = false;
             comboQueued = false;
             canQueueNextCombo = false;
+
+            canMove = false;
+            // 콤보 종료 후 1초 대기
+            yield return new WaitForSeconds(0.4f);
             canMove = true;
         }
     }

@@ -7504,6 +7504,7 @@ MonoBehaviour:
     RawGuidValue: 00000000000000000000000000000000
   thirdPersonCamera: {fileID: 0}
   rotationSpeed: 720
+  _animator: {fileID: 0}
   _CurrentState: Idle
 --- !u!114 &1365134053520453244
 MonoBehaviour:
@@ -8594,7 +8595,6 @@ MonoBehaviour:
   skillSound: {fileID: 0}
   gKeySound: {fileID: 0}
   qKeySound: {fileID: 0}
-  wKeySound: {fileID: 0}
   eKeySound: {fileID: 0}
   knight_Move: {fileID: 0}
 --- !u!1 &4653975458171732539
@@ -9025,7 +9025,6 @@ MonoBehaviour:
   skillSound: {fileID: 0}
   gKeySound: {fileID: 0}
   qKeySound: {fileID: 0}
-  wKeySound: {fileID: 0}
   eKeySound: {fileID: 0}
   knight_Move: {fileID: 0}
 --- !u!1 &5328891727409463656
@@ -10113,9 +10112,9 @@ MonoBehaviour:
   Animator: {fileID: 5643414385779802636}
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000002b1a167c794069552afa8626a8b5caa331bbc8bcb5981e5320e23b685928a8ce0d286c404e865f4366c12eb3e48e6236
+  StateHashes: 000000002b1a167c794069552afa8626a8b5caa331bbc8bcb5981e5320e23b685928a8ce9c00bf45bfb0bce366c12eb3e48e6236365dea0215ede9a4938eb6c9b03eb56f
   TriggerHashes: 000000009b690fee285c184c393fb4680d286c40
-  TotalWords: 1
+  TotalWords: 2
 --- !u!1 &6570066921040658946
 GameObject:
   m_ObjectHideFlags: 0
@@ -12783,7 +12782,6 @@ MonoBehaviour:
   skillSound: {fileID: 0}
   gKeySound: {fileID: 0}
   qKeySound: {fileID: 0}
-  wKeySound: {fileID: 0}
   eKeySound: {fileID: 0}
   knight_Move: {fileID: 0}
 --- !u!1 &9064544414946065431
@@ -12983,6 +12981,5 @@ MonoBehaviour:
   skillSound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
   gKeySound: {fileID: 0}
   qKeySound: {fileID: 0}
-  wKeySound: {fileID: 0}
   eKeySound: {fileID: 0}
   knight_Move: {fileID: 0}

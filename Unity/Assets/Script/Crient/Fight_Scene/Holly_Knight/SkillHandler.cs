@@ -13,9 +13,8 @@ public class SkillHandler : MonoBehaviour
     public UnityEngine.Events.UnityEvent onSkillUsed;
 
     public AudioClip skillSound; // 스킬 사운드
-    public AudioClip gKeySound;
+    public AudioClip dashSound;
     public AudioClip qKeySound;
-    public AudioClip wKeySound;
     public AudioClip eKeySound;
 
     private Animator animator;  // 스킬 애니메이션
@@ -38,9 +37,9 @@ public class SkillHandler : MonoBehaviour
     void Update()
     {
         // G키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
-        if (Input.GetKeyDown(KeyCode.G) && gKeySound != null && !isCooldown)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashSound != null && !isCooldown)
         {
-            audioSource.PlayOneShot(gKeySound);
+            audioSource.PlayOneShot(dashSound);
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && qKeySound != null && !isCooldown)
@@ -48,11 +47,6 @@ public class SkillHandler : MonoBehaviour
             audioSource.PlayOneShot(qKeySound);
             knight_Move.StopAgentImmediately();    // 스킬 사용할때 못움직이게
             knight_Move.animator.SetTrigger("Qskill");
-        }
-
-        if (Input.GetKeyDown(KeyCode.W) && wKeySound != null && !isCooldown)
-        {
-            audioSource.PlayOneShot(wKeySound);
         }
 
         if (Input.GetKeyDown(KeyCode.E) && eKeySound != null && !isCooldown)

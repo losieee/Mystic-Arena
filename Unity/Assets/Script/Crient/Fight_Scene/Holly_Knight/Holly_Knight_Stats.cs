@@ -14,7 +14,6 @@ public class Holly_Knight_Stats : ScriptableObject
 
     [Header("Skills")]
     public float skillCooldownQ = 5f;
-    public float skillCooldownW = 5f;
     public float skillCooldownE = 5f;
     public float skillCooldownG = 8f;
 }
