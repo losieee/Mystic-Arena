@@ -1,4 +1,20 @@
 using UnityEngine;
+
+//----------------------------------------------------------------------------------
+// 필요한 Type
+public enum ItemType
+{
+    Gun,
+    Sword
+}
+
+public enum EnemyType
+{
+    Nomal,
+    Eiite,
+    Ranged,
+    Boss
+}
 //----------------------------------------------------------------------------------
 // 초기 플레이어 관련
 [CreateAssetMenu(fileName = "Player", menuName = "GameObject/Player")]
@@ -31,6 +47,7 @@ public class EnemySO : ScriptableObject
     public float enemy_MaxHp = 50f;
     public float enmey_CurrHp = 50f;
     public float enemy_Speed = 2.5f;
+    public EnemyType enemy_Type;
     public Animator enemy_Animator;
 }
 //----------------------------------------------------------------------------------
@@ -41,6 +58,8 @@ public class ItemSO : ScriptableObject
     public int item_Id;
     public string item_Name;
     public int item_Lever = 1;
+    public float item_Damage = 1;
+    public ItemType item_Type;
 }
 
 //----------------------------------------------------------------------------------
