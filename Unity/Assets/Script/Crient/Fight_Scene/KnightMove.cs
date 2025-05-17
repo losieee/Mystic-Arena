@@ -13,7 +13,7 @@ public class KnightMove : NetworkBehaviour
     private NetworkCharacterController _cc;
 
     [Header("Stat Data")]
-    [SerializeField] private Holly_Knight_Stats holly_Knight_Stats;
+    [SerializeField] private PlayerStats holly_Knight_Stats;
 
     [Header("Skill Handlers")]
     [SerializeField] private SkillHandler qSkillHandler;

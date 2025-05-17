@@ -21,7 +21,7 @@ public class NetworkInputHandler : NetworkBehaviour
     public bool hasHealed = false;
 
     [Header("Health")]
-    private Holly_Knight_Stats holly_Knight_Stats;
+    private PlayerStats holly_Knight_Stats;
 
     private Camera mainCamera;
     private KnightMove knightMove;

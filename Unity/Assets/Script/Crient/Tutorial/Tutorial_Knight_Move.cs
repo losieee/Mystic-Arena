@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public class Tutorial_Knight_Move : MonoBehaviour
 {
     [Header("Stat Data")]
-    [SerializeField] private Holly_Knight_Stats holly_Knight_Stats;
+    [SerializeField] private PlayerStats holly_Knight_Stats;
     public float attackRange = 1.5f;
     public float attackCooldown = 1f;
 

@@ -185,6 +185,16 @@ public class Fight_Demo : MonoBehaviour
 
     private IEnumerator DashForward()
     {
+        if (isAttacking)
+        {
+            // 대시 중에는 공격 상태를 해제
+            isAttacking = false;
+            comboQueued = false;
+            canQueueNextCombo = false;
+            comboStep = 0;
+            animator.SetInteger("ComboCount", 0);
+        }
+
         isDashing = true;
         isInvincible = true;
         animator.SetTrigger("isDashing");
@@ -212,5 +222,30 @@ public class Fight_Demo : MonoBehaviour
         transform.position = end;
         isDashing = false;
         isInvincible = false;
+
+        // 대시 후에는 움직임 가능
+        canMove = true;
+    }
+    public void StopAgentImmediately()
+    {
+        if (TryGetComponent(out NavMeshAgent agent))
+        {
+            agent.ResetPath(); // 현재 경로 즉시 정지
+            agent.velocity = Vector3.zero;
+        }
+
+        // 애니메이션 이동 상태 해제 (선택)
+        if (TryGetComponent(out Animator anim))
+        {
+            anim.SetBool("isRunning", false);
+        }
+
+        // 상태 플래그도 변경 (선택)
+        canMove = false;
+        isMove = false;
+    }
+    public void ResumeMovement()
+    {
+        canMove = true;
     }
 }

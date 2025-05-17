@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Holly_Knight_Stats", menuName = "ScriptableObjects/Holly_Knight_Stats", order = 1)]
-public class Holly_Knight_Stats : ScriptableObject
+public class PlayerStats : ScriptableObject
 {
     [Header("Health")]
     public float maxHealth = 150f;

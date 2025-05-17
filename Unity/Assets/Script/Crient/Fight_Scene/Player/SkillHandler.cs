@@ -19,7 +19,7 @@ public class SkillHandler : MonoBehaviour
 
     private Animator animator;  // 스킬 애니메이션
 
-    public Tutorial_Knight_Move knight_Move;
+    public Fight_Demo knight_Move;
 
     private AudioSource audioSource;
 

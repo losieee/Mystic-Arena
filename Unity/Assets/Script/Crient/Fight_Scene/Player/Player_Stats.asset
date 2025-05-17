@@ -9,14 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da234f3788326ff4d93aa9556b1917ec, type: 3}
-  m_Name: Holly_Knight_Stats
+  m_Script: {fileID: 11500000, guid: 421159f26149cd349a4b6ead41f07541, type: 3}
+  m_Name: Player_Stats
   m_EditorClassIdentifier: 
   maxHealth: 150
-  dashDistance: 4
+  dashDistance: 3
   dashSpeed: 10
   interactionRange: 3
   skillCooldownQ: 5
-  skillCooldownW: 5
   skillCooldownE: 5
   skillCooldownG: 8

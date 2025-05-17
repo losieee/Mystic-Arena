@@ -55,17 +55,16 @@ public class AIAttack : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return;
 
         FindClosestTarget();
 
         if (target != null)
         {
             float distance = Vector3.Distance(transform.position, target.position);
-            var playerMove = target.GetComponentInParent<Tutorial_Knight_Move>();
+            var playerMove = target.GetComponent<Fight_Demo>();
 
             // 플레이어가 죽었거나 사망 상태이면 추적 중지
-            if (playerMove != null && playerMove.isDead)
+            if (playerMove != null)
             {
                 target = null;
                 StopAI();
