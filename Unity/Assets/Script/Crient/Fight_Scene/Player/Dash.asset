@@ -17,3 +17,4 @@ MonoBehaviour:
   activationKey: 304
   skillIcon: {fileID: 21300000, guid: 04dfa5a69813c8b49b67ef694a6ab29e, type: 3}
   skillSound: {fileID: 8300000, guid: 4e8a937bb6d294f469b438e6d322feb9, type: 3}
+  skillType: 2

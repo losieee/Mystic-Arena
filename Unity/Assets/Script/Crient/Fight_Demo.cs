@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Text.RegularExpressions;
+using UnityEditor.TerrainTools;
 
 public class Fight_Demo : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class Fight_Demo : MonoBehaviour
     private Vector3 destination;
     private Coroutine comboResetCoroutine;
 
-    private Quaternion idleAttackRotationOffset;
+    private Quaternion idleAttackRotationOffset;    //애니메이션 기울이기용
 
     private void Awake()
     {
@@ -63,9 +64,14 @@ public class Fight_Demo : MonoBehaviour
         {
             HandleKeyboardMoveInput();
 
-            qSkillHandler.TryUseSkill();
-            eSkillHandler.TryUseSkill();
-            shiftSkillHandler.TryUseSkill();
+            if (Input.GetKeyDown(KeyCode.Q))
+                qSkillHandler.TryUseSkill();
+
+            if (Input.GetKeyDown(KeyCode.E))
+                eSkillHandler.TryUseSkill();
+
+            if(Input.GetKeyDown(KeyCode.LeftShift))
+                shiftSkillHandler.TryUseSkill();
         }
 
         LookMoveDirection();
@@ -124,8 +130,7 @@ public class Fight_Demo : MonoBehaviour
 
         if (isAttacking) return;
 
-        agent.ResetPath();
-        isMove = false;
+        DontMove();
 
         // 마우스 위치 기준 회전
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -142,6 +147,14 @@ public class Fight_Demo : MonoBehaviour
         comboStep = 1;
         isAttacking = true;
         animator.SetInteger("ComboCount", comboStep);
+        animator.SetBool("isAttacking", true);
+    }
+
+    public void DontMove()
+    {
+        agent.ResetPath();
+        isMove = false;
+        canMove = false;
     }
 
     public void EnableNextCombo()
@@ -180,10 +193,11 @@ public class Fight_Demo : MonoBehaviour
             // 콤보 종료 후 1초 대기
             yield return new WaitForSeconds(0.4f);
             canMove = true;
+            animator.SetBool("isAttacking", false);
         }
     }
 
-    private IEnumerator DashForward()
+    public IEnumerator DashForward()
     {
         if (isAttacking)
         {
@@ -238,6 +252,7 @@ public class Fight_Demo : MonoBehaviour
         if (TryGetComponent(out Animator anim))
         {
             anim.SetBool("isRunning", false);
+            anim.SetBool("isRunning", false);
         }
 
         // 상태 플래그도 변경 (선택)
@@ -247,5 +262,9 @@ public class Fight_Demo : MonoBehaviour
     public void ResumeMovement()
     {
         canMove = true;
+    }
+    public bool IsAttacking()
+    {
+        return isAttacking;
     }
 }

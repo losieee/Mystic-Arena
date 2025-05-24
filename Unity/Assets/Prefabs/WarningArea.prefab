@@ -121,6 +121,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillRenderer: {fileID: 2509807244357236354}
   fillDuration: 2
+  onFillComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &737417122543180349
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FillController : MonoBehaviour
 {
     public MeshRenderer fillRenderer;
     public float fillDuration = 2f;
+    public UnityEngine.Events.UnityEvent onFillComplete;
 
     private Material fillMaterial;
     private float elapsed = 0f;
+    private bool completed = false;
 
     private void Start()
     {
@@ -18,20 +21,22 @@ public class FillController : MonoBehaviour
             return;
         }
 
-        // 머티리얼 인스턴스화 (다른 오브젝트와 공유되지 않게)
         fillMaterial = fillRenderer.material;
         fillMaterial.SetFloat("_FillAmount", 0f);
     }
 
     private void Update()
     {
+        if (completed) return;
+
         elapsed += Time.deltaTime;
         float fill = Mathf.Clamp01(elapsed / fillDuration);
         fillMaterial.SetFloat("_FillAmount", fill);
 
         if (fill >= 1f)
         {
-            // 오브젝트 삭제 (BasePlane 포함 WarningArea 전체)
+            completed = true;
+            onFillComplete?.Invoke(); // 한 번만 호출됨
             Destroy(transform.root.gameObject);
         }
     }

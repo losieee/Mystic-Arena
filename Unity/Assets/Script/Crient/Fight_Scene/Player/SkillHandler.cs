@@ -24,6 +24,7 @@ public class SkillHandler : MonoBehaviour
     private AudioSource audioSource;
 
     private bool isCooldown = false;
+    private bool canUseSkill = true;
 
     void Start()
     {
@@ -36,36 +37,55 @@ public class SkillHandler : MonoBehaviour
 
     void Update()
     {
-        // G키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
+        // Shift키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashSound != null && !isCooldown)
         {
             audioSource.PlayOneShot(dashSound);
         }
-
-        if (Input.GetKeyDown(KeyCode.Q) && qKeySound != null && !isCooldown)
+    }
+    private void RotateTowardsMouse()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Field")))
         {
-            audioSource.PlayOneShot(qKeySound);
-            knight_Move.StopAgentImmediately();    // 스킬 사용할때 못움직이게
-            knight_Move.animator.SetTrigger("Qskill");
+            Vector3 direction = hit.point - knight_Move.transform.position;
+            direction.y = 0;
+            if (direction.sqrMagnitude > 0.01f)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                knight_Move.transform.rotation = lookRotation;
+            }
         }
-
-        if (Input.GetKeyDown(KeyCode.E) && eKeySound != null && !isCooldown)
-        {
-            audioSource.PlayOneShot(eKeySound);
-        }
-
-        TryUseSkill();
     }
 
     public void TryUseSkill()
     {
-        if (!isCooldown && Input.GetKeyDown(skillData.activationKey))
-        {
-            if (skillSound != null)
-                audioSource.PlayOneShot(skillSound); // 일반 스킬 효과음 재생
+        if (isCooldown || knight_Move == null || knight_Move.IsAttacking())
+            return;
 
-            StartCoroutine(CooldownRoutine());
+        knight_Move.DontMove();
+        
+        if (skillSound != null)
+            audioSource.PlayOneShot(skillSound);
+
+        switch (skillData.skillType)
+        {
+            case SkillType.Q:
+                RotateTowardsMouse();
+                knight_Move.animator.SetTrigger("Qskill");
+                break;
+
+            case SkillType.E:
+                //knight_Move.animator.SetTrigger("Eskill"); 
+                break;
+
+            case SkillType.Shift:
+                knight_Move.animator.SetTrigger("isDashing");
+                knight_Move.StartCoroutine(knight_Move.DashForward()); // 대시 동작 직접 실행
+                break;
         }
+
+        StartCoroutine(CooldownRoutine());
     }
 
     private IEnumerator CooldownRoutine()

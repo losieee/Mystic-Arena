@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public class BossWaveSpawner : MonoBehaviour
 {
+    private bool effectPlayed = false;
+    public GameObject waveStartEffectPrefab;
+
+    public Animator bossAnimator;
+
     [System.Serializable]
     public class WarningConfig
     {
@@ -18,6 +23,8 @@ public class BossWaveSpawner : MonoBehaviour
     {
         public WarningConfig[] warnings;
         public float waitAfterWave = 1f;
+
+        public Vector3 effectSpawnPosition = Vector3.zero; 
     }
 
     public GameObject warningAreaPrefab;
@@ -32,7 +39,7 @@ public class BossWaveSpawner : MonoBehaviour
     {
         foreach (WarningWave wave in waveSequence)
         {
-            List<float> durations = new List<float>();
+            effectPlayed = false;
 
             foreach (WarningConfig config in wave.warnings)
             {
@@ -44,18 +51,33 @@ public class BossWaveSpawner : MonoBehaviour
 
                 instance.transform.localScale = config.scale;
 
-                FillController controller = instance.GetComponent<FillController>();
+                FillController controller = instance.GetComponentInChildren<FillController>();
                 if (controller != null)
                 {
                     controller.fillDuration = config.warningDuration;
+
+                    controller.onFillComplete.AddListener(() =>
+                    {
+                        if (!effectPlayed && waveStartEffectPrefab != null)
+                        {
+                            Vector3 pos = wave.effectSpawnPosition + Vector3.up * 0.5f;
+
+                            GameObject fx = Instantiate(waveStartEffectPrefab, pos, Quaternion.identity);
+
+                            Destroy(fx, 1f); // 여기! 1초 뒤 자동 삭제
+                            effectPlayed = true;
+                        }
+                    });
+
                     controller.enabled = true;
                 }
-
-                durations.Add(config.warningDuration);
             }
 
-            // 가장 오래 걸리는 경고 이펙트 + 여유 시간만큼 대기
-            float maxDuration = Mathf.Max(durations.ToArray());
+            // 가장 긴 경고가 끝날 때까지 대기
+            float maxDuration = 0f;
+            foreach (var config in wave.warnings)
+                maxDuration = Mathf.Max(maxDuration, config.warningDuration);
+
             yield return new WaitForSeconds(maxDuration + wave.waitAfterWave);
         }
     }
