@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
+public enum FillPatternType
+{
+    FromEdge,
+    FromCenter
+}
 public class FillController : MonoBehaviour
 {
     public MeshRenderer fillRenderer;
     public float fillDuration = 2f;
     public UnityEngine.Events.UnityEvent onFillComplete;
+    public FillPatternType fillPattern = FillPatternType.FromEdge;  //패턴 선택
 
     private Material fillMaterial;
     private float elapsed = 0f;
@@ -23,6 +30,7 @@ public class FillController : MonoBehaviour
 
         fillMaterial = fillRenderer.material;
         fillMaterial.SetFloat("_FillAmount", 0f);
+        fillMaterial.SetFloat("_FillType", fillPattern == FillPatternType.FromEdge ? 0f : 1f);
     }
 
     private void Update()

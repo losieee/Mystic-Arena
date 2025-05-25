@@ -7,15 +7,14 @@ public class BossWaveSpawner : MonoBehaviour
     private bool effectPlayed = false;
     public GameObject waveStartEffectPrefab;
 
-    public Animator bossAnimator;
-
     [System.Serializable]
     public class WarningConfig
     {
-        public Vector3 position;
-        public Vector3 scale = new Vector3(3, 1, 3);
-        public Vector3 rotationEuler;
-        public float warningDuration = 2f;
+        public Vector3 position;        //위치
+        public Vector3 scale = new Vector3(3, 1, 3);    //크기
+        public Vector3 rotationEuler;       //기울기
+        public float warningDuration = 2f;  //끝나고 기다리는 시간
+        public FillPatternType fillPattern = FillPatternType.FromEdge;  //무슨 패턴인지(아래에서 위 or 중앙에서 전체)
     }
 
     [System.Serializable]
@@ -55,6 +54,7 @@ public class BossWaveSpawner : MonoBehaviour
                 if (controller != null)
                 {
                     controller.fillDuration = config.warningDuration;
+                    controller.fillPattern = config.fillPattern;
 
                     controller.onFillComplete.AddListener(() =>
                     {
