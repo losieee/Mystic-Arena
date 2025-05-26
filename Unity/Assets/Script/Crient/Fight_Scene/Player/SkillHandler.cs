@@ -7,42 +7,73 @@ public class SkillHandler : MonoBehaviour
 {
     public SkillData skillData;
 
+    [Header("UI")]
     public Image cooldownImage;
     public TextMeshProUGUI cooldownText;
     public GameObject glowEffect;
+
+    [Header("이펙트 프리팹")]
+    public GameObject skillEffectPrefab;
+    public GameObject shiftEffectPrefab;
+
+    [Header("기타")]
     public UnityEngine.Events.UnityEvent onSkillUsed;
-
-    public AudioClip skillSound; // 스킬 사운드
-    public AudioClip dashSound;
-    public AudioClip qKeySound;
-    public AudioClip eKeySound;
-
-    private Animator animator;  // 스킬 애니메이션
 
     public Fight_Demo knight_Move;
 
     private AudioSource audioSource;
+    private Animator animator;
 
     private bool isCooldown = false;
-    private bool canUseSkill = true;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
+
         animator = GetComponent<Animator>();
         audioSource.playOnAwake = false;
     }
 
-    void Update()
+    public void TryUseSkill()
     {
-        // Shift키를 눌렀을 때 특정 사운드 재생 (쿨타임 아닐 때만)
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashSound != null && !isCooldown)
+        if (isCooldown || knight_Move == null || knight_Move.IsAttacking())
+            return;
+
+        knight_Move.DontMove();
+
+        switch (skillData.skillType)
         {
-            audioSource.PlayOneShot(dashSound);
+            case SkillType.Q:
+                RotateTowardsMouse();
+                knight_Move.animator.SetTrigger("Qskill");
+                break;
+
+            case SkillType.E:
+                // knight_Move.animator.SetTrigger("Eskill");
+                break;
+
+            case SkillType.Shift:
+                knight_Move.animator.SetTrigger("isDashing");
+
+                if (skillData.skillSound != null)
+                    audioSource.PlayOneShot(skillData.skillSound);
+
+                // 대시 위치/방향 정보 계산 후 이펙트 생성
+                Vector3 dashStart = knight_Move.transform.position;
+                Vector3 dashDir = knight_Move.transform.forward;
+                float dashLength = skillData.effectSpawnDistance;
+
+                SpawnShiftEffect(dashStart, dashDir, dashLength);
+                knight_Move.StartCoroutine(knight_Move.DashForward());
+                break;
         }
+
+        StartCoroutine(CooldownRoutine());
     }
+
+    /// 방향 기반 Q스킬 회전
     private void RotateTowardsMouse()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -58,41 +89,54 @@ public class SkillHandler : MonoBehaviour
         }
     }
 
-    public void TryUseSkill()
+    /// Q스킬 효과 생성
+    public void SpawnSkillEffect()
     {
-        if (isCooldown || knight_Move == null || knight_Move.IsAttacking())
+        if (skillData.skillEffectPrefab == null || knight_Move == null)
             return;
 
-        knight_Move.DontMove();
-        
-        if (skillSound != null)
-            audioSource.PlayOneShot(skillSound);
+        Transform swordTransform = knight_Move.swordTransform;
 
-        switch (skillData.skillType)
-        {
-            case SkillType.Q:
-                RotateTowardsMouse();
-                knight_Move.animator.SetTrigger("Qskill");
-                break;
+        GameObject effect = Instantiate(
+            skillData.skillEffectPrefab,
+            swordTransform.position,
+            swordTransform.rotation,
+            swordTransform
+        );
 
-            case SkillType.E:
-                //knight_Move.animator.SetTrigger("Eskill"); 
-                break;
-
-            case SkillType.Shift:
-                knight_Move.animator.SetTrigger("isDashing");
-                knight_Move.StartCoroutine(knight_Move.DashForward()); // 대시 동작 직접 실행
-                break;
-        }
-
-        StartCoroutine(CooldownRoutine());
+        Destroy(effect, skillData.effectDuration);
     }
 
+    /// 대시 이펙트 생성
+    public void SpawnShiftEffect(Vector3 startPos, Vector3 direction, float length)
+    {
+        if (skillData.trailEffectPrefab == null)
+            return;
+
+        Vector3 spawnPosition = startPos + direction.normalized * (length / 2f);
+        spawnPosition.y = knight_Move.swordTransform.position.y;
+
+        Quaternion spawnRotation = Quaternion.LookRotation(-direction);
+
+        GameObject effect = Instantiate(skillData.trailEffectPrefab, spawnPosition, spawnRotation);
+
+        effect.transform.localScale = new Vector3(1f, 1f, length);
+        Destroy(effect, skillData.effectDuration);
+    }
+
+    /// Q스킬 사운드
+    public void QSkillSound()
+    {
+        if (skillData.skillSound != null)
+            audioSource.PlayOneShot(skillData.skillSound);
+    }
+
+    /// 쿨다운 처리
     private IEnumerator CooldownRoutine()
     {
-        onSkillUsed?.Invoke(); // 대시 등 동작 실행
-
+        onSkillUsed?.Invoke();
         isCooldown = true;
+
         cooldownImage.gameObject.SetActive(true);
         cooldownText.gameObject.SetActive(true);
 
@@ -132,8 +176,8 @@ public class SkillHandler : MonoBehaviour
             canvasGroup.alpha = Mathf.Lerp(0, 1, t / fadeInTime);
             yield return null;
         }
-        canvasGroup.alpha = 1f;
 
+        canvasGroup.alpha = 1f;
         yield return new WaitForSeconds(0.1f);
 
         float fadeOutTime = 0.1f;
@@ -142,8 +186,8 @@ public class SkillHandler : MonoBehaviour
             canvasGroup.alpha = Mathf.Lerp(1, 0, t / fadeOutTime);
             yield return null;
         }
-        canvasGroup.alpha = 0f;
 
+        canvasGroup.alpha = 0f;
         glowEffect.SetActive(false);
     }
 }

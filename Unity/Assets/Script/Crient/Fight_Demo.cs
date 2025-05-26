@@ -16,6 +16,8 @@ public class Fight_Demo : MonoBehaviour
     [SerializeField] private float dashSpeed = 15f;
 
     public Animator animator;
+    public Transform swordTransform;
+    public SkillHandler skillHandler;
 
     private bool canMove = true;
     private bool isMove = false;
@@ -216,16 +218,18 @@ public class Fight_Demo : MonoBehaviour
         float dashTime = dashDistance / dashSpeed;
         Vector3 dashDirection = capsule.transform.forward;
 
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, dashDirection, out hit, dashDistance))
-        {
-            dashDistance = hit.distance - 0.3f;
-        }
-
-        float elapsed = 0f;
         Vector3 start = transform.position;
         Vector3 end = start + dashDirection * dashDistance;
 
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, dashDirection, out hit, dashDistance))
+        {
+            end = transform.position + dashDirection * (hit.distance - 0.3f);
+        }
+
+        SpawnDashTrail(start, start + dashDirection * dashDistance);
+
+        float elapsed = 0f;
         while (elapsed < dashTime)
         {
             transform.position = Vector3.Lerp(start, end, elapsed / dashTime);
@@ -259,6 +263,29 @@ public class Fight_Demo : MonoBehaviour
         canMove = false;
         isMove = false;
     }
+    public void SpawnDashTrail(Vector3 start, Vector3 end)
+    {
+        if (skillHandler.skillData.trailEffectPrefab == null)
+            return;
+
+        Vector3 direction = (end - start).normalized;
+        float distance = Vector3.Distance(start, end);
+
+        //이펙트 위치
+        Vector3 spawnPosition = start + direction * (distance / 2f);
+
+        //회전
+        Quaternion spawnRotation = Quaternion.LookRotation(direction);
+
+        //이펙트 생성
+        GameObject effect = GameObject.Instantiate(skillHandler.skillData.trailEffectPrefab, spawnPosition, spawnRotation);
+
+        //이펙트 길이
+        Vector3 effectScale = effect.transform.localScale;
+        effect.transform.localScale = new Vector3(1f, 1f, distance);
+
+        Destroy(effect, skillHandler.skillData.effectDuration);
+    }
     public void ResumeMovement()
     {
         canMove = true;
@@ -266,5 +293,15 @@ public class Fight_Demo : MonoBehaviour
     public bool IsAttacking()
     {
         return isAttacking;
+    }
+
+    public void SkillEffect()
+    {
+        skillHandler.SpawnSkillEffect();
+    }
+
+    public void QskillSoundTiming()
+    {
+        skillHandler.QSkillSound();
     }
 }

@@ -1004,6 +1004,8 @@ MonoBehaviour:
   dashDistance: 5
   dashSpeed: 15
   animator: {fileID: 384060966}
+  swordTransform: {fileID: 1664932132}
+  skillHandler: {fileID: 1028601431}
 --- !u!195 &384060963
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1131,6 +1133,7 @@ Transform:
   - {fileID: 761704237}
   - {fileID: 846425793}
   - {fileID: 860377294}
+  - {fileID: 1664932132}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &446001422
@@ -1258,7 +1261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &449427607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2474,13 +2477,11 @@ MonoBehaviour:
   cooldownImage: {fileID: 305038618}
   cooldownText: {fileID: 983892287}
   glowEffect: {fileID: 484238641}
+  skillEffectPrefab: {fileID: 0}
+  shiftEffectPrefab: {fileID: 0}
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
-  skillSound: {fileID: 0}
-  dashSound: {fileID: 0}
-  qKeySound: {fileID: 0}
-  eKeySound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
   knight_Move: {fileID: 0}
 --- !u!1 &761704236
 GameObject:
@@ -8697,13 +8698,11 @@ MonoBehaviour:
   cooldownImage: {fileID: 1960460465}
   cooldownText: {fileID: 969088575}
   glowEffect: {fileID: 544414754}
+  skillEffectPrefab: {fileID: 1171201465392465800, guid: 4aa9f30a28a77224ba84b2a2c334c71b, type: 3}
+  shiftEffectPrefab: {fileID: 0}
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
-  skillSound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
-  dashSound: {fileID: 0}
-  qKeySound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
-  eKeySound: {fileID: 0}
   knight_Move: {fileID: 384060962}
 --- !u!1 &1044088320
 GameObject:
@@ -9297,6 +9296,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9397696e194b7764ea31a4ea2739315d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDealDamage: 0
+  damageCooldown: 0.5
+  lastDamageTime: -Infinity
 --- !u!65 &1316921178
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9434,13 +9436,11 @@ MonoBehaviour:
   cooldownImage: {fileID: 832389039}
   cooldownText: {fileID: 1497842419}
   glowEffect: {fileID: 692020140}
+  skillEffectPrefab: {fileID: 0}
+  shiftEffectPrefab: {fileID: 0}
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
-  skillSound: {fileID: 8300000, guid: 4e8a937bb6d294f469b438e6d322feb9, type: 3}
-  dashSound: {fileID: 8300000, guid: 4e8a937bb6d294f469b438e6d322feb9, type: 3}
-  qKeySound: {fileID: 0}
-  eKeySound: {fileID: 0}
   knight_Move: {fileID: 384060962}
 --- !u!224 &1371596492
 RectTransform:
@@ -10710,7 +10710,7 @@ GameObject:
   - component: {fileID: 1565660472}
   - component: {fileID: 1565660471}
   - component: {fileID: 1565660470}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11293,6 +11293,59 @@ Transform:
   - {fileID: 1391107643}
   m_Father: {fileID: 2058159876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1664932131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1664932132}
+  - component: {fileID: 1664932133}
+  m_Layer: 12
+  m_Name: PlayerMid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1664932132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664932131}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.12, z: 0.024}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 384060967}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1664932133
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664932131}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1695480883
 GameObject:
   m_ObjectHideFlags: 0
@@ -12022,7 +12075,7 @@ Transform:
   m_GameObject: {fileID: 2112078100}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3383151, y: 0.49771413, z: -0.53079826, w: 0.59672177}
-  m_LocalPosition: {x: 0.0038, y: -0.00576, z: 0.00463}
+  m_LocalPosition: {x: 0.00374, y: -0.00577, z: 0.00464}
   m_LocalScale: {x: 0.002793179, y: 0.0027832747, z: 0.0027821043}
   m_ConstrainProportionsScale: 0
   m_Children:
