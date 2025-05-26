@@ -21,7 +21,7 @@ public class LobbyManager : MonoBehaviour
     public AnalogGlitch analogglitch;
     public float clickSoundVolume = 0.5f;
 
-    public NetworkManager networkManager;
+ 
 
     private bool isClicked = false;
     private bool isSlotPanelActive = false;
@@ -50,20 +50,7 @@ public class LobbyManager : MonoBehaviour
 
     public void Update()
     {
-        if (networkManager == null)
-        {
-            networkManager = GetComponent<NetworkManager>();
-        }
-
-        if (networkManager != null)
-        {
-            DontDestroyOnLoad(networkManager); // 씬 전환 시에도 삭제되지 않도록 설정
-        }
-        else
-        {
-            networkManager = FindAnyObjectByType<NetworkManager>();
-            Debug.LogError("NetworkManager가 씬에 없습니다.");
-        }
+        
     }
 
     public void QuitGame()
@@ -184,20 +171,7 @@ public class LobbyManager : MonoBehaviour
             yield return null;
         }
     }
-    public void OnHostButtonClicked()
-    {
-        Debug.Log("방이 생성 되었습니다.");
-        networkManager.StartGame(GameMode.Host);
-
-    }
-
-    public void OnJoinButtonClicked()
-    {
-        Debug.Log("방에 참여 했습니다.");
-        networkManager.StartGame(GameMode.Client);
-
-    }
-
+ 
     // 패널말고 다른 곳 클릭했을 때 패널 비활성화
     private void ActivateBackgroundBlocker(bool active)
     {
