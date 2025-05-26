@@ -4,14 +4,10 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.ComponentModel;
-using Fusion;
-using static Fusion.NetworkBehaviour;
 
-public class KnightMove : NetworkBehaviour
+
+public class KnightMove : MonoBehaviour
 {
-    [Header("NetWork")]
-    private NetworkCharacterController _cc;
-
     [Header("Stat Data")]
     [SerializeField] private PlayerStats holly_Knight_Stats;
 

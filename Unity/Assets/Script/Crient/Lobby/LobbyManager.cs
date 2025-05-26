@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 using Kino;
 using TMPro;
 using UnityEngine.UI;
-using Fusion;
 
 public class LobbyManager : MonoBehaviour
 {
