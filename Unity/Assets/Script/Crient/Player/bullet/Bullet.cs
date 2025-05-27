@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 public enum AttackType
 {
@@ -13,6 +14,7 @@ public class Bullet : MonoBehaviour
     public AttackType attackType;
     //public NormalEnemy NormalEnemy;              // 추후 몬스터 로직 오브젝트 가져오기
     public PlayerSO playerSO;
+    public EnemySO enemySO;
 
 
     private void OnCollisionEnter(Collision collision)
@@ -30,12 +32,18 @@ public class Bullet : MonoBehaviour
                 case AttackType.Ekey_Attack:
                     EkeyAttack();
                     break;
-                default:
-                    break;
             }
         }
 
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerSO.player_CurrHp -= enemySO.enemy_Damage;
+            return;
+        }
+
     }
+
+
 
     public void NormalAttack()
     {

@@ -1,13 +1,8 @@
+using System;
 using UnityEngine;
 
 //----------------------------------------------------------------------------------
 // 필요한 Type
-public enum ItemType
-{
-    Gun,
-    Sword
-}
-
 public enum EnemyType
 {
     Nomal,
@@ -53,15 +48,11 @@ public class EnemySO : ScriptableObject
 //----------------------------------------------------------------------------------
 // Item 관련
 [CreateAssetMenu(fileName = "Item", menuName = "GameObject/Item")]
-public class ItemSO : ScriptableObject
+[Serializable]
+public class WeaponSO : ScriptableObject
 {
-    public int item_Id;
-    public string item_Name;
-    public int item_Lever = 1;
-    public float item_Damage = 1;
-    public ItemType item_Type;
-}
 
+}
 //----------------------------------------------------------------------------------
 
 

@@ -6304,6 +6304,51 @@ Transform:
   - {fileID: 1910345185}
   m_Father: {fileID: 857687135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &511343604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 511343605}
+  - component: {fileID: 511343606}
+  m_Layer: 0
+  m_Name: DataLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &511343605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511343604}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 16.481836, y: 12.704605, z: -67.67399}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &511343606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511343604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b597ceca463348545b85d4396a8e388f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jsonFileName: Weapons
 --- !u!1 &570901823
 GameObject:
   m_ObjectHideFlags: 0
@@ -6548,6 +6593,8 @@ MonoBehaviour:
   dashDistance: 5
   dashSpeed: 15
   animator: {fileID: 580905024}
+  swordTransform: {fileID: 0}
+  skillHandler: {fileID: 0}
 --- !u!1 &587046247
 GameObject:
   m_ObjectHideFlags: 0
@@ -6879,13 +6926,11 @@ MonoBehaviour:
   cooldownImage: {fileID: 727939598}
   cooldownText: {fileID: 1968882376}
   glowEffect: {fileID: 1318556351}
+  skillEffectPrefab: {fileID: 0}
+  shiftEffectPrefab: {fileID: 0}
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
-  skillSound: {fileID: 8300000, guid: 4e8a937bb6d294f469b438e6d322feb9, type: 3}
-  dashSound: {fileID: 8300000, guid: 4e8a937bb6d294f469b438e6d322feb9, type: 3}
-  qKeySound: {fileID: 0}
-  eKeySound: {fileID: 0}
   knight_Move: {fileID: 0}
 --- !u!1 &700802895
 GameObject:
@@ -10826,13 +10871,11 @@ MonoBehaviour:
   cooldownImage: {fileID: 949711235}
   cooldownText: {fileID: 982995036}
   glowEffect: {fileID: 169146382}
+  skillEffectPrefab: {fileID: 0}
+  shiftEffectPrefab: {fileID: 0}
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
-  skillSound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
-  dashSound: {fileID: 0}
-  qKeySound: {fileID: 8300000, guid: e32e3bde5559afb4cad3ef963cc96446, type: 3}
-  eKeySound: {fileID: 0}
   knight_Move: {fileID: 0}
 --- !u!1 &1725628695
 GameObject:
@@ -11208,13 +11251,11 @@ MonoBehaviour:
   cooldownImage: {fileID: 1002014733}
   cooldownText: {fileID: 1252517884}
   glowEffect: {fileID: 570901823}
+  skillEffectPrefab: {fileID: 0}
+  shiftEffectPrefab: {fileID: 0}
   onSkillUsed:
     m_PersistentCalls:
       m_Calls: []
-  skillSound: {fileID: 0}
-  dashSound: {fileID: 0}
-  qKeySound: {fileID: 0}
-  eKeySound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
   knight_Move: {fileID: 0}
 --- !u!1 &1823416703
 GameObject:
@@ -12837,3 +12878,4 @@ SceneRoots:
   - {fileID: 1709671870}
   - {fileID: 2046463668}
   - {fileID: 1996703837}
+  - {fileID: 511343605}
