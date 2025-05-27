@@ -25,6 +25,10 @@ public class SkillHandler : MonoBehaviour
     private Animator animator;
 
     private bool isCooldown = false;
+    private bool isCasting = false;
+    public bool IsCasting => isCasting;
+    public bool IsUsingSkill => isCooldown;
+
 
     void Start()
     {
@@ -40,6 +44,8 @@ public class SkillHandler : MonoBehaviour
     {
         if (isCooldown || knight_Move == null || knight_Move.IsAttacking())
             return;
+
+        isCasting = true;
 
         knight_Move.DontMove();
 
@@ -189,5 +195,9 @@ public class SkillHandler : MonoBehaviour
 
         canvasGroup.alpha = 0f;
         glowEffect.SetActive(false);
+    }
+    public void EndSkillCast()
+    {
+        isCasting = false;
     }
 }

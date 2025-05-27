@@ -122,6 +122,9 @@ public class Fight_Demo : MonoBehaviour
 
     private void HandleComboInput()
     {
+        if (qSkillHandler.IsCasting || eSkillHandler.IsCasting || shiftSkillHandler.IsCasting)
+            return;
+
         if (!Input.GetMouseButtonDown(0)) return;
 
         if (canQueueNextCombo && comboStep < 3)
@@ -240,6 +243,7 @@ public class Fight_Demo : MonoBehaviour
         transform.position = end;
         isDashing = false;
         isInvincible = false;
+        shiftSkillHandler?.EndSkillCast();
 
         // 대시 후에는 움직임 가능
         canMove = true;
@@ -282,13 +286,14 @@ public class Fight_Demo : MonoBehaviour
 
         //이펙트 길이
         Vector3 effectScale = effect.transform.localScale;
-        effect.transform.localScale = new Vector3(1f, 1f, distance);
+        effect.transform.localScale = new Vector3(1.5f, 1.5f, distance);
 
         Destroy(effect, skillHandler.skillData.effectDuration);
     }
     public void ResumeMovement()
     {
         canMove = true;
+        skillHandler?.EndSkillCast();
     }
     public bool IsAttacking()
     {
