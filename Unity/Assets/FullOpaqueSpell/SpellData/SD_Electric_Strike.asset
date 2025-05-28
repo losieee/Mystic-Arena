@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf4989d79519c1349aa400eb4e706e49, type: 3}
+  m_Name: SD_Electric_Strike
+  m_EditorClassIdentifier: 
+  spellName: Electric Strike
+  incantationPrefab: {fileID: 2905666689437318915, guid: 900d47d5e41299a489b37c6d69f8db0e,
+    type: 3}
+  spellBurstPrefab: {fileID: 7248386473986964264, guid: e4ffb7c105f326b4da101e6b12578bf2,
+    type: 3}
+  mainSpellPrefab: {fileID: 3300406336262876018, guid: d2b876535f2838740a1350517892a20c,
+    type: 3}
+  castTime: 1
+  cooldown: 1
+  activationKey: 101
+  shakeEnabled: 1
+  shakeStrengthIncantation: 0.01
+  shakeStrengthBurst: 0.02
+  shakeStrengthImpact: 0.05
+  shakeDurationIncantation: 1
+  shakeDurationBurst: 0.2
+  shakeDurationImpact: 0.2
+  spellColor: {r: 1, g: 0.6666667, b: 0, a: 1}
+  spellTargetBehavior: 1
+  spellTracking: 0
+  spawnOnGround: 1

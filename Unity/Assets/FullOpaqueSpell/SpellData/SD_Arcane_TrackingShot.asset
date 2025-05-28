@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf4989d79519c1349aa400eb4e706e49, type: 3}
+  m_Name: SD_Arcane_TrackingShot
+  m_EditorClassIdentifier: 
+  spellName: Arcane Tracking Shot
+  incantationPrefab: {fileID: 3993457813523650357, guid: 37b2ecb8ea39ba14ba08bf397d8c3d18,
+    type: 3}
+  spellBurstPrefab: {fileID: 696709159327299983, guid: 00a731858e324e84f9f57e3d737a62d0,
+    type: 3}
+  mainSpellPrefab: {fileID: 8735408722482519607, guid: a048bcf1214005047861302d0a4515da,
+    type: 3}
+  castTime: 1
+  cooldown: 1
+  activationKey: 101
+  shakeEnabled: 1
+  shakeStrengthIncantation: 0.01
+  shakeStrengthBurst: 0.02
+  shakeStrengthImpact: 0.05
+  shakeDurationIncantation: 1
+  shakeDurationBurst: 1
+  shakeDurationImpact: 0
+  spellColor: {r: 1, g: 0, b: 1, a: 1}
+  spellTargetBehavior: 2
+  spellTracking: 1
+  spawnOnGround: 0
