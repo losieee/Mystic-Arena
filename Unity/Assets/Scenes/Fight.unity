@@ -12304,7 +12304,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593a068a7d0c4af45a9b10a2fe2636e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSO: {fileID: 11400000, guid: 2aa7065b2ecbe564db9be9cd4540be36, type: 2}
 --- !u!65 &1996703834
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12591,7 +12590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593a068a7d0c4af45a9b10a2fe2636e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSO: {fileID: 11400000, guid: 0f4d853c90693914d858747b1c8c1804, type: 2}
 --- !u!65 &2046463665
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Item01
-  m_EditorClassIdentifier: Assembly-CSharp::ItemSO
-  item_Id: 0
-  item_Name: 
-  item_Lever: 1
-  item_Type: 0
+  m_Script: {fileID: 11500000, guid: 2b8d88501a190834390860b821509f33, type: 3}
+  m_Name: Weapon
+  m_EditorClassIdentifier: 
+  id: 0
+  weaponName: 
+  weaponTypeString: 
+  baseDamage: 0
+  dropStage: 0
+  description: 

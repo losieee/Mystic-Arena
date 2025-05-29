@@ -6,10 +6,25 @@ using Newtonsoft.Json;
 
 public class WeaponDataLoader : MonoBehaviour
 {
+    // 싱글톤 처리
+    private static WeaponDataLoader instance;
+
     [SerializeField]
     private string jsonFileName = "Weapons";                        //Resources 폴더에서 가져올 JSON 파일 이름
 
-    private List<WeaponData> weaponList; 
+    private List<WeaponData> weaponList;
+
+    private void Awake()
+    {
+       if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +49,7 @@ public class WeaponDataLoader : MonoBehaviour
 
             foreach (var weapon in weaponList)
             {
-                Debug.Log($"무기: {EncodeKorean(weapon.Weapon_Name)}, 설명 : {EncodeKorean(weapon.Weapon_Description)}");
+                Debug.Log($"무기: {EncodeKorean(weapon.weaponName)}, 설명 : {EncodeKorean(weapon.description)}");
             }
         }
         else

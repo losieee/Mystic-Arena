@@ -14,24 +14,24 @@ public enum WeaponType
 public class WeaponData : MonoBehaviour
 {
 
-    public int Weapon_Id;
-    public string Weapon_Name;
-    public string WeaponType_String;
+    public int id;
+    public string weaponName;
+    public string weaponTypeString;
     [NonSerialized]
     public WeaponType weapon_type;
-    public float Weapon_nomarDamege;
-    public int Weapon_Drop_Stage;
-    public string Weapon_Description;
+    public float baseDamage;
+    public int dropStage;
+    public string description;
 
     public void InitalizeEnums()
     {
-        if (Enum.TryParse(WeaponType_String, out WeaponType parsedType))
+        if (Enum.TryParse(weaponTypeString, out WeaponType parsedType))
         {
             weapon_type = parsedType;
         }
         else
         {
-            Debug.Log($"무기 '{weapon_type}'에 유효하지 않은 아이템 타입 : {WeaponType_String}");
+            Debug.Log($"무기 '{weapon_type}'에 유효하지 않은 아이템 타입 : {weaponTypeString}");
             // 기본값 설정
             weapon_type = WeaponType.Consumable;
         }

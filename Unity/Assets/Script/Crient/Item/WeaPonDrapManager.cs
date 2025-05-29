@@ -1,21 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-//public class ItemManager : MonoBehaviour
+//public class WeaPonDrapManager : MonoBehaviour
 //{
-//    public WeaponSO itemSO;
+//    public WeaponSO weaponSO;
 
 //    private void OnCollisionEnter(Collision collision)
 //    {
 //        if (collision.gameObject.CompareTag("Player"))
 //        {
-//            switch (itemSO.item_Type)
+//            switch (weaponSO.weapon_type)
 //            {
-//                case ItemType.Sword:
+//                case weapon_type.Sword:
 //                    ItemType_Sword();
 //                    break;
-//                case ItemType.Gun:
+//                case weapon_type.Gun:
 //                    ItemType_Gun();
 //                    break;
 //                default:
@@ -28,7 +28,7 @@ using UnityEngine;
 //    {
 //        Destroy(gameObject);
 
-        
+
 //    }
 
 //    private void ItemType_Sword()
