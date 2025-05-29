@@ -6,7 +6,6 @@ public class BossWaveSpawner : MonoBehaviour
 {
     private bool effectPlayed = false;
     bool meteorSpawnStarted = false;
-    public GameObject attackBehaviorPrefab;
     public GameObject warningAreaPrefab;
     public WarningWave[] waveSequence;
 
@@ -30,11 +29,13 @@ public class BossWaveSpawner : MonoBehaviour
         public FillPatternType fillPattern = FillPatternType.FromEdge;
 
         // Bottom 전용
+        [Header("Bottom")]
         public GameObject spawnAfterEffect;
         public GameObject attackEffectPrefab;
         public AudioClip bottomSound;
 
         // Lazer 전용
+        [Header("Lazer")]
         public Vector3 lazerReadyEffectPosition;
         public Vector3 lazerReadyEffectRotation;
         public GameObject lazerReadyEffectPrefab;
@@ -44,8 +45,14 @@ public class BossWaveSpawner : MonoBehaviour
         public Vector3 lazerBeamSpawnPosition;
         public Vector3 lazerBeamScale;
         public Vector3 lazerBeamRotation;
+        public bool lazerRotateClockwise = true;    //true - 시계방향, false - 반시계방향
+        public float lazerRotateDuration = 1.5f;    //레이저 회전 시간
+        public float lazerRotateAngle = 180f;       //회전할 각도
+        public int lazerShotCount = 1;              //레이저 수
+        public float lazerShotAngleGap = 0f;        //레이저 간 간격
 
         // Meteor 전용
+        [Header("Meteor")]
         public GameObject meteorPrefab;
         public GameObject meteorEffectPrefab;
         public AudioClip meteorSound;
@@ -60,6 +67,7 @@ public class BossWaveSpawner : MonoBehaviour
         public WarningConfig[] warnings;
         public float waitAfterWave = 1f;
         public Vector3 effectSpawnPosition = Vector3.zero;
+        public GameObject attackBehaviorPrefab;
     }
 
     private void Start()
@@ -94,7 +102,8 @@ public class BossWaveSpawner : MonoBehaviour
                         float totalWarningTime = rotateDuration + effectDuration;
 
                         Quaternion from = rotatingTarget.transform.rotation;
-                        Quaternion to = Quaternion.Euler(from.eulerAngles + new Vector3(0, 90f, 0));
+                        float rotationAmount = config.lazerRotateClockwise ? 90f : -90f;
+                        Quaternion to = Quaternion.Euler(from.eulerAngles + new Vector3(0, rotationAmount, 0));
                         StartCoroutine(RotateThenSpawnReadyEffect(rotatingTarget.transform, from, to, rotateDuration, effectDuration, config));
                     }
                 }
@@ -102,6 +111,7 @@ public class BossWaveSpawner : MonoBehaviour
                 {
                     meteorSpawnStarted = true;
                     StartCoroutine(SpawnMeteorConfigsSequentially(wave.warnings, 0.5f));
+                    meteorSpawnStarted = false;
                 }
 
                 FillController controller = instance.GetComponentInChildren<FillController>();
@@ -113,10 +123,10 @@ public class BossWaveSpawner : MonoBehaviour
                     controller.onFillComplete.AddListener(() =>
                     {
                         // 공통 효과 한 번만 실행
-                        if (!effectPlayed && attackBehaviorPrefab != null)
+                        if (!effectPlayed && wave.attackBehaviorPrefab != null)
                         {
                             Vector3 pos = wave.effectSpawnPosition + Vector3.up * 0.5f;
-                            GameObject fx = Instantiate(attackBehaviorPrefab, pos, Quaternion.identity);
+                            GameObject fx = Instantiate(wave.attackBehaviorPrefab, pos, Quaternion.identity);
                             Destroy(fx, 1f);
                             effectPlayed = true;
                         }
@@ -143,11 +153,13 @@ public class BossWaveSpawner : MonoBehaviour
                                 {
                                     GameObject spawned = Instantiate(config.spawnAfterEffect, config.position, Quaternion.Euler(config.rotationEuler));
                                     Transform meshChild = spawned.transform.Find("Tile");
+                                    Transform hitBox = spawned.transform.Find("Hitbox");
                                     Transform meshBackgound = spawned.transform.Find("Background");
                                     Vector3 adjustedScale = new Vector3(config.scale.x, config.scale.z, 1);
                                     if (meshChild != null && meshBackgound != null)
                                     {
                                         meshChild.localScale = adjustedScale;
+                                        hitBox.localScale = adjustedScale;
                                         meshBackgound.localScale = adjustedScale;
                                     }
                                     else
@@ -169,29 +181,36 @@ public class BossWaveSpawner : MonoBehaviour
                                     GameObject rotationTarget = GameObject.Find("Boss");
                                     if (rotationTarget != null)
                                     {
-                                        GameObject beam = Instantiate(config.lazerBeamPrefab);
+                                        float direction = config.lazerRotateClockwise ? 1f : -1f;
+                                        for (int i = 0; i < config.lazerShotCount; i++)
+                                        {
+                                            float angleOffset = direction * config.lazerShotAngleGap * i;
 
-                                        // Boss에 자식으로 붙이기
-                                        beam.transform.SetParent(rotationTarget.transform);
+                                            GameObject beam = Instantiate(config.lazerBeamPrefab);
+                                            beam.transform.SetParent(rotationTarget.transform);
+                                            beam.transform.localPosition = config.lazerBeamSpawnPosition;
 
-                                        // 원하는 상대 위치/회전/스케일 적용 (local 기준)
-                                        beam.transform.localPosition = config.lazerBeamSpawnPosition;
-                                        beam.transform.localRotation = Quaternion.Euler(config.lazerBeamRotation);
-                                        beam.transform.localScale = config.lazerBeamScale;
+                                            // Y축 기준 회전만 적용
+                                            Vector3 rotation = config.lazerBeamRotation + new Vector3(0f, angleOffset, 0f);
+                                            beam.transform.localRotation = Quaternion.Euler(rotation);
+                                            beam.transform.localScale = config.lazerBeamScale;
 
-                                        Destroy(beam, 4f);
+                                            Destroy(beam, 4f);
+                                        }
                                     }
                                 }
 
                                 GameObject rotatingTarget = GameObject.Find("Boss");        // 회전 및 사운드 재생
                                 if (rotatingTarget != null)
                                 {
+                                    float direction = config.lazerRotateClockwise ? 1f : -1f;
+
                                     StartCoroutine(RotateAfterWarning(
                                         rotatingTarget.transform,
-                                        4f,           // 1단계: -180도 회전 시간
-                                        -180f,        // 1단계: Y축 -180도
-                                        1f,           // 2단계: 복귀 회전 시간
-                                        90f,          // 2단계: 다시 +90도 회전
+                                        config.lazerRotateDuration,
+                                        direction * config.lazerRotateAngle,
+                                        1f,
+                                        0f,
                                         config.lazerSound,
                                         config.lazerReadyEffectPosition
                                     ));
@@ -248,41 +267,38 @@ public class BossWaveSpawner : MonoBehaviour
             Destroy(readyFx, effectDuration);
         }
     }
-    private IEnumerator RotateAfterWarning(Transform target, float firstDuration, float firstYRotation, float secondDuration, float secondYRotation, AudioClip sound, Vector3 soundPosition)
+    private IEnumerator RotateAfterWarning(Transform target, float firstDuration, float firstYRotation, float secondDuration, float dummyUnused, AudioClip sound, Vector3 soundPosition)
     {
-        Quaternion from = target.rotation;
-        Quaternion to = Quaternion.Euler(from.eulerAngles + new Vector3(0, firstYRotation, 0));
+        float startY = target.rotation.eulerAngles.y;
+        if (startY > 180f) startY -= 360f; // -180 ~ 180 범위로 정규화
 
-        // 1단계 회전 시작
+        Quaternion from = Quaternion.Euler(0f, startY, 0f);
+        Quaternion to = Quaternion.Euler(0f, startY + firstYRotation, 0f);
+
+        // 사운드 재생
         if (sound != null)
-        {
             AudioSource.PlayClipAtPoint(sound, soundPosition);
-        }
 
-        float time = 0f;
-        while (time < firstDuration)
+        float t = 0f;
+        while (t < firstDuration)
         {
-            target.rotation = Quaternion.Lerp(from, to, time / firstDuration);
-            time += Time.deltaTime;
+            target.rotation = Quaternion.Lerp(from, to, t / firstDuration);
+            t += Time.deltaTime;
             yield return null;
         }
         target.rotation = to;
 
-        // 잠시 대기
-        if (sound != null)
-        {
-            yield return new WaitForSeconds(0.3f);
-        }
+        yield return new WaitForSeconds(0.3f);
 
-        // 2단계: 다시 +90도 회전
+        // 항상 절대 -180도로 복귀
+        Quaternion returnTo = Quaternion.Euler(0f, -180f, 0f);
         Quaternion returnFrom = target.rotation;
-        Quaternion returnTo = Quaternion.Euler(returnFrom.eulerAngles + new Vector3(0, secondYRotation, 0));
 
-        float time2 = 0f;
-        while (time2 < secondDuration)
+        float t2 = 0f;
+        while (t2 < secondDuration)
         {
-            target.rotation = Quaternion.Lerp(returnFrom, returnTo, time2 / secondDuration);
-            time2 += Time.deltaTime;
+            target.rotation = Quaternion.Lerp(returnFrom, returnTo, t2 / secondDuration);
+            t2 += Time.deltaTime;
             yield return null;
         }
         target.rotation = returnTo;
@@ -307,7 +323,8 @@ public class BossWaveSpawner : MonoBehaviour
                 }
 
                 StartCoroutine(PlayMeteorEffectAfterDelay(config, config.position));
-                Destroy(meteor, 0.5f);
+                Destroy(meteor, 0.2f);
+                
 
                 yield return new WaitForSeconds(interval);
             }

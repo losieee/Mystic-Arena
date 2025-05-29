@@ -611,59 +611,6 @@ Transform:
   - {fileID: 1488950824}
   m_Father: {fileID: 1695480884}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &284138344
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 284138346}
-  - component: {fileID: 284138345}
-  m_Layer: 0
-  m_Name: HitPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &284138345
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284138344}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &284138346
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284138344}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.96, y: 3.54, z: -33.62}
-  m_LocalScale: {x: 6.271725, y: 8.090112, z: 22.704}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &288022241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,6 +1134,7 @@ Transform:
   - {fileID: 846425793}
   - {fileID: 860377294}
   - {fileID: 1664932132}
+  - {fileID: 1028338303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &446001422
@@ -1642,8 +1590,8 @@ Transform:
   m_GameObject: {fileID: 481380819}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -39.91, y: 0, z: -31.35}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalPosition: {x: -42.8, y: 0, z: -28.6}
+  m_LocalScale: {x: 7.7476, y: 7.7476, z: 1.9369}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -8089,7 +8037,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f25aa8b04bf7aa34ead44b637453f19b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackBehaviorPrefab: {fileID: 4535006216103734310, guid: 98c4704d0fd7211449bcf5c451095a60, type: 3}
   warningAreaPrefab: {fileID: 8945215519047668945, guid: 02166c54a705bfc4e85cc4c3173688df, type: 3}
   waveSequence:
   - warnings:
@@ -8111,6 +8058,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8135,6 +8087,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8159,6 +8116,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8183,6 +8145,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8191,6 +8158,7 @@ MonoBehaviour:
       meteorEffectScale: {x: 0, y: 0, z: 0}
     waitAfterWave: 1.5
     effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
+    attackBehaviorPrefab: {fileID: 4535006216103734310, guid: 98c4704d0fd7211449bcf5c451095a60, type: 3}
   - warnings:
     - attackType: 0
       position: {x: -23.37, y: 0.0001, z: -24.3709}
@@ -8210,6 +8178,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8234,6 +8207,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8258,6 +8236,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8282,6 +8265,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8290,6 +8278,7 @@ MonoBehaviour:
       meteorEffectScale: {x: 0, y: 0, z: 0}
     waitAfterWave: 1.5
     effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
+    attackBehaviorPrefab: {fileID: 4535006216103734310, guid: 98c4704d0fd7211449bcf5c451095a60, type: 3}
   - warnings:
     - attackType: 0
       position: {x: -18.38, y: 0.0001, z: -21.03}
@@ -8309,6 +8298,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8333,6 +8327,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8357,6 +8356,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8381,6 +8385,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8389,6 +8398,7 @@ MonoBehaviour:
       meteorEffectScale: {x: 0, y: 0, z: 0}
     waitAfterWave: 2.5
     effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
+    attackBehaviorPrefab: {fileID: 4535006216103734310, guid: 98c4704d0fd7211449bcf5c451095a60, type: 3}
   - warnings:
     - attackType: 1
       position: {x: -17.64, y: 0.0001, z: -14.56}
@@ -8408,6 +8418,11 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0.244, z: 0}
       lazerBeamScale: {x: 1, y: 1, z: 1}
       lazerBeamRotation: {x: 0, y: 180, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 4
+      lazerRotateAngle: -180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 0}
       meteorEffectPrefab: {fileID: 0}
       meteorSound: {fileID: 0}
@@ -8416,6 +8431,7 @@ MonoBehaviour:
       meteorEffectScale: {x: 0, y: 0, z: 0}
     waitAfterWave: 6
     effectSpawnPosition: {x: -0.77, y: 0, z: -14.57}
+    attackBehaviorPrefab: {fileID: 0}
   - warnings:
     - attackType: 2
       position: {x: -8.3, y: 0.0001, z: -33.8}
@@ -8435,9 +8451,14 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
       meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
-      meteorSound: {fileID: 0}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
       meteorSpawnPosition: {x: 0, y: 0, z: 0}
       meteorScale: {x: 4, y: 4, z: 4}
       meteorEffectScale: {x: 1.5, y: 1.5, z: 1.5}
@@ -8459,9 +8480,14 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
       meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
-      meteorSound: {fileID: 0}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
       meteorSpawnPosition: {x: 0, y: 0, z: 0}
       meteorScale: {x: 4, y: 4, z: 4}
       meteorEffectScale: {x: 1.5, y: 1.5, z: 1.5}
@@ -8483,9 +8509,14 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
       meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
-      meteorSound: {fileID: 0}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
       meteorSpawnPosition: {x: 0, y: 0, z: 0}
       meteorScale: {x: 4, y: 4, z: 4}
       meteorEffectScale: {x: 1.5, y: 1.5, z: 1.5}
@@ -8507,9 +8538,14 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
       meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
-      meteorSound: {fileID: 0}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
       meteorSpawnPosition: {x: 0, y: 0, z: 0}
       meteorScale: {x: 4, y: 4, z: 4}
       meteorEffectScale: {x: 1.5, y: 1.5, z: 1.5}
@@ -8531,9 +8567,14 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
       meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
-      meteorSound: {fileID: 0}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
       meteorSpawnPosition: {x: 0, y: 0, z: 0}
       meteorScale: {x: 4, y: 4, z: 4}
       meteorEffectScale: {x: 1.5, y: 1.5, z: 1.5}
@@ -8555,14 +8596,819 @@ MonoBehaviour:
       lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
       lazerBeamScale: {x: 0, y: 0, z: 0}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
       meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
       meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
-      meteorSound: {fileID: 0}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
       meteorSpawnPosition: {x: 0, y: 0, z: 0}
       meteorScale: {x: 4, y: 4, z: 4}
       meteorEffectScale: {x: 1.5, y: 1.5, z: 1.5}
-    waitAfterWave: 0.02
+    waitAfterWave: 3
     effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
+    attackBehaviorPrefab: {fileID: 0}
+  - warnings:
+    - attackType: 0
+      position: {x: -22.31, y: 0.0001, z: -34.32}
+      scale: {x: 9.084401, y: 1, z: 9.084401}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: -4.1, y: 0.0001, z: -34.35}
+      scale: {x: 9.084401, y: 1, z: 9.084401}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 14.09, y: 0.0001, z: -34.35}
+      scale: {x: 9.084401, y: 1, z: 9.084401}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: -13.21, y: 0.0001, z: -26.1863}
+      scale: {x: 9.084401, y: 1, z: 7.212106}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 4.99, y: 0.0001, z: -26.1863}
+      scale: {x: 9.084401, y: 1, z: 7.212106}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 22.7029, y: 0.0001, z: -26.1863}
+      scale: {x: 8.130539, y: 1, z: 7.212106}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: -22.33, y: 0.0001, z: -18.04}
+      scale: {x: 9.084401, y: 1, z: 9.084401}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 14.09, y: 0.0001, z: -18.04}
+      scale: {x: 9.084401, y: 1, z: 9.084401}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: -13.21, y: 0.0001, z: -11.6878}
+      scale: {x: 9.084401, y: 1, z: 3.636344}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 22.7029, y: 0.0001, z: -11.6402}
+      scale: {x: 8.130539, y: 1, z: 3.692341}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 8.0711, y: 0.0001, z: -11.6322}
+      scale: {x: 2.978225, y: 1, z: 3.713748}
+      rotationEuler: {x: 0, y: 180, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 1
+      lazerRotateDuration: 1.5
+      lazerRotateAngle: 180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    waitAfterWave: 2
+    effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
+    attackBehaviorPrefab: {fileID: 4535006216103734310, guid: 98c4704d0fd7211449bcf5c451095a60, type: 3}
+  - warnings:
+    - attackType: 0
+      position: {x: -17.63, y: 0.0001, z: -17.31}
+      scale: {x: 11.38604, y: 1, z: 17.26204}
+      rotationEuler: {x: 0, y: 85.391, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: -21.66, y: 0.0001, z: -26.37}
+      scale: {x: 4.025753, y: 1, z: 9.265601}
+      rotationEuler: {x: 0, y: -98.752, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: -14.77, y: 0.0001, z: -30.32}
+      scale: {x: 4.025753, y: 1, z: 19.51081}
+      rotationEuler: {x: 0, y: 43.867, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: -3.58, y: 0.0001, z: -30.95}
+      scale: {x: 5.757229, y: 1, z: 19.51081}
+      rotationEuler: {x: 0, y: -116.875, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 7.25, y: 0.0001, z: -35.21}
+      scale: {x: 5.681545, y: 1, z: 9.265601}
+      rotationEuler: {x: 0, y: -98.752, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 12.64, y: 0.0001, z: -30.11}
+      scale: {x: 4.025753, y: 1, z: 19.51081}
+      rotationEuler: {x: 0, y: -41.346, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 13.91, y: 0.0001, z: -17.45}
+      scale: {x: 5.937986, y: 1, z: 12.67305}
+      rotationEuler: {x: 0, y: 14.482, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 21.45, y: 0.0001, z: -29.51}
+      scale: {x: 4.025753, y: 1, z: 9.265601}
+      rotationEuler: {x: 0, y: -98.752, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    - attackType: 0
+      position: {x: 21.26, y: 0.0001, z: -19.66}
+      scale: {x: 4.025753, y: 1, z: 12.67305}
+      rotationEuler: {x: 0, y: -140.87, z: 0}
+      warningDuration: 1.5
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
+      attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    waitAfterWave: 2
+    effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
+    attackBehaviorPrefab: {fileID: 4535006216103734310, guid: 98c4704d0fd7211449bcf5c451095a60, type: 3}
+  - warnings:
+    - attackType: 1
+      position: {x: 16.7037, y: 0.0001, z: -14.56}
+      scale: {x: 9.492996, y: 1, z: 20.27778}
+      rotationEuler: {x: 0, y: -270, z: 0}
+      warningDuration: 3.7
+      fillPattern: 0
+      spawnAfterEffect: {fileID: 0}
+      attackEffectPrefab: {fileID: 0}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 5.22, y: 2.07, z: -14.57}
+      lazerReadyEffectRotation: {x: 0, y: 90, z: 0}
+      lazerReadyEffectPrefab: {fileID: 7435820690753171035, guid: e87b8ffc16fc9154c973f27d0fe8d8d4, type: 3}
+      lazerBeamPrefab: {fileID: 2540417558773106788, guid: 3fdd30d0b52b3864e92fe3606bf66eff, type: 3}
+      lazerReadySound: {fileID: 8300000, guid: 0ee8acf809a13a5408178ef10ed11547, type: 3}
+      lazerSound: {fileID: 8300000, guid: fe6ac9a69f5badf48853d9e99e13083c, type: 3}
+      lazerBeamSpawnPosition: {x: 0, y: 0.244, z: 0}
+      lazerBeamScale: {x: 1, y: 1, z: 1}
+      lazerBeamRotation: {x: 0, y: 180, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 4
+      lazerRotateAngle: -180
+      lazerShotCount: 1
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 0}
+      meteorEffectPrefab: {fileID: 0}
+      meteorSound: {fileID: 0}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 0, y: 0, z: 0}
+      meteorEffectScale: {x: 0, y: 0, z: 0}
+    waitAfterWave: 5
+    effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
+    attackBehaviorPrefab: {fileID: 0}
+  - warnings:
+    - attackType: 2
+      position: {x: -21.62, y: 0.0001, z: -15.78}
+      scale: {x: 7.74, y: 1, z: 7.74}
+      rotationEuler: {x: 0, y: 0, z: 0}
+      warningDuration: 0.5
+      fillPattern: 1
+      spawnAfterEffect: {fileID: 0}
+      attackEffectPrefab: {fileID: 0}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
+      meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 7.74, y: 7.74, z: 7.74}
+      meteorEffectScale: {x: 2, y: 2, z: 2}
+    - attackType: 2
+      position: {x: -21.25, y: 0.0001, z: -33.52}
+      scale: {x: 7.74, y: 1, z: 7.74}
+      rotationEuler: {x: 0, y: 0, z: 0}
+      warningDuration: 0.5
+      fillPattern: 1
+      spawnAfterEffect: {fileID: 0}
+      attackEffectPrefab: {fileID: 0}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
+      meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 7.74, y: 7.74, z: 7.74}
+      meteorEffectScale: {x: 2, y: 2, z: 2}
+    - attackType: 2
+      position: {x: -8.02, y: 0.0001, z: -27.88}
+      scale: {x: 7.74, y: 1, z: 7.74}
+      rotationEuler: {x: 0, y: 0, z: 0}
+      warningDuration: 0.5
+      fillPattern: 1
+      spawnAfterEffect: {fileID: 0}
+      attackEffectPrefab: {fileID: 0}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
+      meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 7.74, y: 7.74, z: 7.74}
+      meteorEffectScale: {x: 2, y: 2, z: 2}
+    - attackType: 2
+      position: {x: 5.49, y: 0.0001, z: -33.73}
+      scale: {x: 7.74, y: 1, z: 7.74}
+      rotationEuler: {x: 0, y: 0, z: 0}
+      warningDuration: 0.5
+      fillPattern: 1
+      spawnAfterEffect: {fileID: 0}
+      attackEffectPrefab: {fileID: 0}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
+      meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 7.74, y: 7.74, z: 7.74}
+      meteorEffectScale: {x: 2, y: 2, z: 2}
+    - attackType: 2
+      position: {x: 12.06, y: 0.0001, z: -17.34}
+      scale: {x: 7.74, y: 1, z: 7.74}
+      rotationEuler: {x: 0, y: 0, z: 0}
+      warningDuration: 0.5
+      fillPattern: 1
+      spawnAfterEffect: {fileID: 0}
+      attackEffectPrefab: {fileID: 0}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
+      meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 7.74, y: 7.74, z: 7.74}
+      meteorEffectScale: {x: 2, y: 2, z: 2}
+    - attackType: 2
+      position: {x: 20.02, y: 0.0001, z: -29.33}
+      scale: {x: 7.74, y: 1, z: 7.74}
+      rotationEuler: {x: 0, y: 0, z: 0}
+      warningDuration: 0.5
+      fillPattern: 1
+      spawnAfterEffect: {fileID: 0}
+      attackEffectPrefab: {fileID: 0}
+      bottomSound: {fileID: 0}
+      lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
+      lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
+      lazerReadyEffectPrefab: {fileID: 0}
+      lazerBeamPrefab: {fileID: 0}
+      lazerReadySound: {fileID: 0}
+      lazerSound: {fileID: 0}
+      lazerBeamSpawnPosition: {x: 0, y: 0, z: 0}
+      lazerBeamScale: {x: 0, y: 0, z: 0}
+      lazerBeamRotation: {x: 0, y: 0, z: 0}
+      lazerRotateClockwise: 0
+      lazerRotateDuration: 0
+      lazerRotateAngle: 0
+      lazerShotCount: 0
+      lazerShotAngleGap: 0
+      meteorPrefab: {fileID: 986557393276705698, guid: c3843c17267164f49afc9137de135259, type: 3}
+      meteorEffectPrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
+      meteorSound: {fileID: 8300000, guid: 2da982990b349a941bcd76b2e76c703e, type: 3}
+      meteorSpawnPosition: {x: 0, y: 0, z: 0}
+      meteorScale: {x: 7.74, y: 7.74, z: 7.74}
+      meteorEffectScale: {x: 2, y: 2, z: 2}
+    waitAfterWave: 1.5
+    effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
+    attackBehaviorPrefab: {fileID: 0}
 --- !u!1 &860377293
 GameObject:
   m_ObjectHideFlags: 0
@@ -9163,6 +10009,89 @@ Transform:
   - {fileID: 1418104980}
   m_Father: {fileID: 1695480884}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1028338302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1028338303}
+  - component: {fileID: 1028338304}
+  - component: {fileID: 1028338305}
+  m_Layer: 12
+  m_Name: HitBox
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1028338303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028338302}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.628, z: 0}
+  m_LocalScale: {x: 0.21334, y: 1.2759624, z: 0.21334}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 384060967}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1028338304
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028338302}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
+--- !u!136 &1028338305
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028338302}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1028601427
 GameObject:
   m_ObjectHideFlags: 0
@@ -11479,9 +12408,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1603941101}
   - component: {fileID: 1603941102}
+  - component: {fileID: 1603941103}
   m_Layer: 0
   m_Name: body_all
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11603,6 +12533,33 @@ SkinnedMeshRenderer:
     m_Center: {x: 2.3283064e-10, y: -0.00063195266, z: 0.00037572545}
     m_Extent: {x: 0.006754591, y: 0.00635686, z: 0.0022903546}
   m_DirtyAABB: 0
+--- !u!54 &1603941103
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603941100}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!1 &1603979041
 GameObject:
   m_ObjectHideFlags: 0
@@ -12788,4 +13745,3 @@ SceneRoots:
   - {fileID: 1492456887}
   - {fileID: 481380823}
   - {fileID: 848356119}
-  - {fileID: 284138346}
