@@ -27,12 +27,16 @@ public class BossWaveSpawner : MonoBehaviour
         public Vector3 rotationEuler;
         public float warningDuration = 2f;
         public FillPatternType fillPattern = FillPatternType.FromEdge;
+        [Header("Integer")]
+        public bool spawnInteger = false;
+        public GameObject integerPrefab;
 
         // Bottom 전용
         [Header("Bottom")]
         public GameObject spawnAfterEffect;
         public GameObject attackEffectPrefab;
         public AudioClip bottomSound;
+        public float bottomDestroyTime = 0.5f;
 
         // Lazer 전용
         [Header("Lazer")]
@@ -52,6 +56,7 @@ public class BossWaveSpawner : MonoBehaviour
         public float lazerShotAngleGap = 0f;        //레이저 간 간격
         public float lazerBeamDuration = 4f;        //레이저 지속시간
         public float lazerSpeed = 1f;               //레이저 회전 속도
+        public float lazerSoundDuration = 4f;          //레이저 사운드 재생 길이
 
         // Meteor 전용
         [Header("Meteor")]
@@ -109,11 +114,9 @@ public class BossWaveSpawner : MonoBehaviour
                         StartCoroutine(RotateThenSpawnReadyEffect(rotatingTarget.transform, from, to, rotateDuration, effectDuration, config));
                     }
                 }
-                if (config.attackType == AttackType.Meteor && !meteorSpawnStarted)
+                if (config.attackType == AttackType.Meteor)
                 {
-                    meteorSpawnStarted = true;
-                    StartCoroutine(SpawnMeteorConfigsSequentially(wave.warnings, 0.5f));
-                    meteorSpawnStarted = false;
+                    meteorConfigs.Add(config);
                 }
 
                 FillController controller = instance.GetComponentInChildren<FillController>();
@@ -168,15 +171,22 @@ public class BossWaveSpawner : MonoBehaviour
                                     {
                                         spawned.transform.localScale = adjustedScale;
                                     }
-                                    StartCoroutine(FadeOutAndDestroy(spawned, 0.5f));
+                                    StartCoroutine(FadeOutAndDestroy(spawned, config.bottomDestroyTime));
                                 }
                                 break;
 
                             case AttackType.Laser:
-                                if (config.lazerSound != null)
-                                {
-                                    AudioSource.PlayClipAtPoint(config.lazerSound, config.lazerReadyEffectPosition);
-                                }
+                                GameObject audioObj = new GameObject("TempAudio_LaserSound");
+                                audioObj.transform.position = config.lazerReadyEffectPosition;
+
+                                AudioSource audioSource = audioObj.AddComponent<AudioSource>();
+                                audioSource.clip = config.lazerSound;
+                                audioSource.volume = 0.03f;
+                                audioSource.loop = true;
+
+                                audioSource.Play();
+
+                                Destroy(audioObj, config.lazerSoundDuration);
 
                                 if (config.lazerBeamPrefab != null)
                                 {
@@ -222,8 +232,22 @@ public class BossWaveSpawner : MonoBehaviour
                                 break;
 
                             case AttackType.Meteor:
-                                // 메테오 관련
+                                //메테오 관련
                                 break;
+                        }
+                        // Integer Drop 처리
+                        if (config.spawnInteger && config.integerPrefab != null)
+                        {
+                            Vector3 dropPosition = config.position + new Vector3(0, 6f, 0);
+                            GameObject integerObj = Instantiate(config.integerPrefab, dropPosition, Quaternion.identity);
+
+                            // 떨어지는 효과
+                            Rigidbody rb = integerObj.GetComponent<Rigidbody>();
+                            if (rb != null)
+                            {
+                                rb.useGravity = true;
+                                rb.AddForce(Vector3.down * 100f);  // 원하는 힘 조절
+                            }
                         }
                     });
 
@@ -231,13 +255,16 @@ public class BossWaveSpawner : MonoBehaviour
                 }
             }
 
-            StartCoroutine(SpawnMeteorConfigsSequentially(meteorConfigs.ToArray(), 0.5f));
-
             float maxDuration = 0f;
             foreach (var config in wave.warnings)
                 maxDuration = Mathf.Max(maxDuration, config.warningDuration);
 
-            yield return new WaitForSeconds(maxDuration + wave.waitAfterWave);
+            yield return new WaitForSeconds(maxDuration);
+            if (meteorConfigs.Count > 0)
+            {
+                yield return StartCoroutine(SpawnMeteorConfigsSequentially(meteorConfigs.ToArray(), 0.4f));
+            }
+            yield return new WaitForSeconds(wave.waitAfterWave);
         }
     }
 
@@ -271,16 +298,37 @@ public class BossWaveSpawner : MonoBehaviour
             Destroy(readyFx, effectDuration);
         }
     }
+    private IEnumerator SpawnMeteorConfigsSequentially(WarningConfig[] configs, float interval)
+    {
+        foreach (var config in configs)
+        {
+            if (config.attackType == AttackType.Meteor)
+            {
+                Vector3 spawnPos = config.position + Vector3.up * 15f;
+
+                GameObject meteor = Instantiate(config.meteorPrefab, spawnPos, Quaternion.identity);
+                meteor.transform.localScale = config.meteorScale;
+
+                Rigidbody rb = meteor.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.useGravity = true;
+                    rb.AddForce(Vector3.down * 5000f);
+                }
+
+                StartCoroutine(PlayMeteorEffectAfterDelay(config, config.position));
+                Destroy(meteor, 0.2f);
+
+                yield return new WaitForSeconds(interval);
+            }
+        }
+    }
     private IEnumerator RotateAfterWarning(Transform target, float firstDuration, float firstYRotation, float secondDuration, float dummyUnused, AudioClip sound, Vector3 soundPosition)
     {
         float startY = target.rotation.eulerAngles.y;
         if (startY > 180f) startY -= 360f; // -180 ~ 180 범위로 정규화
 
         float targetY = startY + firstYRotation;
-
-        // 사운드 재생
-        if (sound != null)
-            AudioSource.PlayClipAtPoint(sound, soundPosition);
 
         float t = 0f;
         while (t < firstDuration)
@@ -311,33 +359,6 @@ public class BossWaveSpawner : MonoBehaviour
         }
         target.rotation = Quaternion.Euler(0f, returnTargetY, 0f);
     }
-
-    private IEnumerator SpawnMeteorConfigsSequentially(WarningConfig[] configs, float interval)
-    {
-        foreach (var config in configs)
-        {
-            if (config.attackType == AttackType.Meteor)
-            {
-                Vector3 spawnPos = config.position + Vector3.up * 15f;
-
-                GameObject meteor = Instantiate(config.meteorPrefab, spawnPos, Quaternion.identity);
-                meteor.transform.localScale = config.meteorScale;
-
-                Rigidbody rb = meteor.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.useGravity = true;
-                    rb.AddForce(Vector3.down * 5000f);
-                }
-
-                StartCoroutine(PlayMeteorEffectAfterDelay(config, config.position));
-                Destroy(meteor, 0.2f);
-                
-
-                yield return new WaitForSeconds(interval);
-            }
-        }
-    }
     private IEnumerator PlayMeteorEffectAfterDelay(WarningConfig config, Vector3 position)
     {
         yield return new WaitForSeconds(0.1f);
@@ -345,7 +366,17 @@ public class BossWaveSpawner : MonoBehaviour
         // 사운드
         if (config.meteorSound != null)
         {
-            AudioSource.PlayClipAtPoint(config.meteorSound, position);
+            GameObject audioObj = new GameObject("TempAudio_MeteorSound");
+            audioObj.transform.position = position;
+
+            AudioSource audioSource = audioObj.AddComponent<AudioSource>();
+            audioSource.clip = config.meteorSound;
+            audioSource.volume = 0.005f;
+            audioSource.loop = false;
+
+            audioSource.Play();
+
+            Destroy(audioObj, config.meteorSound.length);
         }
 
         // 이펙트
@@ -353,7 +384,7 @@ public class BossWaveSpawner : MonoBehaviour
         {
             GameObject effect = Instantiate(config.meteorEffectPrefab, position, Quaternion.identity);
             effect.transform.localScale = config.meteorEffectScale;
-            Destroy(effect, 0.7f); // 이펙트도 일정 시간 뒤 파괴
+            Destroy(effect, 0.7f);
         }
     }
 

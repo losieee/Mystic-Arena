@@ -3,9 +3,14 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEditor.TerrainTools;
+using UnityEngine.UI;
 
 public class Fight_Demo : MonoBehaviour
 {
+    [Header("HP")]
+    public float maxHP = 100f;
+    public float currentHP;
+
     [Header("Skill Handlers")]
     [SerializeField] private SkillHandler qSkillHandler;
     [SerializeField] private SkillHandler eSkillHandler;
@@ -18,6 +23,8 @@ public class Fight_Demo : MonoBehaviour
     public Animator animator;
     public Transform swordTransform;
     public SkillHandler skillHandler;
+    public Image hpBarImage;
+    public Image infoHpBarImage;
 
     private bool canMove = true;
     private bool isMove = false;
@@ -58,6 +65,31 @@ public class Fight_Demo : MonoBehaviour
         shiftSkillHandler.onSkillUsed.AddListener(() => StartCoroutine(DashForward()));
     }
 
+    private void Start()
+    {
+        currentHP = maxHP;
+        UpdateHPUI();
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (isInvincible)
+        {
+            return;
+        }
+
+        currentHP -= damage;
+        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        UpdateHPUI();
+    }
+    private void UpdateHPUI()
+    {
+        if (hpBarImage != null)
+        {
+            hpBarImage.fillAmount = currentHP / maxHP;
+            infoHpBarImage.fillAmount = currentHP / maxHP;
+        }
+    }
     private void Update()
     {
         HandleComboInput();

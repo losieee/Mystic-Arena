@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - EnemySpawn
   - Weapon
+  - Boss
   layers:
   - Default
   - TransparentFX
