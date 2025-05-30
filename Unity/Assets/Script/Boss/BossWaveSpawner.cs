@@ -50,6 +50,8 @@ public class BossWaveSpawner : MonoBehaviour
         public float lazerRotateAngle = 180f;       //회전할 각도
         public int lazerShotCount = 1;              //레이저 수
         public float lazerShotAngleGap = 0f;        //레이저 간 간격
+        public float lazerBeamDuration = 4f;        //레이저 지속시간
+        public float lazerSpeed = 1f;               //레이저 회전 속도
 
         // Meteor 전용
         [Header("Meteor")]
@@ -166,7 +168,7 @@ public class BossWaveSpawner : MonoBehaviour
                                     {
                                         spawned.transform.localScale = adjustedScale;
                                     }
-                                    StartCoroutine(FadeOutAndDestroy(spawned, 1f));
+                                    StartCoroutine(FadeOutAndDestroy(spawned, 0.5f));
                                 }
                                 break;
 
@@ -181,39 +183,41 @@ public class BossWaveSpawner : MonoBehaviour
                                     GameObject rotationTarget = GameObject.Find("Boss");
                                     if (rotationTarget != null)
                                     {
-                                        float direction = config.lazerRotateClockwise ? 1f : -1f;
-                                        for (int i = 0; i < config.lazerShotCount; i++)
+                                        float direction = config.lazerRotateClockwise ? 1f : -1f;   //어느 방향으로 회전할건지 (lazerRotateClockwise 선택 유무)
+                                        float rotateDuration = config.lazerRotateDuration * config.lazerSpeed;  // 회전 속도 적용한 회전 시간 계산
+                                        float beamDuration = rotateDuration;            // 레이저 지속 시간, 회전 시간과 동기화
+
+                                        // 레이저 생성
+                                        if (config.lazerBeamPrefab != null)
                                         {
-                                            float angleOffset = direction * config.lazerShotAngleGap * i;
+                                            for (int i = 0; i < config.lazerShotCount; i++)
+                                            {
+                                                float angleOffset = direction * config.lazerShotAngleGap * i;
 
-                                            GameObject beam = Instantiate(config.lazerBeamPrefab);
-                                            beam.transform.SetParent(rotationTarget.transform);
-                                            beam.transform.localPosition = config.lazerBeamSpawnPosition;
+                                                GameObject beam = Instantiate(config.lazerBeamPrefab);
+                                                beam.transform.SetParent(rotationTarget.transform);
+                                                beam.transform.localPosition = config.lazerBeamSpawnPosition;
 
-                                            // Y축 기준 회전만 적용
-                                            Vector3 rotation = config.lazerBeamRotation + new Vector3(0f, angleOffset, 0f);
-                                            beam.transform.localRotation = Quaternion.Euler(rotation);
-                                            beam.transform.localScale = config.lazerBeamScale;
+                                                // Y축 기준 회전만 적용
+                                                Vector3 rotation = config.lazerBeamRotation + new Vector3(0f, angleOffset, 0f);
+                                                beam.transform.localRotation = Quaternion.Euler(rotation);
+                                                beam.transform.localScale = config.lazerBeamScale;
 
-                                            Destroy(beam, 4f);
+                                                Destroy(beam, beamDuration);
+                                            }
                                         }
+
+                                        // 회전
+                                        StartCoroutine(RotateAfterWarning(
+                                            rotationTarget.transform,
+                                            rotateDuration,
+                                            direction * config.lazerRotateAngle,
+                                            1f,
+                                            0f,
+                                            config.lazerSound,
+                                            config.lazerReadyEffectPosition
+                                        ));
                                     }
-                                }
-
-                                GameObject rotatingTarget = GameObject.Find("Boss");        // 회전 및 사운드 재생
-                                if (rotatingTarget != null)
-                                {
-                                    float direction = config.lazerRotateClockwise ? 1f : -1f;
-
-                                    StartCoroutine(RotateAfterWarning(
-                                        rotatingTarget.transform,
-                                        config.lazerRotateDuration,
-                                        direction * config.lazerRotateAngle,
-                                        1f,
-                                        0f,
-                                        config.lazerSound,
-                                        config.lazerReadyEffectPosition
-                                    ));
                                 }
                                 break;
 
@@ -272,8 +276,7 @@ public class BossWaveSpawner : MonoBehaviour
         float startY = target.rotation.eulerAngles.y;
         if (startY > 180f) startY -= 360f; // -180 ~ 180 범위로 정규화
 
-        Quaternion from = Quaternion.Euler(0f, startY, 0f);
-        Quaternion to = Quaternion.Euler(0f, startY + firstYRotation, 0f);
+        float targetY = startY + firstYRotation;
 
         // 사운드 재생
         if (sound != null)
@@ -282,26 +285,31 @@ public class BossWaveSpawner : MonoBehaviour
         float t = 0f;
         while (t < firstDuration)
         {
-            target.rotation = Quaternion.Lerp(from, to, t / firstDuration);
+            float currentY = Mathf.Lerp(startY, targetY, t / firstDuration);
+            target.rotation = Quaternion.Euler(0f, currentY, 0f);
             t += Time.deltaTime;
             yield return null;
         }
-        target.rotation = to;
+        target.rotation = Quaternion.Euler(0f, targetY, 0f);
 
         yield return new WaitForSeconds(0.3f);
 
         // 항상 절대 -180도로 복귀
-        Quaternion returnTo = Quaternion.Euler(0f, -180f, 0f);
-        Quaternion returnFrom = target.rotation;
+        float returnStartY = target.rotation.eulerAngles.y;
+        if (returnStartY > 180f) returnStartY -= 360f;
+
+        float returnTargetY = -180f;
 
         float t2 = 0f;
         while (t2 < secondDuration)
         {
-            target.rotation = Quaternion.Lerp(returnFrom, returnTo, t2 / secondDuration);
+            float currentY = Mathf.LerpAngle(returnStartY, returnTargetY, t2 / secondDuration);
+            target.rotation = Quaternion.Euler(0f, currentY, 0f);
+
             t2 += Time.deltaTime;
             yield return null;
         }
-        target.rotation = returnTo;
+        target.rotation = Quaternion.Euler(0f, returnTargetY, 0f);
     }
 
     private IEnumerator SpawnMeteorConfigsSequentially(WarningConfig[] configs, float interval)
