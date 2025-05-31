@@ -54,6 +54,6 @@ public class WeaponDatabaseSO : ScriptableObject
     // 타입으로 아이템 필터링
     public List<WeaponSO> GetitemByType(WeaponType type)
     {
-        return weapons.FindAll(weapon => weapon.weapon_type == type);
+        return weapons.FindAll(weapon => weapon.WeapnType == type);
     }
 }

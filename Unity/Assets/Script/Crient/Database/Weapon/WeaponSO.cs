@@ -10,7 +10,7 @@ public class WeaponSO : ScriptableObject
     public int id;
     public string weaponName;
     public string weaponTypeString;
-    public WeaponType weapon_type;
+    public WeaponType WeapnType;
     public float baseDamage;
     public int dropStage;
     public string description;
@@ -18,7 +18,7 @@ public class WeaponSO : ScriptableObject
 
     public override string ToString()
     {
-        return $"[{id}] :  {weaponName}무기는 {weapon_type} 타입 입니다.";
+        return $"[{id}] :  {weaponName}무기는 {WeapnType} 타입 입니다.";
     }
 
     //public string DisplayName

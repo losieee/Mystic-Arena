@@ -18,7 +18,7 @@ public class WeaponData : MonoBehaviour
     public string weaponName;
     public string weaponTypeString;
     [NonSerialized]
-    public WeaponType weapon_type;
+    public WeaponType weaponType;
     public float baseDamage;
     public int dropStage;
     public string description;
@@ -27,13 +27,13 @@ public class WeaponData : MonoBehaviour
     {
         if (Enum.TryParse(weaponTypeString, out WeaponType parsedType))
         {
-            weapon_type = parsedType;
+            weaponType = parsedType;
         }
         else
         {
-            Debug.Log($"무기 '{weapon_type}'에 유효하지 않은 아이템 타입 : {weaponTypeString}");
+            Debug.Log($"무기 '{weaponType}'에 유효하지 않은 아이템 타입 : {weaponTypeString}");
             // 기본값 설정
-            weapon_type = WeaponType.Consumable;
+            weaponType = WeaponType.Consumable;
         }
     }
 }
