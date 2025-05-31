@@ -7,5 +7,6 @@ public class Integer : MonoBehaviour
     private void Start()
     {
         Destroy(gameObject, 5f);
+        Destroy(transform.parent.gameObject, 5f);
     }
 }

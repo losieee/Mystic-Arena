@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class BossWaveSpawner : MonoBehaviour
 {
     private bool effectPlayed = false;
+    private BossController boss;
     bool meteorSpawnStarted = false;
     public GameObject warningAreaPrefab;
     public WarningWave[] waveSequence;
@@ -78,19 +80,30 @@ public class BossWaveSpawner : MonoBehaviour
 
     private void Start()
     {
+        boss = GameObject.FindGameObjectWithTag("Boss")?.GetComponent<BossController>();
         StartCoroutine(SpawnWaveSequence());
     }
 
     private IEnumerator SpawnWaveSequence()
     {
+        BossController boss = GameObject.FindGameObjectWithTag("Boss")?.GetComponent<BossController>();
+
         foreach (WarningWave wave in waveSequence)
         {
+            if (boss == null || boss.currentHP <= 0)
+            if (boss == null || boss.currentHP <= 0)
+            {
+                yield break;
+            }
+
             effectPlayed = false;
 
             List<WarningConfig> meteorConfigs = new List<WarningConfig>();
-
+            int meteorIndex = 0;
             foreach (WarningConfig config in wave.warnings)
             {
+                int myMeteorIndex = meteorIndex;
+
                 GameObject instance = Instantiate(
                     warningAreaPrefab,
                     config.position,
@@ -103,7 +116,7 @@ public class BossWaveSpawner : MonoBehaviour
                     GameObject rotatingTarget = GameObject.Find("Boss");
                     if (rotatingTarget != null)
                     {
-                        float rotateDuration = 1.5f;         // 회전 시간
+                        float rotateDuration = 1.5f;         // 회전 시간s
                         float effectDuration = 2.2f;         // 이펙트 보여지는 시간
                         float totalWarningTime = rotateDuration + effectDuration;
 
@@ -115,7 +128,7 @@ public class BossWaveSpawner : MonoBehaviour
                 }
                 if (config.attackType == AttackType.Meteor)
                 {
-                    meteorConfigs.Add(config);
+                    meteorIndex++;
                 }
 
                 FillController controller = instance.GetComponentInChildren<FillController>();
@@ -136,117 +149,7 @@ public class BossWaveSpawner : MonoBehaviour
                         }
 
                         // 타입별 이펙트 처리
-                        switch (config.attackType)
-                        {
-                            case AttackType.Bottom:
-                                if (config.attackEffectPrefab != null)
-                                {
-                                    Vector3 spawnPos = config.position + Vector3.down * 0.5f;
-                                    GameObject attackFx = Instantiate(config.attackEffectPrefab, spawnPos, Quaternion.Euler(config.rotationEuler));
-                                    Vector3 originalScale = attackFx.transform.localScale;
-                                    attackFx.transform.localScale = new Vector3(config.scale.x / 1.5f, originalScale.y, config.scale.z / 1.5f);
-                                    Destroy(attackFx, 1f);
-                                }
-
-                                if (config.bottomSound != null)
-                                {
-                                    AudioSource.PlayClipAtPoint(config.bottomSound, config.position);
-                                }
-
-                                if (config.spawnAfterEffect != null)
-                                {
-                                    GameObject spawned = Instantiate(config.spawnAfterEffect, config.position, Quaternion.Euler(config.rotationEuler));
-                                    Transform meshChild = spawned.transform.Find("Tile");
-                                    Transform hitBox = spawned.transform.Find("Hitbox");
-                                    Transform meshBackgound = spawned.transform.Find("Background");
-                                    Vector3 adjustedScale = new Vector3(config.scale.x, config.scale.z, 1);
-                                    if (meshChild != null && meshBackgound != null)
-                                    {
-                                        meshChild.localScale = adjustedScale;
-                                        hitBox.localScale = adjustedScale;
-                                        meshBackgound.localScale = adjustedScale;
-                                    }
-                                    else
-                                    {
-                                        spawned.transform.localScale = adjustedScale;
-                                    }
-                                    StartCoroutine(FadeOutAndDestroy(spawned, config.bottomDestroyTime));
-                                }
-                                if (config.integerPrefab != null)
-                                {
-                                    Vector3 dropPosition = config.position + new Vector3(0, 6f, 0);
-                                    GameObject integerObj = Instantiate(config.integerPrefab, dropPosition, Quaternion.identity);
-
-                                    // 떨어지는 효과
-                                    Rigidbody rb = integerObj.GetComponent<Rigidbody>();
-                                    if (rb != null)
-                                    {
-                                        rb.useGravity = true;
-                                        rb.AddForce(Vector3.down * 100f);  // 원하는 힘 조절
-                                    }
-                                }
-                                break;
-
-                            case AttackType.Laser:
-                                GameObject audioObj = new GameObject("TempAudio_LaserSound");
-                                audioObj.transform.position = config.lazerReadyEffectPosition;
-
-                                AudioSource audioSource = audioObj.AddComponent<AudioSource>();
-                                audioSource.clip = config.lazerSound;
-                                audioSource.volume = 0.03f;
-                                audioSource.loop = true;
-
-                                audioSource.Play();
-
-                                Destroy(audioObj, config.lazerSoundDuration);
-
-                                if (config.lazerBeamPrefab != null)
-                                {
-                                    GameObject rotationTarget = GameObject.Find("Boss");
-                                    if (rotationTarget != null)
-                                    {
-                                        float direction = config.lazerRotateClockwise ? 1f : -1f;   //어느 방향으로 회전할건지 (lazerRotateClockwise 선택 유무)
-                                        float rotateDuration = config.lazerRotateDuration * config.lazerSpeed;  // 회전 속도 적용한 회전 시간 계산
-                                        float beamDuration = rotateDuration;            // 레이저 지속 시간, 회전 시간과 동기화
-
-                                        // 레이저 생성
-                                        if (config.lazerBeamPrefab != null)
-                                        {
-                                            for (int i = 0; i < config.lazerShotCount; i++)
-                                            {
-                                                float angleOffset = direction * config.lazerShotAngleGap * i;
-
-                                                GameObject beam = Instantiate(config.lazerBeamPrefab);
-                                                beam.transform.SetParent(rotationTarget.transform);
-                                                beam.transform.localPosition = config.lazerBeamSpawnPosition;
-
-                                                // Y축 기준 회전만 적용
-                                                Vector3 rotation = config.lazerBeamRotation + new Vector3(0f, angleOffset, 0f);
-                                                beam.transform.localRotation = Quaternion.Euler(rotation);
-                                                beam.transform.localScale = config.lazerBeamScale;
-
-                                                Destroy(beam, beamDuration);
-                                            }
-                                        }
-
-                                        // 회전
-                                        StartCoroutine(RotateAfterWarning(
-                                            rotationTarget.transform,
-                                            rotateDuration,
-                                            direction * config.lazerRotateAngle,
-                                            1f,
-                                            0f,
-                                            config.lazerSound,
-                                            config.lazerReadyEffectPosition
-                                        ));
-                                    }
-                                }
-                                break;
-
-                            case AttackType.Meteor:
-                                //메테오 관련
-                                break;
-                        }
+                        StartCoroutine(AttackThenSpawnIntegerWhenAttackEnds(config, myMeteorIndex));
                     });
 
                     controller.enabled = true;
@@ -257,12 +160,167 @@ public class BossWaveSpawner : MonoBehaviour
             foreach (var config in wave.warnings)
                 maxDuration = Mathf.Max(maxDuration, config.warningDuration);
 
-            yield return new WaitForSeconds(maxDuration);
-            if (meteorConfigs.Count > 0)
+            yield return WaitForOrInterrupt(maxDuration);
+
+            if (boss == null || boss.currentHP <= 0)
             {
-                yield return StartCoroutine(SpawnMeteorConfigsSequentially(meteorConfigs.ToArray(), 0.4f));
+                yield break;
             }
-            yield return new WaitForSeconds(wave.waitAfterWave);
+
+            yield return WaitForOrInterrupt(wave.waitAfterWave);
+        }
+    }
+    private IEnumerator AttackThenSpawnIntegerWhenAttackEnds(WarningConfig config, int meteorIndex = 0)
+    {
+        if (boss == null || boss.currentHP <= 0)
+            yield break;
+
+        switch (config.attackType)
+        {
+            case AttackType.Bottom:
+                if (config.attackEffectPrefab != null)
+                {
+                    Vector3 spawnPos = config.position + Vector3.down * 0.5f;
+                    GameObject attackFx = Instantiate(config.attackEffectPrefab, spawnPos, Quaternion.Euler(config.rotationEuler));
+                    Vector3 originalScale = attackFx.transform.localScale;
+                    attackFx.transform.localScale = new Vector3(config.scale.x / 1.5f, originalScale.y, config.scale.z / 1.5f);
+
+                    Destroy(attackFx, 1f);
+                }
+
+                if (config.bottomSound != null)
+                {
+                    AudioSource.PlayClipAtPoint(config.bottomSound, config.position);
+                }
+
+                if (config.spawnAfterEffect != null)
+                {
+                    GameObject spawned = Instantiate(config.spawnAfterEffect, config.position, Quaternion.Euler(config.rotationEuler));
+                    Transform meshChild = spawned.transform.Find("Tile");
+                    Transform hitBox = spawned.transform.Find("Hitbox");
+                    Transform meshBackgound = spawned.transform.Find("Background");
+                    Vector3 adjustedScale = new Vector3(config.scale.x, config.scale.z, 1);
+                    if (meshChild != null && meshBackgound != null)
+                    {
+                        meshChild.localScale = adjustedScale;
+                        hitBox.localScale = adjustedScale;
+                        meshBackgound.localScale = adjustedScale;
+                    }
+                    else
+                    {
+                        spawned.transform.localScale = adjustedScale;
+                    }
+
+                    StartCoroutine(FadeOutAndDestroy(spawned, config.bottomDestroyTime));
+                }
+                yield return WaitForOrInterrupt(1f);
+                break;
+
+            case AttackType.Laser:
+                if (boss == null || boss.currentHP <= 0)
+                    yield break;
+
+                if (config.lazerSound != null)
+                {
+                    GameObject audioObj = new GameObject("TempAudio_LaserSound");
+                    audioObj.transform.position = config.lazerReadyEffectPosition;
+
+                    AudioSource audioSource = audioObj.AddComponent<AudioSource>();
+                    audioSource.clip = config.lazerSound;
+                    audioSource.volume = 0.03f;
+                    audioSource.loop = true;
+
+                    audioSource.Play();
+
+                    Destroy(audioObj, config.lazerSoundDuration);
+                }
+
+                // 레이저 빔 생성
+                if (config.lazerBeamPrefab != null)
+                {
+                    GameObject rotationTarget = GameObject.Find("Boss");
+                    if (rotationTarget != null)
+                    {
+                        float direction = config.lazerRotateClockwise ? 1f : -1f;
+                        float rotateDuration = config.lazerRotateDuration * config.lazerSpeed;
+                        float beamDuration = rotateDuration;
+
+                        for (int i = 0; i < config.lazerShotCount; i++)
+                        {
+                            float angleOffset = direction * config.lazerShotAngleGap * i;
+
+                            GameObject beam = Instantiate(config.lazerBeamPrefab);
+                            beam.transform.SetParent(rotationTarget.transform);
+                            beam.transform.localPosition = config.lazerBeamSpawnPosition;
+
+                            Vector3 rotation = config.lazerBeamRotation + new Vector3(0f, angleOffset, 0f);
+                            beam.transform.localRotation = Quaternion.Euler(rotation);
+                            beam.transform.localScale = config.lazerBeamScale;
+
+                            Destroy(beam, beamDuration);
+                        }
+
+                        // 회전 코루틴 실행
+                        StartCoroutine(RotateAfterWarning(
+                            rotationTarget.transform,
+                            rotateDuration,
+                            direction * config.lazerRotateAngle,
+                            1f,
+                            0f,
+                            config.lazerSound,
+                            config.lazerReadyEffectPosition
+                        ));
+                        yield return WaitForOrInterrupt(beamDuration);
+                    }
+                }
+                break;
+
+            case AttackType.Meteor:
+                float fixedMeteorDelay = 0.3f;
+                yield return WaitForOrInterrupt(meteorIndex * fixedMeteorDelay);
+
+                if (config.meteorPrefab != null)
+                {
+                    Vector3 spawnPos = config.position + Vector3.up * 15f;
+
+                    GameObject meteor = Instantiate(config.meteorPrefab, spawnPos, Quaternion.identity);
+                    meteor.transform.localScale = config.meteorScale;
+
+                    Rigidbody rb = meteor.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.useGravity = true;
+                        rb.AddForce(Vector3.down * 5000f);
+                    }
+
+                    // 이펙트 실행
+                    StartCoroutine(PlayMeteorEffectAfterDelay(config, config.position));
+
+                    Destroy(meteor, 0.2f);
+
+                    yield return WaitForOrInterrupt(0.7f);
+                }
+                break;
+        }
+
+        //integerPrefab
+        if (config.integerPrefab != null)
+        {
+            Vector3 myTargetPosition = new Vector3(0.8f, 4f, -24.36f);
+            SpawnInteger(myTargetPosition);
+        }
+    }
+
+    private IEnumerator WaitForOrInterrupt(float time)
+    {
+        float elapsed = 0f;
+        while (elapsed < time)
+        {
+            if (boss == null || boss.currentHP <= 0)
+                yield break;
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
     }
 
@@ -317,19 +375,6 @@ public class BossWaveSpawner : MonoBehaviour
                 StartCoroutine(PlayMeteorEffectAfterDelay(config, config.position));
                 Destroy(meteor, 0.2f);
 
-                if (config.integerPrefab != null)
-                {
-                    Vector3 dropPosition = config.position + new Vector3(0, 6f, 0);
-                    GameObject integerObj = Instantiate(config.integerPrefab, dropPosition, Quaternion.identity);
-
-                    Rigidbody rbInt = integerObj.GetComponent<Rigidbody>();
-                    if (rbInt != null)
-                    {
-                        rbInt.useGravity = true;
-                        rbInt.AddForce(Vector3.down * 100f);
-                    }
-                }
-
                 yield return new WaitForSeconds(interval);
             }
         }
@@ -344,6 +389,8 @@ public class BossWaveSpawner : MonoBehaviour
         float t = 0f;
         while (t < firstDuration)
         {
+            if (boss == null || boss.currentHP <= 0) yield break;
+
             float currentY = Mathf.Lerp(startY, targetY, t / firstDuration);
             target.rotation = Quaternion.Euler(0f, currentY, 0f);
             t += Time.deltaTime;
@@ -351,7 +398,7 @@ public class BossWaveSpawner : MonoBehaviour
         }
         target.rotation = Quaternion.Euler(0f, targetY, 0f);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return WaitForOrInterrupt(0.3f);
 
         // 항상 절대 -180도로 복귀
         float returnStartY = target.rotation.eulerAngles.y;
@@ -362,6 +409,7 @@ public class BossWaveSpawner : MonoBehaviour
         float t2 = 0f;
         while (t2 < secondDuration)
         {
+            if (boss == null || boss.currentHP <= 0) yield break;
             float currentY = Mathf.LerpAngle(returnStartY, returnTargetY, t2 / secondDuration);
             target.rotation = Quaternion.Euler(0f, currentY, 0f);
 
@@ -437,5 +485,26 @@ public class BossWaveSpawner : MonoBehaviour
         }
 
         Destroy(obj);
+    }
+    public void SpawnInteger(Vector3 position)
+    {
+        foreach (WarningWave wave in waveSequence)
+        {
+            foreach (WarningConfig config in wave.warnings)
+            {
+                if (config.integerPrefab != null)
+                {
+                    GameObject integerObj = Instantiate(config.integerPrefab, position, Quaternion.identity);
+
+                    Rigidbody rb = integerObj.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.useGravity = true;
+                        rb.AddForce(Vector3.down * 100f);
+                    }
+                    return;
+                }
+            }
+        }
     }
 }

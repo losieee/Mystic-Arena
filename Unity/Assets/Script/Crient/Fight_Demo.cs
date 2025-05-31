@@ -4,6 +4,8 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEditor.TerrainTools;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.ComponentModel;
 
 public class Fight_Demo : MonoBehaviour
 {
@@ -26,10 +28,13 @@ public class Fight_Demo : MonoBehaviour
     public Image hpBarImage;
     public Image infoHpBarImage;
 
+    public static bool isBossDead = false;
+
     private bool canMove = true;
     private bool isMove = false;
     private bool isDashing = false;
     private bool isInvincible = false;
+    private bool isDead = false;
 
     // 콤보
     private int comboStep = 0;
@@ -92,6 +97,37 @@ public class Fight_Demo : MonoBehaviour
     }
     private void Update()
     {
+        if (currentHP <= 0 && !isDead)
+        {
+            isDead = true;
+
+            animator.SetBool("isDead", true);
+
+            agent.ResetPath();
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+
+            StartCoroutine(LoadSceneAfterDelay(2f));
+        }
+
+        if (isDead || isBossDead)
+        {
+            agent.ResetPath();
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+            return;
+        }
+
+        if (isBossDead)
+        {
+            // 움직임/공격/스킬 중지
+            agent.ResetPath();
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+
+            return;
+        }
+
         HandleComboInput();
 
         if (canMove && !isAttacking)
@@ -109,6 +145,11 @@ public class Fight_Demo : MonoBehaviour
         }
 
         LookMoveDirection();
+    }
+    private IEnumerator LoadSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("BossRoom");
     }
 
     private void HandleKeyboardMoveInput()
