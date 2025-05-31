@@ -6,8 +6,10 @@ using UnityEngine;
 public enum WeaponType
 {
     Consumable,
-    Gun,
-    Sword
+    Gun01,
+    Gun02,
+    Sword01,
+    Sword02
 }
 
 [Serializable]

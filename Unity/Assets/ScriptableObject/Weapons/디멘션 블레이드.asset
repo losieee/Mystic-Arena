@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 1
   weaponName: "\uB514\uBA58\uC158 \uBE14\uB808\uC774\uB4DC"
   weaponTypeString: Sword
-  WeapnType: 0
+  WeapnType: 3
   baseDamage: 45
   dropStage: 1
   description: "\uC120\uD0DD\uBC1B\uC740 \uC790\uC5D0\uAC8C \uC9C0\uAE09\uB418\uB294
