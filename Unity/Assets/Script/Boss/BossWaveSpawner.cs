@@ -28,7 +28,6 @@ public class BossWaveSpawner : MonoBehaviour
         public float warningDuration = 2f;
         public FillPatternType fillPattern = FillPatternType.FromEdge;
         [Header("Integer")]
-        public bool spawnInteger = false;
         public GameObject integerPrefab;
 
         // Bottom 전용
@@ -173,6 +172,19 @@ public class BossWaveSpawner : MonoBehaviour
                                     }
                                     StartCoroutine(FadeOutAndDestroy(spawned, config.bottomDestroyTime));
                                 }
+                                if (config.integerPrefab != null)
+                                {
+                                    Vector3 dropPosition = config.position + new Vector3(0, 6f, 0);
+                                    GameObject integerObj = Instantiate(config.integerPrefab, dropPosition, Quaternion.identity);
+
+                                    // 떨어지는 효과
+                                    Rigidbody rb = integerObj.GetComponent<Rigidbody>();
+                                    if (rb != null)
+                                    {
+                                        rb.useGravity = true;
+                                        rb.AddForce(Vector3.down * 100f);  // 원하는 힘 조절
+                                    }
+                                }
                                 break;
 
                             case AttackType.Laser:
@@ -234,20 +246,6 @@ public class BossWaveSpawner : MonoBehaviour
                             case AttackType.Meteor:
                                 //메테오 관련
                                 break;
-                        }
-                        // Integer Drop 처리
-                        if (config.spawnInteger && config.integerPrefab != null)
-                        {
-                            Vector3 dropPosition = config.position + new Vector3(0, 6f, 0);
-                            GameObject integerObj = Instantiate(config.integerPrefab, dropPosition, Quaternion.identity);
-
-                            // 떨어지는 효과
-                            Rigidbody rb = integerObj.GetComponent<Rigidbody>();
-                            if (rb != null)
-                            {
-                                rb.useGravity = true;
-                                rb.AddForce(Vector3.down * 100f);  // 원하는 힘 조절
-                            }
                         }
                     });
 
@@ -318,6 +316,19 @@ public class BossWaveSpawner : MonoBehaviour
 
                 StartCoroutine(PlayMeteorEffectAfterDelay(config, config.position));
                 Destroy(meteor, 0.2f);
+
+                if (config.integerPrefab != null)
+                {
+                    Vector3 dropPosition = config.position + new Vector3(0, 6f, 0);
+                    GameObject integerObj = Instantiate(config.integerPrefab, dropPosition, Quaternion.identity);
+
+                    Rigidbody rbInt = integerObj.GetComponent<Rigidbody>();
+                    if (rbInt != null)
+                    {
+                        rbInt.useGravity = true;
+                        rbInt.AddForce(Vector3.down * 100f);
+                    }
+                }
 
                 yield return new WaitForSeconds(interval);
             }

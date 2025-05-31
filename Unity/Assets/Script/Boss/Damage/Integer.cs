@@ -8,21 +8,4 @@ public class Integer : MonoBehaviour
     {
         Destroy(gameObject, 5f);
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameObject bossObj = GameObject.FindGameObjectWithTag("Boss");
-            if (bossObj != null)
-            {
-                BossController boss = bossObj.GetComponent<BossController>();
-                if (boss != null)
-                {
-                    boss.TakeDamage(200f);
-                }
-            }
-            Destroy(gameObject);
-        }
-    }
 }

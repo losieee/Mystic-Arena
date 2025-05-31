@@ -11,6 +11,7 @@ TagManager:
   - EnemySpawn
   - Weapon
   - Boss
+  - Integer
   layers:
   - Default
   - TransparentFX
