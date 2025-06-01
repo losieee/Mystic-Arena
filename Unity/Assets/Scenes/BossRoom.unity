@@ -14127,7 +14127,7 @@ MonoBehaviour:
       lazerReadyEffectPrefab: {fileID: 7435820690753171035, guid: e87b8ffc16fc9154c973f27d0fe8d8d4, type: 3}
       lazerBeamPrefab: {fileID: 2540417558773106788, guid: 3fdd30d0b52b3864e92fe3606bf66eff, type: 3}
       lazerReadySound: {fileID: 8300000, guid: 0ee8acf809a13a5408178ef10ed11547, type: 3}
-      lazerSound: {fileID: 8300000, guid: fe6ac9a69f5badf48853d9e99e13083c, type: 3}
+      lazerSound: {fileID: 8300000, guid: ac6df52f9ab710a48b97a6b4c18aae71, type: 3}
       lazerBeamSpawnPosition: {x: 0, y: 0.244, z: 0}
       lazerBeamScale: {x: 1, y: 1, z: 1}
       lazerBeamRotation: {x: 0, y: 0, z: 0}
