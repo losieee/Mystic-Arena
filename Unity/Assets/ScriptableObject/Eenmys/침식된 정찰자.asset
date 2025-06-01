@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e70d3f79f184e48bf72dd79fced5a8, type: 3}
+  m_Name: "\uCE68\uC2DD\uB41C \uC815\uCC30\uC790"
+  m_EditorClassIdentifier: 
+  id: 2
+  monsterName: "\uCE68\uC2DD\uB41C \uC815\uCC30\uC790"
+  spawnStage: 4~5
+  monsterAttackType: Ranged
+  enemyAttackType: 2
+  monsterHp: 45
+  monsterAttack: 15
+  monsterAttackInterval: 3

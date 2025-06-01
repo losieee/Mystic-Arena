@@ -14,6 +14,7 @@ public class WeaponSO : ScriptableObject
     public float baseDamage;
     public int dropStage;
     public string description;
+    public Sprite icon;
 
 
     public override string ToString()

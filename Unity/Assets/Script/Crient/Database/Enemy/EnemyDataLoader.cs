@@ -1,24 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Text;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
 
-public class WeaponDataLoader : MonoBehaviour
+public class EnemyDataLoader : MonoBehaviour
 {
 
     [SerializeField]
-    private string jsonFileName = "Weapons";                        //Resources 폴더에서 가져올 JSON 파일 이름
+    private string jsonFileName = "Monsters";                        //Resources 폴더에서 가져올 JSON 파일 이름
 
-    private List<WeaponData> weaponList;
+    private List<EnemyData> EnemyList;
 
     // Start is called before the first frame update
     void Start()
     {
-        LoadWeaponData();
+        LoadEnemyData();
     }
 
-    void LoadWeaponData()
+    void LoadEnemyData()
     {
         TextAsset jsonFile = Resources.Load<TextAsset>(jsonFileName);           // TextAsset 형태로 Josn 파일을 로딩한다.
 
@@ -29,13 +28,13 @@ public class WeaponDataLoader : MonoBehaviour
             string correntText = Encoding.UTF8.GetString(bytes);
 
             // 변환된 텍스트 사용
-            weaponList = JsonConvert.DeserializeObject<List<WeaponData>>(correntText);
+            EnemyList = JsonConvert.DeserializeObject<List<EnemyData>>(correntText);
 
-            Debug.Log($"로드된 아이템 수 : {weaponList.Count}");
+            Debug.Log($"로드된 아이템 수 : {EnemyList.Count}");
 
-            foreach (var weapon in weaponList)
+            foreach (var enemy in EnemyList)
             {
-                Debug.Log($"무기: {EncodeKorean(weapon.weaponName)}, 설명 : {EncodeKorean(weapon.description)}");
+                Debug.Log($"몬스터: {EncodeKorean(enemy.monsterName)}");
             }
         }
         else
