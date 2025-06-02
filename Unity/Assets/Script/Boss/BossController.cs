@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossController : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class BossController : MonoBehaviour
     public Vector3 deadSpawnPosition;
     public Vector3 deadSpawnRotation;
 
+    // º¸½º »ç¸Á ÈÄ
+    public CanvasGroup fadeCanvasGroup;
+    public float fadeDuration = 3f;
+    private bool isFadeStarted = false;
+    public static bool isBossDead = false;
+
     public Image hpBarImage;
 
     private bool isDead = false;
@@ -21,7 +28,14 @@ public class BossController : MonoBehaviour
     void Start()
     {
         currentHP = maxHP;
-        UpdateHPUI();
+        isDead = false;
+        isFadeStarted = false;
+
+        if (fadeCanvasGroup != null)
+        {
+            fadeCanvasGroup.alpha = 0f;
+            fadeCanvasGroup.gameObject.SetActive(false);
+        }
     }
     public void TakeDamage(float damage)
     {
@@ -42,33 +56,34 @@ public class BossController : MonoBehaviour
         if (currentHP <= 0 && !isDead)
         {
             isDead = true;
-            Fight_Demo.isBossDead = true;
+            isBossDead = true;
 
-            if (dead != null)
+            if (!isFadeStarted)
             {
-                deadInstance = Instantiate(dead, deadSpawnPosition, Quaternion.Euler(deadSpawnRotation));
+                isFadeStarted = true;
+                StartCoroutine(FadeOutAndLoadScene());
             }
         }
+    }
 
-        if (isDead)
+    private IEnumerator FadeOutAndLoadScene()
+    {
+        float elapsed = 0f;
+
+        if (fadeCanvasGroup != null)
         {
-            transform.position += Vector3.down * Time.deltaTime * 1.5f;
+            fadeCanvasGroup.alpha = 0f;
+            fadeCanvasGroup.gameObject.SetActive(true);
 
-            if (transform.position.y <= -10f && !portalClosed)
+            while (elapsed < fadeDuration)
             {
-                portalClosed = true;
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Clamp01(elapsed / fadeDuration);
+                fadeCanvasGroup.alpha = alpha;
 
-                if (deadInstance != null && deadInstance.GetComponent<DeadShrink>() == null)
-                {
-                    DeadShrink shrink = deadInstance.AddComponent<DeadShrink>();
-                    shrink.duration = 3f;
-                }
+                yield return null;
             }
-
-            if (transform.position.y <= -11f)
-            {
-                gameObject.SetActive(false);
-            }
+            SceneManager.LoadScene("BossCut");
         }
     }
 }

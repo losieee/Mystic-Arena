@@ -8,6 +8,7 @@ public class BossWaveSpawner : MonoBehaviour
     private bool effectPlayed = false;
     private BossController boss;
     public GameObject warningAreaPrefab;
+    public Transform cameraShakeHolder;
     public WarningWave[] waveSequence;
 
     public enum AttackType
@@ -28,6 +29,8 @@ public class BossWaveSpawner : MonoBehaviour
         public Vector3 rotationEuler;
         public float warningDuration = 2f;
         public FillPatternType fillPattern = FillPatternType.FromEdge;
+        [Header("CameraShake")]
+        public bool isShakeCamera = false;
         [Header("Integer")]
         public GameObject integerPrefab;
 
@@ -80,6 +83,8 @@ public class BossWaveSpawner : MonoBehaviour
     private void Start()
     {
         boss = GameObject.FindGameObjectWithTag("Boss")?.GetComponent<BossController>();
+
+        StopAllCoroutines();
         StartCoroutine(SpawnWaveSequence());
     }
 
@@ -89,8 +94,7 @@ public class BossWaveSpawner : MonoBehaviour
 
         foreach (WarningWave wave in waveSequence)
         {
-            if (boss == null || boss.currentHP <= 0)
-            if (boss == null || boss.currentHP <= 0)
+            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
             {
                 yield break;
             }
@@ -161,7 +165,7 @@ public class BossWaveSpawner : MonoBehaviour
 
             yield return WaitForOrInterrupt(maxDuration);
 
-            if (boss == null || boss.currentHP <= 0)
+            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
             {
                 yield break;
             }
@@ -171,8 +175,14 @@ public class BossWaveSpawner : MonoBehaviour
     }
     private IEnumerator AttackThenSpawnIntegerWhenAttackEnds(WarningConfig config, int meteorIndex = 0)
     {
-        if (boss == null || boss.currentHP <= 0)
+        if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
             yield break;
+
+        Coroutine shakeCoroutine = null;
+        if (config.isShakeCamera)
+        {
+            shakeCoroutine = StartCoroutine(CameraShake(config.warningDuration, 0.3f));  // 진동 크기 조절
+        }
 
         switch (config.attackType)
         {
@@ -216,7 +226,7 @@ public class BossWaveSpawner : MonoBehaviour
                 break;
 
             case AttackType.Laser:
-                if (boss == null || boss.currentHP <= 0)
+                if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
                     yield break;
 
                 if (config.lazerSound != null)
@@ -291,6 +301,11 @@ public class BossWaveSpawner : MonoBehaviour
                         rb.useGravity = true;
                         rb.AddForce(Vector3.down * 5000f);
                     }
+                    // 메테오 떨어질때마다 지진
+                    if (config.isShakeCamera)
+                    {
+                        StartCoroutine(CameraShake(0.5f, 0.3f));
+                    }
 
                     // 이펙트 실행
                     StartCoroutine(PlayMeteorEffectAfterDelay(config, config.position));
@@ -300,6 +315,12 @@ public class BossWaveSpawner : MonoBehaviour
                     yield return WaitForOrInterrupt(0.7f);
                 }
                 break;
+        }
+
+        if (shakeCoroutine != null)
+        {
+            StopCoroutine(shakeCoroutine);
+            cameraShakeHolder.localPosition = Vector3.zero;
         }
 
         //integerPrefab
@@ -315,7 +336,7 @@ public class BossWaveSpawner : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < time)
         {
-            if (boss == null || boss.currentHP <= 0)
+            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
                 yield break;
 
             elapsed += Time.deltaTime;
@@ -388,7 +409,7 @@ public class BossWaveSpawner : MonoBehaviour
         float t = 0f;
         while (t < firstDuration)
         {
-            if (boss == null || boss.currentHP <= 0) yield break;
+            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead) yield break;
 
             float currentY = Mathf.Lerp(startY, targetY, t / firstDuration);
             target.rotation = Quaternion.Euler(0f, currentY, 0f);
@@ -408,7 +429,7 @@ public class BossWaveSpawner : MonoBehaviour
         float t2 = 0f;
         while (t2 < secondDuration)
         {
-            if (boss == null || boss.currentHP <= 0) yield break;
+            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead) yield break;
             float currentY = Mathf.LerpAngle(returnStartY, returnTargetY, t2 / secondDuration);
             target.rotation = Quaternion.Euler(0f, currentY, 0f);
 
@@ -505,5 +526,30 @@ public class BossWaveSpawner : MonoBehaviour
                 }
             }
         }
+    }
+    // 카메라 흔들림 효과
+    private IEnumerator CameraShake(float duration, float magnitude)
+    {
+        if (cameraShakeHolder == null)
+        {
+            yield break;
+        }
+
+        Vector3 originalPos = cameraShakeHolder.localPosition;
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            cameraShakeHolder.localPosition = originalPos + new Vector3(x, y, 0f);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cameraShakeHolder.localPosition = originalPos;
     }
 }

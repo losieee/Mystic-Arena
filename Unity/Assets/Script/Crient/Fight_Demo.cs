@@ -11,7 +11,7 @@ public class Fight_Demo : MonoBehaviour
 {
     [Header("HP")]
     public float maxHP = 100f;
-    public float currentHP;
+    private float currentHP;
 
     [Header("Skill Handlers")]
     [SerializeField] private SkillHandler qSkillHandler;
@@ -26,15 +26,13 @@ public class Fight_Demo : MonoBehaviour
     public Transform swordTransform;
     public SkillHandler skillHandler;
     public Image hpBarImage;
-    public Image infoHpBarImage;
-
-    public static bool isBossDead = false;
+    public GameObject deathPanel;
 
     private bool canMove = true;
     private bool isMove = false;
     private bool isDashing = false;
     private bool isInvincible = false;
-    private bool isDead = false;
+    public static bool isDead = false;
 
     // 콤보
     private int comboStep = 0;
@@ -75,6 +73,16 @@ public class Fight_Demo : MonoBehaviour
         currentHP = maxHP;
         UpdateHPUI();
         Debug.Log(isDashing);
+
+        isDead = false;
+        canMove = true;
+        isMove = false;
+        isDashing = false;
+        isInvincible = false;
+
+        animator.SetBool("isDead", false);
+        if (deathPanel != null)
+            deathPanel.SetActive(false);
     }
 
     public void TakeDamage(float damage)
@@ -97,6 +105,25 @@ public class Fight_Demo : MonoBehaviour
     }
     private void Update()
     {
+        // 보스 사망 시
+        if (BossController.isBossDead)
+        {
+            agent.ResetPath();
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+            return;
+        }
+
+        // 플레이어 사망 시
+        if (isDead)
+        {
+            agent.ResetPath();
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+            return;
+        }
+
+        // 평소 조작 처리
         if (currentHP <= 0 && !isDead)
         {
             isDead = true;
@@ -107,25 +134,10 @@ public class Fight_Demo : MonoBehaviour
             animator.SetBool("isRunning", false);
             animator.SetBool("isAttacking", false);
 
-            StartCoroutine(LoadSceneAfterDelay(2f));
-        }
-
-        if (isDead || isBossDead)
-        {
-            agent.ResetPath();
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isAttacking", false);
-            return;
-        }
-
-        if (isBossDead)
-        {
-            // 움직임/공격/스킬 중지
-            agent.ResetPath();
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isAttacking", false);
-
-            return;
+            if (deathPanel != null)
+            {
+                deathPanel.SetActive(true);
+            }
         }
 
         HandleComboInput();
@@ -394,5 +406,10 @@ public class Fight_Demo : MonoBehaviour
     public void QskillSoundTiming()
     {
         skillHandler.QSkillSound();
+    }
+    public void OnRespawnButtonClicked()
+    {
+        BossController.isBossDead = false;
+        SceneManager.LoadScene("BossRoom");
     }
 }

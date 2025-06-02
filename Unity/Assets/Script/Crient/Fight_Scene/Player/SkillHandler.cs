@@ -45,9 +45,11 @@ public class SkillHandler : MonoBehaviour
         if (isCooldown || knight_Move == null || knight_Move.IsAttacking())
             return;
 
-        isCasting = true;
-
-        knight_Move.DontMove();
+        if (skillData.skillType == SkillType.Q || skillData.skillType == SkillType.Shift)
+        {
+            isCasting = true;
+            knight_Move.DontMove();
+        }
 
         switch (skillData.skillType)
         {
@@ -59,7 +61,7 @@ public class SkillHandler : MonoBehaviour
             case SkillType.E:
                 if (skillData.skillSound != null)
                     audioSource.PlayOneShot(skillData.skillSound);
-                knight_Move.StartCoroutine(knight_Move.SpeedBoost(3f, 10f));
+                StartCoroutine(knight_Move.SpeedBoost(3f, 15f));
                 break;
 
             case SkillType.Shift:
@@ -67,7 +69,7 @@ public class SkillHandler : MonoBehaviour
 
                 if (skillData.skillSound != null)
                     audioSource.PlayOneShot(skillData.skillSound);
-
+                
                 // 대시 위치/방향 정보 계산 후 이펙트 생성
                 Vector3 dashStart = knight_Move.transform.position;
                 Vector3 dashDir = knight_Move.transform.forward;
