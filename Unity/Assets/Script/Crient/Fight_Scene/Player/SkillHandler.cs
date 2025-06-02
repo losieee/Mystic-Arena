@@ -57,7 +57,9 @@ public class SkillHandler : MonoBehaviour
                 break;
 
             case SkillType.E:
-                // knight_Move.animator.SetTrigger("Eskill");
+                if (skillData.skillSound != null)
+                    audioSource.PlayOneShot(skillData.skillSound);
+                knight_Move.StartCoroutine(knight_Move.SpeedBoost(3f, 10f));
                 break;
 
             case SkillType.Shift:

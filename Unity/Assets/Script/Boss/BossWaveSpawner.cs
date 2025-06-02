@@ -7,7 +7,6 @@ public class BossWaveSpawner : MonoBehaviour
 {
     private bool effectPlayed = false;
     private BossController boss;
-    bool meteorSpawnStarted = false;
     public GameObject warningAreaPrefab;
     public WarningWave[] waveSequence;
 
@@ -306,7 +305,7 @@ public class BossWaveSpawner : MonoBehaviour
         //integerPrefab
         if (config.integerPrefab != null)
         {
-            Vector3 myTargetPosition = new Vector3(0.8f, 4f, -24.36f);
+            Vector3 myTargetPosition = new Vector3(-0.77f, 7f, -24.36f);
             SpawnInteger(myTargetPosition);
         }
     }

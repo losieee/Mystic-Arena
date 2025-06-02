@@ -11,7 +11,7 @@ public class MeteorDamage : MonoBehaviour
             Fight_Demo player = other.GetComponentInParent<Fight_Demo>();
             if (player != null)
             {
-                player.TakeDamage(10f);
+                player.TakeDamage(70f);
             }
         }
     }

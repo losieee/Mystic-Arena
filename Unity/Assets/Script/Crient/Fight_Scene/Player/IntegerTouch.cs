@@ -14,7 +14,7 @@ public class IntegerTouch : MonoBehaviour
                 BossController boss = bossObj.GetComponent<BossController>();
                 if (boss != null)
                 {
-                    boss.TakeDamage(200f);
+                    boss.TakeDamage(2000f);
                 }
             }
             Destroy(other.gameObject);

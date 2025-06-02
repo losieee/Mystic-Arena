@@ -13,8 +13,6 @@ public class Player : MonoBehaviour
 
     private bool canMove = true;
     private bool isMove = false;
-    private bool isDashing = false;
-    private bool isDead = false;
 
     private CapsuleCollider capsule;
     private NavMeshAgent agent;

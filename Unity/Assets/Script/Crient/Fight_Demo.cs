@@ -74,6 +74,7 @@ public class Fight_Demo : MonoBehaviour
     {
         currentHP = maxHP;
         UpdateHPUI();
+        Debug.Log(isDashing);
     }
 
     public void TakeDamage(float damage)
@@ -92,7 +93,6 @@ public class Fight_Demo : MonoBehaviour
         if (hpBarImage != null)
         {
             hpBarImage.fillAmount = currentHP / maxHP;
-            infoHpBarImage.fillAmount = currentHP / maxHP;
         }
     }
     private void Update()
@@ -362,6 +362,19 @@ public class Fight_Demo : MonoBehaviour
         effect.transform.localScale = new Vector3(1.5f, 1.5f, distance);
 
         Destroy(effect, skillHandler.skillData.effectDuration);
+    }
+    public IEnumerator SpeedBoost(float duration, float boostedSpeed)
+    {
+        if (agent == null) yield break;
+
+        float originalSpeed = agent.speed;
+        agent.speed = boostedSpeed;
+
+        yield return new WaitForSeconds(duration);
+
+        agent.speed = originalSpeed;
+
+        eSkillHandler?.EndSkillCast();
     }
     public void ResumeMovement()
     {
