@@ -24,6 +24,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Tutorial.unity
     guid: d2cdec6dcf0185345ac4dc1b0ff81e06
   - enabled: 1
+    path: Assets/Scenes/GameScene/GameSceneRoom01.unity
+    guid: 72d93d14f8abdf14383fe5abf4e224b6
+  - enabled: 1
+    path: Assets/Scenes/GameScene/GameSceneRoom02.unity
+    guid: 4716143027a55454fb14ada64a82b761
+  - enabled: 1
     path: Assets/Scenes/BossRoom.unity
     guid: 0025ac7a1d792c54d90ff384b78eca18
   - enabled: 1

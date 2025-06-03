@@ -2,48 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaPonDrapManager : MonoBehaviour
+public class WeaponDropManager : MonoBehaviour
 {
     public WeaponSO weaponSO;
-    public WeaponData weaponData;
+    public WeaponInventory weaponInventory;
 
+    private static readonly HashSet<int> ValidWeaponIDs = new HashSet<int> { 1, 2, 3, 4 };
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+
+        if (!IsValidWeapon(weaponSO))
         {
-            switch (weaponSO.WeapnType)
-            {
-                case WeaponType.Sword01:
-                    WeaponType_Sword01();
-                    break;
-                case WeaponType.Gun01:
-                    WeaponType_Gun01();
-                    break;
-                default:
-                    Debug.LogWarning("알 수 없는 무기 타입입니다.");
-                    break;
-            }
+            Debug.LogWarning($"알 수 없는 무기 타입 혹은 ID입니다. [Type: {weaponSO.WeapnType}] [ID: {weaponSO.id}]");
+            return;
         }
+
+        HandleWeaponPickup();
     }
 
+    private bool IsValidWeapon(WeaponSO weapon)
+    {
+        return weapon != null &&
+               (weapon.WeapnType == WeaponType.Sword01 || weapon.WeapnType == WeaponType.Gun01) &&
+               ValidWeaponIDs.Contains(weapon.id);
+    }
 
-    private void Weapon_Handler()
-    { 
+    private void HandleWeaponPickup()
+    {
+        Debug.Log($"플레이어가 [ID: {weaponSO.id}] [Name: {weaponSO.name}] 을 획득했습니다.");
+
+        ApplyWeaponStats();
+        AddWeaponToInventory();
         Destroy(gameObject);
     }
 
-    private void WeaponType_Sword01()
+    private void ApplyWeaponStats()
     {
-        Debug.Log($"플레이어가 {weaponSO.name} 을 획득했습니다.");
-        Weapon_Handler();
+        Debug.Log($"{weaponSO.name} 의 설정을 적용합니다. 공격력: {weaponSO.baseDamage}");
+        // 예: 플레이어 능력치 반영 등
+        // player.SetDamage(weaponSO.baseDamage); 와 같은 방식
     }
 
-
-    private void WeaponType_Gun01()
+    private void AddWeaponToInventory()
     {
-        Debug.Log($"플레이어가 {weaponSO.name} 을 획득했습니다.");
-        Weapon_Handler();
+        if (weaponInventory != null)
+        {
+            weaponInventory.AddWeapon(weaponSO); // 가정: 이 메서드가 존재함
+        }
+        else
+        {
+            Debug.LogWarning("WeaponInventory가 연결되지 않았습니다.");
+        }
     }
-
 }
