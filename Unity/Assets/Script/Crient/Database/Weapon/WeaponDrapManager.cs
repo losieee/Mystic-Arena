@@ -9,6 +9,18 @@ public class WeaponDropManager : MonoBehaviour
 
     private static readonly HashSet<int> ValidWeaponIDs = new HashSet<int> { 1, 2, 3, 4 };
 
+    private void Awake()
+    {
+        if (weaponInventory == null)
+        {
+            weaponInventory = FindObjectOfType<WeaponInventory>();
+            if (weaponInventory == null)
+            {
+                Debug.LogWarning("WeaponInventory를 자동으로 찾지 못했습니다. 인스펙터에 수동 연결을 권장합니다.");
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
@@ -41,15 +53,14 @@ public class WeaponDropManager : MonoBehaviour
     private void ApplyWeaponStats()
     {
         Debug.Log($"{weaponSO.name} 의 설정을 적용합니다. 공격력: {weaponSO.baseDamage}");
-        // 예: 플레이어 능력치 반영 등
-        // player.SetDamage(weaponSO.baseDamage); 와 같은 방식
+        // 예: 플레이어 능력치 반영
     }
 
     private void AddWeaponToInventory()
     {
         if (weaponInventory != null)
         {
-            weaponInventory.AddWeapon(weaponSO); // 가정: 이 메서드가 존재함
+            weaponInventory.AddWeapon(weaponSO);
         }
         else
         {

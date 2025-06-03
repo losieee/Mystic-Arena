@@ -13,6 +13,7 @@ TagManager:
   - Boss
   - Integer
   - Potal
+  - Potal01
   layers:
   - Default
   - TransparentFX

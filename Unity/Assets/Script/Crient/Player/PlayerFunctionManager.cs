@@ -1,32 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerFunctionManager : MonoBehaviour
 {
-    public SceneLoad sceneLoad;
-    public GameObject playerPoint;
+    public GameManager gameManager;
+    public GameObject spawnPoint;
 
-    private void Start()
+    public void Awake()
     {
-        sceneLoad = GetComponent<SceneLoad>();
+        spawnPoint = GameObject.Find("playerPoint");
+
+        if (!spawnPoint)
+        {
+            spawnPoint = FindAnyObjectByType<GameObject>();
+        }
+
+        transform.position = spawnPoint.transform.position;
     }
-    private void Awake()
-    {
-        if (sceneLoad == null)
+    private void OnTriggerEnter(Collider other)
+    { 
+  
+        if (other.gameObject.CompareTag("Potal"))
         {
-            sceneLoad = FindObjectOfType<SceneLoad>();
-        }
-
-            playerPoint = GameObject.Find("playerPoint");
-
-        if (playerPoint != null)
-        {
-            transform.position = playerPoint.transform.position;
-        }
-        else
-        {
-            Debug.LogWarning("playerPoint 오브젝트를 찾을 수 없습니다.");
+            transform.position = spawnPoint.transform.position;
+            SceneManager.LoadScene("GameSceneRoom02");
         }
     }
 }
