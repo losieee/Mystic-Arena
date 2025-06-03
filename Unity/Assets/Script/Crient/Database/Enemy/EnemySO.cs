@@ -20,9 +20,4 @@ public class EnemySO : ScriptableObject
     {
         return $"[{id}] :  {monsterName}몬스터는 {enemyAttackType} 타입 입니다.";
     }
-
-    //public string DisplayName
-    //{
-    //    get { return string.IsNullOrEmpty(nameEng)? }
-    //}
 }

@@ -5,9 +5,9 @@ using UnityEngine;
 
 public enum EnemyAttackType
 {
-    Consumable,
-    Melee,
-    Ranged
+    Consumable,                     // 기본
+    Melee,                          // 근접 공격
+    Ranged                          // 원거리 공격
 }
 
 public class EnemyData : MonoBehaviour
@@ -16,13 +16,13 @@ public class EnemyData : MonoBehaviour
     public string monsterName;
     public string spawnStage;
     public string monsterAttackType;
-    [SerializeField]
+    [NonSerialized]
     public EnemyAttackType enemyAttackType;
     public int monsterHp;
     public int monsterAttack;
     public int monsterAttackInterval;
 
-    public void InitalizeEnums()
+    public void InitalizeEnums() 
     {
         if (Enum.TryParse(monsterAttackType, out EnemyAttackType parsedType))
         {

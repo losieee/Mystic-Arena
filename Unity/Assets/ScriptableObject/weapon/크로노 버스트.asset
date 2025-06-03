@@ -15,9 +15,10 @@ MonoBehaviour:
   id: 3
   weaponName: "\uD06C\uB85C\uB178 \uBC84\uC2A4\uD2B8"
   weaponTypeString: Gun
-  WeapnType: 2
+  WeapnType: 1
   baseDamage: 100
   dropStage: 7
   description: "\uCC28\uC6D0\uC5D0\uB108\uC9C0 \uD0C4\uD658\uC744 \uC0AC\uC6A9\uD558\uB294
     \uCD1D, \n\uCC28\uC6D0\uC5D0 \uCE68\uC2DD\uB41C \uC874\uC7AC\uB4E4\uC744 \uC815\uD654\uD558\uAE30\uC5D0
     \uC81C\uACA9\uC778 \uC131\uB2A5\uC744 \uAC00\uC9C0\uACE0 \uC788\uB2E4."
+  icon: {fileID: 0}
