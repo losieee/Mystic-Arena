@@ -1181,6 +1181,7 @@ MonoBehaviour:
   skillHandler: {fileID: 1028601431}
   hpBarImage: {fileID: 1070911408}
   deathPanel: {fileID: 1038693506}
+  agent: {fileID: 384060963}
 --- !u!195 &384060963
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2499,7 +2500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc313a33dfc68f4299a8d61b4e58a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillData: {fileID: 11400000, guid: f0685c5036f80b24186f336b9a6f2efa, type: 2}
   cooldownImage: {fileID: 305038618}
   cooldownText: {fileID: 983892287}
   glowEffect: {fileID: 484238641}
@@ -2509,6 +2509,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   knight_Move: {fileID: 384060962}
+  damage: {fileID: 0}
+  skillData: {fileID: 11400000, guid: f0685c5036f80b24186f336b9a6f2efa, type: 2}
 --- !u!1 &761704236
 GameObject:
   m_ObjectHideFlags: 0
@@ -15429,7 +15431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc313a33dfc68f4299a8d61b4e58a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillData: {fileID: 11400000, guid: 6f2124259ae33fd4caeefc2fd3a8e00d, type: 2}
   cooldownImage: {fileID: 1960460465}
   cooldownText: {fileID: 969088575}
   glowEffect: {fileID: 544414754}
@@ -15439,6 +15440,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   knight_Move: {fileID: 384060962}
+  damage: {fileID: 1316921177}
+  skillData: {fileID: 11400000, guid: 6f2124259ae33fd4caeefc2fd3a8e00d, type: 2}
 --- !u!1 &1038693506
 GameObject:
   m_ObjectHideFlags: 0
@@ -16330,6 +16333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9397696e194b7764ea31a4ea2739315d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentDamage: 50
 --- !u!65 &1316921178
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16490,7 +16494,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc313a33dfc68f4299a8d61b4e58a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillData: {fileID: 11400000, guid: 4c165bd511b8ffd448859bd1499b54c4, type: 2}
   cooldownImage: {fileID: 832389039}
   cooldownText: {fileID: 1497842419}
   glowEffect: {fileID: 692020140}
@@ -16500,6 +16503,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   knight_Move: {fileID: 384060962}
+  damage: {fileID: 0}
+  skillData: {fileID: 11400000, guid: 4c165bd511b8ffd448859bd1499b54c4, type: 2}
 --- !u!224 &1371596492
 RectTransform:
   m_ObjectHideFlags: 0

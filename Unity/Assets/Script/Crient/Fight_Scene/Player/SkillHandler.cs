@@ -2,11 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.AI;
 
 public class SkillHandler : MonoBehaviour
 {
-    public SkillData skillData;
-
     [Header("UI")]
     public Image cooldownImage;
     public TextMeshProUGUI cooldownText;
@@ -20,6 +19,8 @@ public class SkillHandler : MonoBehaviour
     public UnityEngine.Events.UnityEvent onSkillUsed;
 
     public Fight_Demo knight_Move;
+    public WeaponDamage damage;
+    public SkillData skillData;
 
     private AudioSource audioSource;
     private Animator animator;
@@ -55,13 +56,16 @@ public class SkillHandler : MonoBehaviour
         {
             case SkillType.Q:
                 RotateTowardsMouse();
+                damage.currentDamage = 70f;
                 knight_Move.animator.SetTrigger("Qskill");
                 break;
 
             case SkillType.E:
                 if (skillData.skillSound != null)
                     audioSource.PlayOneShot(skillData.skillSound);
-                StartCoroutine(knight_Move.SpeedBoost(3f, 15f));
+
+                float boostedSpeed = knight_Move.agent.speed * 1.3f;
+                StartCoroutine(knight_Move.SpeedBoost(3f, boostedSpeed));
                 break;
 
             case SkillType.Shift:

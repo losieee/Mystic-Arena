@@ -41,7 +41,7 @@ public class Fight_Demo : MonoBehaviour
     private bool canQueueNextCombo = false;
 
     private CapsuleCollider capsule;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private Camera mainCamera;
     private Vector3 destination;
     private Coroutine comboResetCoroutine;
@@ -55,7 +55,7 @@ public class Fight_Demo : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         mainCamera = Camera.main;
 
-        // 오른쪽으로 30도 회전 오프셋 (Y축)
+        // Y축으로 30도 회전 오프셋
         idleAttackRotationOffset = Quaternion.Euler(0f, 30f, 0f);
 
         agent.updateRotation = false;

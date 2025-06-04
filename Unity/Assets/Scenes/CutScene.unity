@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 22197299}
   - component: {fileID: 22197301}
   - component: {fileID: 22197300}
+  - component: {fileID: 22197302}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -307,9 +308,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD604\uC9C0 \uC2DC\uAC01 \uC624\uC804 8\uC2DC 47\uBD84 \uC11C\uC6B8 \uAC15\uB0A8
-    \uB3C4\uC2EC \uD55C\uBCF5\uD310\uC5D0 \uC815\uCCB4\uBD88\uBA85\uC758 \uD3EC\uD0C8\uC774
-    \uCD9C\uD604\uD588\uC2B5\uB2C8\uB2E4!!!"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a1b7931ce547bfc4fb225f04e2cb5f08, type: 2}
   m_sharedMaterial: {fileID: -530489660781704558, guid: a1b7931ce547bfc4fb225f04e2cb5f08, type: 2}
@@ -386,6 +385,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22197298}
   m_CullTransparentMesh: 1
+--- !u!95 &22197302
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22197298}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &28746038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,6 +2414,8 @@ PlayableDirector:
     value: {fileID: 1717099330}
   - key: {fileID: 2593619116599320830, guid: cb37d70860dfb154684ee7fdba84daa4, type: 2}
     value: {fileID: 1081287818}
+  - key: {fileID: -6421941872962866370, guid: cb37d70860dfb154684ee7fdba84daa4, type: 2}
+    value: {fileID: 1081287824}
   m_ExposedReferences:
     m_References:
     - e474d88b3572f4144aa738e47521ec23: {fileID: 2037639704}
@@ -2720,7 +2742,8 @@ GameObject:
   - component: {fileID: 1081287819}
   - component: {fileID: 1081287821}
   - component: {fileID: 1081287820}
-  - component: {fileID: 1081287822}
+  - component: {fileID: 1081287823}
+  - component: {fileID: 1081287824}
   m_Layer: 5
   m_Name: Text1
   m_TagString: Untagged
@@ -2787,27 +2810,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081287818}
   m_CullTransparentMesh: 1
---- !u!95 &1081287822
-Animator:
-  serializedVersion: 5
+--- !u!114 &1081287823
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081287818}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba253a216fa4d6a459e5028c385515b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 22197300}
+  dialogueList:
+  - "\uD604\uC7AC \uC2DC\uAC01 \uC624\uC804 8\uC2DC 47\uBD84 \uC11C\uC6B8 \uAC15\uB0A8
+    \uB3C4\uC2EC \uD55C\uBCF5\uD310\uC5D0 \uC815\uCCB4\uBD88\uBA85\uC758 \uD3EC\uD0C8\uC774
+    \uCD9C\uD604\uD588\uC2B5\uB2C8\uB2E4!!!"
+  - "\uD3EC\uD0C8 \uB0B4\uBD80\uC5D0\uC11C \uBB34\uC5B8\uAC00\u2026 \uB098\uC635\uB2C8\uB2E4!
+    \uC774\uAC83\uC740... \uC7A0\uC2DC\uB9CC\uC694, \uC9C0\uAE08 \uC811\uADFC \uC911\uC785\uB2C8\uB2E4!"
+  - "\uC73C\uC545!! \uBB3C\uB7EC\uB098\uC138\uC694!"
+  delay: 0.05
+--- !u!114 &1081287824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081287818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 702c7678051270e48b570fe5bacffb27, type: 2}
+    - {fileID: 11400000, guid: 2125c251b4d76d14aa14b96e6178c362, type: 2}
+    - {fileID: 11400000, guid: 7fe051443415b304caa8b6081936964f, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1081287823}
+          m_TargetAssemblyTypeName: TextReveal, Assembly-CSharp
+          m_MethodName: StartReveal
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1081287823}
+          m_TargetAssemblyTypeName: TextReveal, Assembly-CSharp
+          m_MethodName: StartReveal
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1081287823}
+          m_TargetAssemblyTypeName: TextReveal, Assembly-CSharp
+          m_MethodName: StartReveal
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1082593266
 GameObject:
   m_ObjectHideFlags: 0

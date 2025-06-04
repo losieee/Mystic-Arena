@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class WeaponDamage : MonoBehaviour
 {
+    public float currentDamage = 50f;       // 기본 공격
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Boss"))
@@ -9,7 +11,7 @@ public class WeaponDamage : MonoBehaviour
             BossController boss = other.GetComponent<BossController>();
             if (boss != null)
             {
-                boss.TakeDamage(50f);
+                boss.TakeDamage(currentDamage);
             }
         }
     }
