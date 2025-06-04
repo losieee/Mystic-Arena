@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae83aded59be39443b17490f4470ea8a, type: 3}
+  m_Name: "\uCC28\uC6D0 \uBD95\uAD34 \uB099\uD558"
+  m_EditorClassIdentifier: 
+  id: 3
+  patternName: "\uCC28\uC6D0 \uBD95\uAD34 \uB099\uD558"
+  patternType: Area Drop
+  parsedPatternType: 2
+  patternDamage: 70
+  purifyEssence: 0
+  description: "\uB9F5\uC758 \uB79C\uB364\uD55C 6\uACF3\uC5D0 \uB099\uD558\uBB3C
+    \uCDA9\uB3CC\uC774 \uBC1C\uC0DD\uD569\uB2C8\uB2E4."

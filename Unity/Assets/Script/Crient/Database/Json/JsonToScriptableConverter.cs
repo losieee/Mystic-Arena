@@ -9,7 +9,8 @@ using Unity.VisualScripting;
 public enum ConversionType
 {
     Weapon,
-    Enemy
+    Enemy,
+    BossAttackPatternData
 }
 
 public class JsonToScriptableConverter : EditorWindow
@@ -63,6 +64,9 @@ public class JsonToScriptableConverter : EditorWindow
                         break;
                     case ConversionType.Enemy:
                         ConvertEnemyJson();
+                        break;
+                    case ConversionType.BossAttackPatternData:
+                        ConvertBossPatternJson();
                         break;
                 }
             }
@@ -177,6 +181,50 @@ public class JsonToScriptableConverter : EditorWindow
         AssetDatabase.Refresh();
 
         EditorUtility.DisplayDialog("Success", $"Created {createdEnemies.Count} Enemy ScriptableObjects!", "OK");
+    }
+
+    private void ConvertBossPatternJson()
+    {
+        if (!Directory.Exists(outputFolder))
+            Directory.CreateDirectory(outputFolder);
+
+        string jsonText = File.ReadAllText(jsonFilePath);
+        List<BossAttackPatternData> bossPatternDataList = JsonConvert.DeserializeObject<List<BossAttackPatternData>>(jsonText);
+
+        List<BossPatternSO> createdPatterns = new List<BossPatternSO>();
+
+        foreach (var data in bossPatternDataList)
+        {
+            BossPatternSO patternSO = ScriptableObject.CreateInstance<BossPatternSO>();
+
+            patternSO.id = data.id;
+            patternSO.patternName = data.patternName;
+            patternSO.patternType = data.patternType;
+            patternSO.patternDamage = data.patternDamage;
+            patternSO.purifyEssence = data.purifyEssence;
+            patternSO.description = data.description;
+
+            patternSO.InitializeEnum();
+
+            createdPatterns.Add(patternSO);
+
+            AssetDatabase.CreateAsset(patternSO, $"{outputFolder}/{patternSO.patternName}.asset");
+            EditorUtility.SetDirty(patternSO);
+        }
+
+        if (createDatabase && createdPatterns.Count > 0)
+        {
+            BossPatternDatabaseSO database = ScriptableObject.CreateInstance<BossPatternDatabaseSO>();
+            database.patterns = createdPatterns;
+
+            AssetDatabase.CreateAsset(database, $"{outputFolder}/bossPatternDatabase.asset");
+            EditorUtility.SetDirty(database);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        EditorUtility.DisplayDialog("Success", $"Created {createdPatterns.Count} Boss Pattern ScriptableObjects!", "OK");
     }
 }
 #endif

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae83aded59be39443b17490f4470ea8a, type: 3}
+  m_Name: "\uCC28\uC6D0 \uADE0\uC5F4 \uC2A4\uC715"
+  m_EditorClassIdentifier: 
+  id: 2
+  patternName: "\uCC28\uC6D0 \uADE0\uC5F4 \uC2A4\uC715"
+  patternType: Map Sweep
+  parsedPatternType: 1
+  patternDamage: 120
+  purifyEssence: 0
+  description: "\uCF54\uB974\uBE44\uD130\uC2A4\uAC00 \uB9F5\uC744 \uAC00\uB85C\uC9C0\uB974\uB294
+    \uD30C\uAD34\uC801\uC778 \uB808\uC774\uC800\uB97C \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
