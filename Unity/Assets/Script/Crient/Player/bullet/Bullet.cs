@@ -1,65 +1,79 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using Unity.VisualScripting;
-//using UnityEngine;
-//public enum AttackType
-//{
-//    Normal_Attack,
-//    Qkey_Attack,
-//    Ekey_Attack,
-//}
+using UnityEngine;
+using static BossWaveSpawner;
 
-//public class Bullet : MonoBehaviour
-//{
-//    public AttackType attackType;
-//    //public NormalEnemy NormalEnemy;              // 추후 몬스터 로직 오브젝트 가져오기
-//    public PlayerSO playerSO;
-//    public EnemySO enemySO;
+public enum AttackType
+{
+    Normal_Attack,
+    Qkey_Attack,
+    Ekey_Attack
+}
 
+public class Bullet : MonoBehaviour
+{
+    public AttackType attackType;
+    public PlayerSO playerSO;
+    public EnemyData enemydata;
+    public float forcePower;
+    public float lifeTime = 5f;
 
-//    private void OnCollisionEnter(Collision collision)
-//    {
-//        if (collision.gameObject.CompareTag("Enemy"))
-//        {
-//            switch (attackType)
-//            {
-//                case AttackType.Normal_Attack:
-//                    NormalAttack();
-//                    break;
-//                case AttackType.Qkey_Attack:
-//                    QkeyAttack();
-//                    break;
-//                case AttackType.Ekey_Attack:
-//                    EkeyAttack();
-//                    break;
-//            }
-//        }
+    public Rigidbody rb;
 
-//        if (collision.gameObject.CompareTag("Player"))
-//        {
-//            playerSO.player_CurrHp -= enemySO.enemy_Damage;
-//            return;
-//        }
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        Destroy(gameObject, lifeTime);
+    }
 
-//    }
+    // 총알 발사 방향과 힘을 설정하는 함수
+    public void Shoot(Vector3 direction, float force)
+    {
+        forcePower = force;
+        rb = GetComponent<Rigidbody>();
+        rb.AddForce(direction * forcePower, ForceMode.Impulse);
+    }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            switch (attackType)
+            {
+                case AttackType.Normal_Attack:
+                    NormalAttack();
+                    break;
+                case AttackType.Qkey_Attack:
+                    QkeyAttack();
+                    break;
+                case AttackType.Ekey_Attack:
+                    EkeyAttack();
+                    break;
+            }
 
+            enemydata.monsterHp -= playerSO.playerAttack;
+            Destroy(gameObject);
+            return;
+        }
 
-//    public void NormalAttack()
-//    {
-//        //일반 공격 처리
-//        Debug.Log("일반공격 데미지");
-//    }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerSO.playerCorrHp -= enemydata.monsterAttack;
+            Destroy(gameObject);
+            return;
+        }
+    }
 
-//    public void QkeyAttack()
-//    {
-//        //Q 공격 처리
-//        Debug.Log("Q스킬 공격 데미지");
-//    }
+    public void NormalAttack()
+    {
+        Debug.Log("일반공격 데미지");
+    }
 
-//    public void EkeyAttack()
-//    {
-//        //E 공격 처리
-//        Debug.Log("E스킬 공격 데미지");
-//    }
-//}
+    public void QkeyAttack()
+    {
+        Debug.Log("Q스킬 공격 데미지");
+    }
+
+    public void EkeyAttack()
+    {
+        Debug.Log("E스킬 공격 데미지");
+    }
+}

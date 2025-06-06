@@ -5,12 +5,14 @@ using UnityEditor;
 using UnityEngine;
 using Newtonsoft.Json;
 using Unity.VisualScripting;
+using System;
 
 public enum ConversionType
 {
     Weapon,
     Enemy,
-    BossAttackPatternData
+    BossAttackPatternData,
+    PlayerSkill,
 }
 
 public class JsonToScriptableConverter : EditorWindow
@@ -67,6 +69,9 @@ public class JsonToScriptableConverter : EditorWindow
                         break;
                     case ConversionType.BossAttackPatternData:
                         ConvertBossPatternJson();
+                        break;
+                    case ConversionType.PlayerSkill:
+                        ConvertPlayerSkillJson();
                         break;
                 }
             }
@@ -225,6 +230,66 @@ public class JsonToScriptableConverter : EditorWindow
         AssetDatabase.Refresh();
 
         EditorUtility.DisplayDialog("Success", $"Created {createdPatterns.Count} Boss Pattern ScriptableObjects!", "OK");
+    }
+
+    private void ConvertPlayerSkillJson()
+    {
+        if (!Directory.Exists(outputFolder))
+            Directory.CreateDirectory(outputFolder);
+
+        string jsonText = File.ReadAllText(jsonFilePath);
+        List<PlayerSkillData> skillDataList = JsonConvert.DeserializeObject<List<PlayerSkillData>>(jsonText);
+
+        List<PlayerSkillSO> createdSkills = new List<PlayerSkillSO>();
+
+        foreach (var skillData in skillDataList)
+        {
+            PlayerSkillSO skillSO = ScriptableObject.CreateInstance<PlayerSkillSO>();
+
+            // 기본 데이터 복사
+            skillSO.id = skillData.id;
+            skillSO.skillName = skillData.skillName;
+            skillSO.skillKey = skillData.skillKey;
+
+            // 문자열 -> enum 변환
+            if (Enum.TryParse(skillData.skillType, out SkillType skillTypeParsed))
+                skillSO.skillType = skillTypeParsed;
+
+            if (Enum.TryParse(skillData.weaponTypeString, out WeaponTypeString weaponTypeParsed))
+                skillSO.weaponTypeString = weaponTypeParsed;
+
+            skillSO.description = skillData.description;
+            skillSO.skillCooldown = skillData.skillCooldown;
+            skillSO.skillDamage = skillData.skillDamage;
+            skillSO.useWeaponDamage = skillData.useWeaponDamageBool;
+            skillSO.totalDamageFormula = skillData.totalDamageFormula;
+
+            if (Enum.TryParse(skillData.buffType, out BuffType buffTypeParsed))
+                skillSO.buffType = buffTypeParsed;
+
+            skillSO.buffValue = skillData.buffValue;
+            skillSO.duration = skillData.duration ?? 0f;
+
+            createdSkills.Add(skillSO);
+
+            AssetDatabase.CreateAsset(skillSO, $"{outputFolder}/{skillSO.skillName}.asset");
+            EditorUtility.SetDirty(skillSO);
+        }
+
+        // DB 생성 옵션
+        if (createDatabase && createdSkills.Count > 0)
+        {
+            PlayerSkillDatabaseSO database = ScriptableObject.CreateInstance<PlayerSkillDatabaseSO>();
+            database.skills = createdSkills;
+
+            AssetDatabase.CreateAsset(database, $"{outputFolder}/playerSkillDatabase.asset");
+            EditorUtility.SetDirty(database);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        EditorUtility.DisplayDialog("Success", $"Created {createdSkills.Count} Player Skill ScriptableObjects!", "OK");
     }
 }
 #endif
