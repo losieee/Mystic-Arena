@@ -19,6 +19,10 @@ public class SkillData : ScriptableObject
     [Header("아이콘 / 사운드")]
     public Sprite skillIcon;
     public AudioClip skillSound;
+    [Range(0f, 1f)]
+    public float skillSoundVolume = 1f;
+    [Range(0.1f, 3f)]
+    public float skillSoundPitch = 1f;
 
     [Header("스킬 이펙트")]
     public GameObject skillEffectPrefab;   // 스킬 이펙트

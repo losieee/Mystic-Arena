@@ -61,8 +61,14 @@ public class SkillHandler : MonoBehaviour
                 break;
 
             case SkillType.E:
+                SpawnSkillEffect();
                 if (skillData.skillSound != null)
-                    audioSource.PlayOneShot(skillData.skillSound);
+                {
+                    audioSource.clip = skillData.skillSound;
+                    audioSource.pitch = skillData.skillSoundPitch;
+                    audioSource.volume = skillData.skillSoundVolume;
+                    audioSource.Play();
+                }
 
                 float boostedSpeed = knight_Move.agent.speed * 1.3f;
                 StartCoroutine(knight_Move.SpeedBoost(3f, boostedSpeed));
@@ -72,8 +78,13 @@ public class SkillHandler : MonoBehaviour
                 knight_Move.animator.SetTrigger("isDashing");
 
                 if (skillData.skillSound != null)
-                    audioSource.PlayOneShot(skillData.skillSound);
-                
+                {
+                    audioSource.clip = skillData.skillSound;
+                    audioSource.pitch = skillData.skillSoundPitch;
+                    audioSource.volume = skillData.skillSoundVolume;
+                    audioSource.Play();
+                }
+
                 // 대시 위치/방향 정보 계산 후 이펙트 생성
                 Vector3 dashStart = knight_Move.transform.position;
                 Vector3 dashDir = knight_Move.transform.forward;

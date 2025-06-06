@@ -236,7 +236,7 @@ public class BossWaveSpawner : MonoBehaviour
 
                     AudioSource audioSource = audioObj.AddComponent<AudioSource>();
                     audioSource.clip = config.lazerSound;
-                    audioSource.volume = 0.03f;
+                    audioSource.volume = 0.1f;
                     audioSource.loop = true;
 
                     audioSource.Play();
@@ -326,7 +326,7 @@ public class BossWaveSpawner : MonoBehaviour
         //integerPrefab
         if (config.integerPrefab != null)
         {
-            Vector3 myTargetPosition = new Vector3(-0.77f, 7f, -24.36f);
+            Vector3 myTargetPosition = new Vector3(-0.77f, 7f, -25.29f);
             SpawnInteger(myTargetPosition);
         }
     }
@@ -450,7 +450,7 @@ public class BossWaveSpawner : MonoBehaviour
 
             AudioSource audioSource = audioObj.AddComponent<AudioSource>();
             audioSource.clip = config.meteorSound;
-            audioSource.volume = 0.005f;
+            audioSource.volume = 0.05f;
             audioSource.loop = false;
 
             audioSource.Play();

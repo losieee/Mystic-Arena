@@ -24,6 +24,7 @@ public class Fight_Demo : MonoBehaviour
 
     public Animator animator;
     public Transform swordTransform;
+    public AudioClip attackSound;
     public SkillHandler skillHandler;
     public Image hpBarImage;
     public GameObject deathPanel;
@@ -411,5 +412,16 @@ public class Fight_Demo : MonoBehaviour
     {
         BossController.isBossDead = false;
         SceneManager.LoadScene("BossRoom");
+    }
+    public void PlayAttackSound()
+    {
+        if (attackSound != null)
+        {
+            AudioSource audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+                audioSource = gameObject.AddComponent<AudioSource>();
+
+            audioSource.PlayOneShot(attackSound, 0.5f);
+        }
     }
 }
