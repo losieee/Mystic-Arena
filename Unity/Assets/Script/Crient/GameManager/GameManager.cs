@@ -4,8 +4,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-  
-
     public int WabeCount = 3;
     public int EnemyCount = 5;
 
@@ -19,6 +17,14 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K) && WabeCount > 0)
+        {
+            WabeCount -= 1;
         }
     }
 }
