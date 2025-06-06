@@ -56,7 +56,7 @@ public class Bullet : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            playerSO.playerCorrHp -= enemydata.monsterAttack;
+            playerSO.playerCurrHp -= enemydata.monsterAttack;
             Destroy(gameObject);
             return;
         }

@@ -9,9 +9,7 @@ using System.ComponentModel;
 
 public class Fight_Demo : MonoBehaviour
 {
-    [Header("HP")]
-    public float maxHP = 100f;
-    private float currentHP;
+    public PlayerSO playerSO;
 
     [Header("Skill Handlers")]
     [SerializeField] private SkillHandler qSkillHandler;
@@ -71,7 +69,7 @@ public class Fight_Demo : MonoBehaviour
 
     private void Start()
     {
-        currentHP = maxHP;
+        playerSO.playerCurrHp = playerSO.playerMaxHp;
         UpdateHPUI();
         Debug.Log(isDashing);
 
@@ -93,15 +91,15 @@ public class Fight_Demo : MonoBehaviour
             return;
         }
 
-        currentHP -= damage;
-        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        playerSO.playerCurrHp -= damage;
+        playerSO.playerCurrHp = Mathf.Clamp(playerSO.playerCurrHp, 0, playerSO.playerMaxHp);
         UpdateHPUI();
     }
     private void UpdateHPUI()
     {
         if (hpBarImage != null)
         {
-            hpBarImage.fillAmount = currentHP / maxHP;
+            hpBarImage.fillAmount = playerSO.playerCurrHp / playerSO.playerMaxHp;
         }
     }
     private void Update()
@@ -125,7 +123,7 @@ public class Fight_Demo : MonoBehaviour
         }
 
         // 평소 조작 처리
-        if (currentHP <= 0 && !isDead)
+        if (playerSO.playerCurrHp <= 0 && !isDead)
         {
             isDead = true;
 

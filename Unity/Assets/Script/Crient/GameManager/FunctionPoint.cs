@@ -1,8 +1,10 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FunctionPoint : MonoBehaviour
 {
+    public GameManager gameManager;
     [Header("UI Elements")]
     public GameObject functionUI;
     public Text functionText;
@@ -14,6 +16,14 @@ public class FunctionPoint : MonoBehaviour
 
     private bool isPlayerNearby = false;
     private bool isPortalActivated = false;
+
+    private void Start()
+    {
+        if (!gameManager)
+        {
+            gameManager = FindAnyObjectByType<GameManager>();
+        }
+    }
 
     private void Update()
     {
@@ -27,12 +37,14 @@ public class FunctionPoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+        if(gameManager.WabeCount == 0)
+        {
+            isPlayerNearby = true;
+            functionText.text = "F  정화하기";
+            functionUI.SetActive(true);
 
-        isPlayerNearby = true;
-        functionText.text = "F  정화하기";
-        functionUI.SetActive(true);
-
-        Debug.Log("플레이어가 포탈 앞에 있습니다.");
+            Debug.Log("플레이어가 포탈 앞에 있습니다.");
+        }
     }
 
     private void OnTriggerExit(Collider other)
