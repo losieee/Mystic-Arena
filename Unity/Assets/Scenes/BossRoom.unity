@@ -1214,7 +1214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c49e169679ae84fafca6a5bfb7f37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10000
+  playerSO: {fileID: 11400000, guid: ee452499e474c5f43bfa0653eb75c587, type: 2}
   qSkillHandler: {fileID: 1028601431}
   eSkillHandler: {fileID: 756635202}
   shiftSkillHandler: {fileID: 1371596491}
@@ -1222,6 +1222,8 @@ MonoBehaviour:
   dashSpeed: 15
   animator: {fileID: 384060966}
   swordTransform: {fileID: 1664932132}
+  comboAttackSound: {fileID: 8300000, guid: 7e94e30dc1c5c0540b9733c18ec267ed, type: 3}
+  LastComboSound: {fileID: 8300000, guid: 0930a7c9e608cc44188819ef0feab010, type: 3}
   attackSound: {fileID: 8300000, guid: 14efd9e7c827f304a872959db12655bb, type: 3}
   skillHandler: {fileID: 1028601431}
   hpBarImage: {fileID: 1070911408}
@@ -15200,7 +15202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   touchEffect: {fileID: 1269910588600086776, guid: 47bae07759d85d840a76d03dbb69e863, type: 3}
-  pickupSound: {fileID: 8300000, guid: 5f18f9fdd6799c54f8eafb381906a801, type: 3}
+  pickupSound: {fileID: 8300000, guid: ee94e9ed9465eb1428a8dae332b3c7ba, type: 3}
 --- !u!1 &1028601427
 GameObject:
   m_ObjectHideFlags: 0

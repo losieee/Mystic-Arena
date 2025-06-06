@@ -25,6 +25,7 @@ public class BossController : MonoBehaviour
     private bool isDead = false;
     public static bool portalClosed = false;
     private GameObject deadInstance;
+
     void Start()
     {
         currentHP = maxHP;

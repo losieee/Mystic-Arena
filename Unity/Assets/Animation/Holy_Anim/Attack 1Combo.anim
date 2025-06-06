@@ -35503,8 +35503,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0666667
-    functionName: PlayAttackSound
+  - time: 1
+    functionName: EnableWeaponCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -35512,6 +35512,13 @@ AnimationClip:
     messageOptions: 0
   - time: 1.2333333
     functionName: EndCombo
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.2333333
+    functionName: DisableWeaponCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

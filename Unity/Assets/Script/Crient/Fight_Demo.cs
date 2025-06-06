@@ -22,6 +22,8 @@ public class Fight_Demo : MonoBehaviour
 
     public Animator animator;
     public Transform swordTransform;
+    public AudioClip comboAttackSound;
+    public AudioClip LastComboSound;
     public AudioClip attackSound;
     public SkillHandler skillHandler;
     public Image hpBarImage;
@@ -32,6 +34,7 @@ public class Fight_Demo : MonoBehaviour
     private bool isDashing = false;
     private bool isInvincible = false;
     public static bool isDead = false;
+    private bool currentAttackHit = false;
 
     // 콤보
     private int comboStep = 0;
@@ -44,6 +47,7 @@ public class Fight_Demo : MonoBehaviour
     private Camera mainCamera;
     private Vector3 destination;
     private Coroutine comboResetCoroutine;
+    private AudioSource audioSource;
 
     private Quaternion idleAttackRotationOffset;    //애니메이션 기울이기용
 
@@ -53,6 +57,10 @@ public class Fight_Demo : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         mainCamera = Camera.main;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
 
         // Y축으로 30도 회전 오프셋
         idleAttackRotationOffset = Quaternion.Euler(0f, 30f, 0f);
@@ -235,6 +243,7 @@ public class Fight_Demo : MonoBehaviour
 
         comboStep = 1;
         isAttacking = true;
+        currentAttackHit = false;
         animator.SetInteger("ComboCount", comboStep);
         animator.SetBool("isAttacking", true);
     }
@@ -279,7 +288,7 @@ public class Fight_Demo : MonoBehaviour
             canQueueNextCombo = false;
 
             canMove = false;
-            // 콤보 종료 후 1초 대기
+            // 콤보 종료 후 대기
             yield return new WaitForSeconds(0.4f);
             canMove = true;
             animator.SetBool("isAttacking", false);
@@ -411,15 +420,55 @@ public class Fight_Demo : MonoBehaviour
         BossController.isBossDead = false;
         SceneManager.LoadScene("BossRoom");
     }
-    public void PlayAttackSound()
+    public void EnableWeaponCollider()
     {
-        if (attackSound != null)
-        {
-            AudioSource audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
-                audioSource = gameObject.AddComponent<AudioSource>();
+        currentAttackHit = false;
 
-            audioSource.PlayOneShot(attackSound, 0.5f);
+        var weaponCollider = swordTransform.GetComponent<Collider>();
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = true;
         }
+    }
+    public void DisableWeaponCollider()
+    {
+        var weaponCollider = swordTransform.GetComponent<Collider>();
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = false;
+        }
+
+        int currentComboStep = comboStep;
+        PlayAttackSound(currentComboStep);
+    }
+    public void PlayAttackSound(int step)
+    {
+        if (audioSource == null)
+            return;
+
+        if (currentAttackHit)
+        {
+            return;
+        }
+
+        AudioClip clipToPlay = null;
+
+        if (step == 1 || step == 2)
+        {
+            clipToPlay = comboAttackSound;
+        }
+        else if (step == 3)
+        {
+            clipToPlay = LastComboSound;
+        }
+
+        if (clipToPlay != null)
+        {
+            audioSource.PlayOneShot(clipToPlay, 0.2f);
+        }
+    }
+    public void SetCurrentAttackHit(bool hit)
+    {
+        currentAttackHit = hit;
     }
 }

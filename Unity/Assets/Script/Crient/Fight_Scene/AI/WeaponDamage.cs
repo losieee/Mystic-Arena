@@ -9,10 +9,21 @@ public class WeaponDamage : MonoBehaviour
     {
         if (other.CompareTag("Boss"))
         {
+            var player = GetComponentInParent<Fight_Demo>();
+            if (player != null)
+            {
+                player.SetCurrentAttackHit(true);
+            }
+
             BossController boss = other.GetComponent<BossController>();
             if (boss != null)
             {
                 boss.TakeDamage(currentDamage);
+
+                if (player != null && player.attackSound != null)
+                {
+                    AudioSource.PlayClipAtPoint(player.attackSound, boss.transform.position, 1f);
+                }
 
                 if (hit_Particle != null)
                 {
