@@ -7974,7 +7974,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8009,7 +8009,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 1741409670527157167, guid: d7fb39b182dec554f9e6a1bbe9fd21fe, type: 3}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8044,7 +8044,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 1741409670527157167, guid: d7fb39b182dec554f9e6a1bbe9fd21fe, type: 3}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8083,7 +8083,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8118,7 +8118,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 1741409670527157167, guid: d7fb39b182dec554f9e6a1bbe9fd21fe, type: 3}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8153,7 +8153,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8192,7 +8192,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8227,7 +8227,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 1741409670527157167, guid: d7fb39b182dec554f9e6a1bbe9fd21fe, type: 3}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8262,7 +8262,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8297,7 +8297,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 1741409670527157167, guid: d7fb39b182dec554f9e6a1bbe9fd21fe, type: 3}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8589,7 +8589,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8624,7 +8624,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 1741409670527157167, guid: d7fb39b182dec554f9e6a1bbe9fd21fe, type: 3}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8659,7 +8659,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8694,7 +8694,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8943,7 +8943,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -8978,7 +8978,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -9013,7 +9013,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 1741409670527157167, guid: d7fb39b182dec554f9e6a1bbe9fd21fe, type: 3}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -9048,7 +9048,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -9515,7 +9515,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -9550,7 +9550,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -9585,7 +9585,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 1741409670527157167, guid: d7fb39b182dec554f9e6a1bbe9fd21fe, type: 3}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -9620,7 +9620,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -9978,7 +9978,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10017,7 +10017,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10095,7 +10095,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10173,7 +10173,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10212,7 +10212,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10290,7 +10290,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10368,7 +10368,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10446,7 +10446,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10485,7 +10485,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10890,7 +10890,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10925,7 +10925,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10960,7 +10960,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -10995,7 +10995,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11104,7 +11104,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11139,7 +11139,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11174,7 +11174,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11209,7 +11209,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11248,7 +11248,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11287,7 +11287,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11326,7 +11326,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11509,7 +11509,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 4
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11544,7 +11544,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 4
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11579,7 +11579,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 4
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11797,7 +11797,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 4
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11832,7 +11832,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 4
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -11867,7 +11867,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 4
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -12194,7 +12194,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -12229,7 +12229,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -12264,7 +12264,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 0.5
       lazerReadyEffectPosition: {x: 0, y: 0, z: 0}
       lazerReadyEffectRotation: {x: 0, y: 0, z: 0}
@@ -13089,7 +13089,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 20
       lazerReadyEffectPosition: {x: 0, y: 2.07, z: -20.83}
       lazerReadyEffectRotation: {x: 0, y: 90, z: 0}
@@ -13124,7 +13124,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 20
       lazerReadyEffectPosition: {x: 0, y: 2.07, z: -20.83}
       lazerReadyEffectRotation: {x: 0, y: 90, z: 0}
@@ -13482,7 +13482,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 15
       lazerReadyEffectPosition: {x: 0, y: 2.07, z: -20.83}
       lazerReadyEffectRotation: {x: 0, y: 90, z: 0}
@@ -13517,7 +13517,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 15
       lazerReadyEffectPosition: {x: 0, y: 2.07, z: -20.83}
       lazerReadyEffectRotation: {x: 0, y: 90, z: 0}
@@ -13552,7 +13552,7 @@ MonoBehaviour:
       integerPrefab: {fileID: 0}
       spawnAfterEffect: {fileID: 9050286411669659971, guid: 2df88221b662ba743b0f5723bf0254f3, type: 3}
       attackEffectPrefab: {fileID: 1113542793305144111, guid: 5e6c2d9f0a14493458c7a8ef977bd3af, type: 3}
-      bottomSound: {fileID: 8300000, guid: 20eedbee8c47aca40981b6613c2c4ed9, type: 3}
+      bottomSound: {fileID: 8300000, guid: a1b7cb337fea2514f92f5a5138fa033c, type: 3}
       bottomDestroyTime: 15
       lazerReadyEffectPosition: {x: 0, y: 2.07, z: -20.83}
       lazerReadyEffectRotation: {x: 0, y: 90, z: 0}
@@ -14366,6 +14366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 10000
   currentHP: 10000
+  backGroundMusic: {fileID: 8300000, guid: 10dd5059a4a4a68418a57528d42dcf78, type: 3}
   fadeCanvasGroup: {fileID: 1136739752}
   fadeDuration: 1.5
   hpBarImage: {fileID: 1666698534}

@@ -153,7 +153,10 @@ public class SkillHandler : MonoBehaviour
     public void QSkillSound()
     {
         if (skillData.skillSound != null)
-            audioSource.PlayOneShot(skillData.skillSound);
+            audioSource.clip = skillData.skillSound;
+            audioSource.pitch = skillData.skillSoundPitch;
+            audioSource.volume = skillData.skillSoundVolume;
+            audioSource.Play();
     }
 
     /// Äð´Ù¿î Ã³¸®

@@ -199,7 +199,18 @@ public class BossWaveSpawner : MonoBehaviour
 
                 if (config.bottomSound != null)
                 {
-                    AudioSource.PlayClipAtPoint(config.bottomSound, config.position);
+                    GameObject audioObj = new GameObject("TempAudio_BottomSound");
+                    audioObj.transform.position = transform.position;
+
+                    AudioSource audioSource = audioObj.AddComponent<AudioSource>();
+                    audioSource.clip = config.bottomSound;
+                    audioSource.volume = 0.01f;
+                    audioSource.loop = false;
+
+                    audioSource.Play();
+
+                    Destroy(audioSource, 0.5f);
+                    Destroy(audioObj, 0.5f);
                 }
 
                 if (config.spawnAfterEffect != null)
@@ -236,7 +247,7 @@ public class BossWaveSpawner : MonoBehaviour
 
                     AudioSource audioSource = audioObj.AddComponent<AudioSource>();
                     audioSource.clip = config.lazerSound;
-                    audioSource.volume = 0.1f;
+                    audioSource.volume = 0.01f;
                     audioSource.loop = true;
 
                     audioSource.Play();
@@ -274,7 +285,7 @@ public class BossWaveSpawner : MonoBehaviour
                             rotationTarget.transform,
                             rotateDuration,
                             direction * config.lazerRotateAngle,
-                            1f,
+                            0.6f,
                             0f,
                             config.lazerSound,
                             config.lazerReadyEffectPosition
@@ -450,7 +461,7 @@ public class BossWaveSpawner : MonoBehaviour
 
             AudioSource audioSource = audioObj.AddComponent<AudioSource>();
             audioSource.clip = config.meteorSound;
-            audioSource.volume = 0.05f;
+            audioSource.volume = 0.01f;
             audioSource.loop = false;
 
             audioSource.Play();

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class IntegerTouch : MonoBehaviour
@@ -29,11 +30,16 @@ public class IntegerTouch : MonoBehaviour
 
                 if (pickupSound != null)
                 {
-                    AudioSource audioSource = GetComponent<AudioSource>();
-                    if (audioSource == null)
-                        audioSource = gameObject.AddComponent<AudioSource>();
+                    GameObject audioObj = new GameObject("TempAudio_PickupSound");
+                    audioObj.transform.position = transform.position;
 
-                    audioSource.PlayOneShot(pickupSound, 0.1f);
+                    AudioSource audioSource = audioObj.AddComponent<AudioSource>();
+                    audioSource.clip = pickupSound;
+                    audioSource.volume = 0.05f;
+                    audioSource.loop = false;
+                    audioSource.Play();
+
+                    Destroy(audioObj, 2f);
                 }
 
                 Destroy(effect, 1f);

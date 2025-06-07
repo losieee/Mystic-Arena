@@ -5,11 +5,13 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting.FullSerializer;
 
 public class BossController : MonoBehaviour
 {
     public float maxHP = 10000;
     public float currentHP;
+    public AudioClip backGroundMusic;
 
     // º¸½º »ç¸Á ÈÄ
     public CanvasGroup fadeCanvasGroup;
@@ -23,6 +25,20 @@ public class BossController : MonoBehaviour
 
     void Start()
     {
+        if (backGroundMusic != null)
+        {
+            GameObject audioObj = new GameObject("TempAudio_BackSound");
+            audioObj.transform.position = transform.position;
+
+            AudioSource audioSource = audioObj.AddComponent<AudioSource>();
+            audioSource.clip = backGroundMusic;
+            audioSource.volume = 0.01f;
+            audioSource.loop = false;
+
+            audioSource.Play();
+
+            Destroy(audioObj, backGroundMusic.length);
+        }
         currentHP = maxHP;
         isDead = false;
         isFadeStarted = false;
