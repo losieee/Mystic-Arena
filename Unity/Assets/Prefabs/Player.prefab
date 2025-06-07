@@ -1808,11 +1808,12 @@ MonoBehaviour:
   shiftSkillHandler: {fileID: 1753726862873283317}
   dashDistance: 5
   dashSpeed: 15
+  attackSoundVolume: 0.2
   animator: {fileID: 3471453167186279452}
   swordTransform: {fileID: 10089515895962521}
   swordObject: {fileID: 5948083041375264062}
-  comboAttackSound: {fileID: 8300000, guid: 7e94e30dc1c5c0540b9733c18ec267ed, type: 3}
-  LastComboSound: {fileID: 8300000, guid: 0930a7c9e608cc44188819ef0feab010, type: 3}
+  comboAttackSound: {fileID: 8300000, guid: fada9e5c499351a4cacc2e2797108efd, type: 3}
+  LastComboSound: {fileID: 8300000, guid: 746493b769913be4c9361db3be5fdffa, type: 3}
   attackSound: {fileID: 8300000, guid: 14efd9e7c827f304a872959db12655bb, type: 3}
   skillHandler: {fileID: 4958592606007862265}
   hpBarImage: {fileID: 2040447157950562913}
@@ -1895,7 +1896,7 @@ GameObject:
   - component: {fileID: 520784388653332789}
   - component: {fileID: 1646501454305250141}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PotalText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

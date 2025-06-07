@@ -21,6 +21,9 @@ public class Fight_Demo : MonoBehaviour
     [SerializeField] private float dashDistance = 5f;
     [SerializeField] private float dashSpeed = 15f;
 
+    [Range(0f, 1f)]
+    public float attackSoundVolume = 0.2f;
+
     public Animator animator;
     public Transform swordTransform;
     public Transform swordObject;
@@ -474,7 +477,7 @@ public class Fight_Demo : MonoBehaviour
 
         if (clipToPlay != null)
         {
-            audioSource.PlayOneShot(clipToPlay, 0.2f);
+            audioSource.PlayOneShot(clipToPlay, attackSoundVolume);
         }
     }
     public void SetCurrentAttackHit(bool hit)

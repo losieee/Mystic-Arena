@@ -247,7 +247,7 @@ public class BossWaveSpawner : MonoBehaviour
 
                     AudioSource audioSource = audioObj.AddComponent<AudioSource>();
                     audioSource.clip = config.lazerSound;
-                    audioSource.volume = 0.01f;
+                    audioSource.volume = 0.05f;
                     audioSource.loop = true;
 
                     audioSource.Play();

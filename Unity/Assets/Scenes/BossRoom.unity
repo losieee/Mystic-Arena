@@ -1220,11 +1220,12 @@ MonoBehaviour:
   shiftSkillHandler: {fileID: 1371596491}
   dashDistance: 5
   dashSpeed: 15
+  attackSoundVolume: 0.05
   animator: {fileID: 384060966}
   swordTransform: {fileID: 1664932132}
   swordObject: {fileID: 0}
-  comboAttackSound: {fileID: 8300000, guid: 7e94e30dc1c5c0540b9733c18ec267ed, type: 3}
-  LastComboSound: {fileID: 8300000, guid: 0930a7c9e608cc44188819ef0feab010, type: 3}
+  comboAttackSound: {fileID: 8300000, guid: fada9e5c499351a4cacc2e2797108efd, type: 3}
+  LastComboSound: {fileID: 8300000, guid: 746493b769913be4c9361db3be5fdffa, type: 3}
   attackSound: {fileID: 8300000, guid: 14efd9e7c827f304a872959db12655bb, type: 3}
   skillHandler: {fileID: 1028601431}
   hpBarImage: {fileID: 1070911408}
@@ -8343,7 +8344,7 @@ MonoBehaviour:
       lazerReadyEffectPrefab: {fileID: 7435820690753171035, guid: e87b8ffc16fc9154c973f27d0fe8d8d4, type: 3}
       lazerBeamPrefab: {fileID: 2540417558773106788, guid: 3fdd30d0b52b3864e92fe3606bf66eff, type: 3}
       lazerReadySound: {fileID: 8300000, guid: 0ee8acf809a13a5408178ef10ed11547, type: 3}
-      lazerSound: {fileID: 8300000, guid: fe6ac9a69f5badf48853d9e99e13083c, type: 3}
+      lazerSound: {fileID: 8300000, guid: f846e97a28d5f1a48ab273c995d2c53b, type: 3}
       lazerBeamSpawnPosition: {x: 0, y: 0.244, z: 0}
       lazerBeamScale: {x: 1, y: 1, z: 1}
       lazerBeamRotation: {x: 0, y: 180, z: 0}
@@ -9269,7 +9270,7 @@ MonoBehaviour:
       lazerReadyEffectPrefab: {fileID: 7435820690753171035, guid: e87b8ffc16fc9154c973f27d0fe8d8d4, type: 3}
       lazerBeamPrefab: {fileID: 2540417558773106788, guid: 3fdd30d0b52b3864e92fe3606bf66eff, type: 3}
       lazerReadySound: {fileID: 8300000, guid: 0ee8acf809a13a5408178ef10ed11547, type: 3}
-      lazerSound: {fileID: 8300000, guid: fe6ac9a69f5badf48853d9e99e13083c, type: 3}
+      lazerSound: {fileID: 8300000, guid: f846e97a28d5f1a48ab273c995d2c53b, type: 3}
       lazerBeamSpawnPosition: {x: 0, y: 0.244, z: 0}
       lazerBeamScale: {x: 1, y: 1, z: 1}
       lazerBeamRotation: {x: 0, y: 180, z: 0}
@@ -12162,7 +12163,7 @@ MonoBehaviour:
       lazerReadyEffectPrefab: {fileID: 7435820690753171035, guid: e87b8ffc16fc9154c973f27d0fe8d8d4, type: 3}
       lazerBeamPrefab: {fileID: 2540417558773106788, guid: 3fdd30d0b52b3864e92fe3606bf66eff, type: 3}
       lazerReadySound: {fileID: 8300000, guid: 0ee8acf809a13a5408178ef10ed11547, type: 3}
-      lazerSound: {fileID: 8300000, guid: fe6ac9a69f5badf48853d9e99e13083c, type: 3}
+      lazerSound: {fileID: 8300000, guid: f846e97a28d5f1a48ab273c995d2c53b, type: 3}
       lazerBeamSpawnPosition: {x: 0, y: 0.244, z: 0}
       lazerBeamScale: {x: 1, y: 1, z: 1}
       lazerBeamRotation: {x: 0, y: 180, z: 0}
@@ -12310,7 +12311,7 @@ MonoBehaviour:
       lazerReadyEffectPrefab: {fileID: 7435820690753171035, guid: e87b8ffc16fc9154c973f27d0fe8d8d4, type: 3}
       lazerBeamPrefab: {fileID: 2540417558773106788, guid: 3fdd30d0b52b3864e92fe3606bf66eff, type: 3}
       lazerReadySound: {fileID: 8300000, guid: 0ee8acf809a13a5408178ef10ed11547, type: 3}
-      lazerSound: {fileID: 8300000, guid: fe6ac9a69f5badf48853d9e99e13083c, type: 3}
+      lazerSound: {fileID: 8300000, guid: f846e97a28d5f1a48ab273c995d2c53b, type: 3}
       lazerBeamSpawnPosition: {x: 0, y: 0.244, z: 0}
       lazerBeamScale: {x: 1, y: 1, z: 1}
       lazerBeamRotation: {x: 0, y: 180, z: 0}

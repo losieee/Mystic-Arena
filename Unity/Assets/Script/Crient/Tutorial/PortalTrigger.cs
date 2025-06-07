@@ -16,7 +16,7 @@ public class PortalTrigger : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -157,7 +157,7 @@ public class PortalTrigger : MonoBehaviour
         if (directionToPortal.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(directionToPortal);
-            playerController.transform.rotation = targetRotation; 
+            playerController.transform.rotation = targetRotation;
         }
     }
 }
