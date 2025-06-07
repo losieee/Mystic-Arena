@@ -1222,12 +1222,15 @@ MonoBehaviour:
   dashSpeed: 15
   animator: {fileID: 384060966}
   swordTransform: {fileID: 1664932132}
+  swordObject: {fileID: 0}
   comboAttackSound: {fileID: 8300000, guid: 7e94e30dc1c5c0540b9733c18ec267ed, type: 3}
   LastComboSound: {fileID: 8300000, guid: 0930a7c9e608cc44188819ef0feab010, type: 3}
   attackSound: {fileID: 8300000, guid: 14efd9e7c827f304a872959db12655bb, type: 3}
   skillHandler: {fileID: 1028601431}
   hpBarImage: {fileID: 1070911408}
   deathPanel: {fileID: 1038693506}
+  canMove: 1
+  isWorking: 0
   agent: {fileID: 384060963}
 --- !u!195 &384060963
 NavMeshAgent:
@@ -15116,7 +15119,7 @@ GameObject:
   - component: {fileID: 1028338306}
   m_Layer: 12
   m_Name: HitBox
-  m_TagString: Player
+  m_TagString: PlayerHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
