@@ -6,6 +6,7 @@ using UnityEditor.TerrainTools;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.ComponentModel;
+using Unity.Properties;
 
 public class Fight_Demo : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class Fight_Demo : MonoBehaviour
 
     public Animator animator;
     public Transform swordTransform;
+    public Transform swordObject;
     public AudioClip comboAttackSound;
     public AudioClip LastComboSound;
     public AudioClip attackSound;
@@ -29,7 +31,8 @@ public class Fight_Demo : MonoBehaviour
     public Image hpBarImage;
     public GameObject deathPanel;
 
-    private bool canMove = true;
+    [HideInInspector]public bool canMove = true;
+    [HideInInspector]public bool isWorking = false;
     private bool isMove = false;
     private bool isDashing = false;
     private bool isInvincible = false;
@@ -214,6 +217,8 @@ public class Fight_Demo : MonoBehaviour
 
     private void HandleComboInput()
     {
+        if (isWorking) return;
+
         if (qSkillHandler.IsCasting || eSkillHandler.IsCasting || shiftSkillHandler.IsCasting)
             return;
 
@@ -253,6 +258,11 @@ public class Fight_Demo : MonoBehaviour
         agent.ResetPath();
         isMove = false;
         canMove = false;
+    }
+    public void EndWorking()
+    {
+        isWorking = false;
+        canMove = true;
     }
 
     public void EnableNextCombo()
@@ -470,5 +480,14 @@ public class Fight_Demo : MonoBehaviour
     public void SetCurrentAttackHit(bool hit)
     {
         currentAttackHit = hit;
+    }
+    public void DisableSword()
+    {
+        swordObject.gameObject.SetActive(false);
+    }
+    
+    public void EnableSword()
+    {
+        swordObject.gameObject.SetActive(true);
     }
 }

@@ -10,21 +10,16 @@ public class BossController : MonoBehaviour
 {
     public float maxHP = 10000;
     public float currentHP;
-    public GameObject dead;
-    public Vector3 deadSpawnPosition;
-    public Vector3 deadSpawnRotation;
 
     // º¸½º »ç¸Á ÈÄ
     public CanvasGroup fadeCanvasGroup;
     public float fadeDuration = 3f;
-    private bool isFadeStarted = false;
     public static bool isBossDead = false;
-
     public Image hpBarImage;
 
     private bool isDead = false;
-    public static bool portalClosed = false;
-    private GameObject deadInstance;
+    private bool isFadeStarted = false;
+
 
     void Start()
     {
@@ -37,6 +32,27 @@ public class BossController : MonoBehaviour
             fadeCanvasGroup.alpha = 0f;
             fadeCanvasGroup.gameObject.SetActive(false);
         }
+        if (hpBarImage != null)
+        {
+            hpBarImage.fillAmount = 0f;
+            StartCoroutine(AnimateHPBarFill());
+        }
+    }
+    private IEnumerator AnimateHPBarFill()
+    {
+        float fillDuration = 1f;
+        float elapsed = 0f;
+
+        while (elapsed < fillDuration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = Mathf.Clamp01(elapsed / fillDuration);
+            hpBarImage.fillAmount = progress;
+
+            yield return null;
+        }
+
+        hpBarImage.fillAmount = 1f;
     }
     public void TakeDamage(float damage)
     {

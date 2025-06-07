@@ -14363,9 +14363,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 10000
   currentHP: 10000
-  dead: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
-  deadSpawnPosition: {x: 0, y: -6.17, z: -14.47}
-  deadSpawnRotation: {x: 90, y: 0, z: 0}
   fadeCanvasGroup: {fileID: 1136739752}
   fadeDuration: 1.5
   hpBarImage: {fileID: 1666698534}
@@ -17933,8 +17930,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623640388}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.9, y: 11.55, z: -45.6}
+  m_LocalRotation: {x: -0.33588353, y: 0.00594043, z: -0.0044774306, w: -0.9418742}
+  m_LocalPosition: {x: 0.96, y: 16.05, z: -44.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
