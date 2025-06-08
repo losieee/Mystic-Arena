@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerSkillDatabase", menuName = "Database/PlayerSkillDatabase")]
+[CreateAssetMenu(fileName = "SkillDatabase", menuName = "Database/SkillDatabase")]
 public class PlayerSkillDatabaseSO : ScriptableObject
 {
     public List<PlayerSkillSO> skills = new List<PlayerSkillSO>();
@@ -17,25 +17,38 @@ public class PlayerSkillDatabaseSO : ScriptableObject
         foreach (var skill in skills)
         {
             skillById[skill.id] = skill;
-            skillByName[skill.skillName] = skill;
+            skillByName[skill.playerSkillName] = skill;
         }
     }
 
     public PlayerSkillSO GetSkillById(int id)
     {
-        if (skillById == null) Initialize();
-        return skillById.TryGetValue(id, out var skill) ? skill : null;
+        if (skillById == null)
+        {
+            Initialize();
+        }
+
+        if (skillById.TryGetValue(id, out PlayerSkillSO skill))
+            return skill;
+
+        return null;
     }
 
     public PlayerSkillSO GetSkillByName(string name)
     {
-        if (skillByName == null) Initialize();
-        return skillByName.TryGetValue(name, out var skill) ? skill : null;
+        if (skillByName == null)
+        {
+            Initialize();
+        }
+
+        if (skillByName.TryGetValue(name, out PlayerSkillSO skill))
+            return skill;
+
+        return null;
     }
 
-    public List<PlayerSkillSO> GetSkillsByType(SkillType type)
+    public List<PlayerSkillSO> GetSkillsByType(PlayerSkillType type)
     {
-        return skills.FindAll(skill => skill.skillType == type);
+        return skills.FindAll(skill => skill.playerSkillType == type);
     }
 }
-

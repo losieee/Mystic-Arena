@@ -1,14 +1,15 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerSkillDataLoader : MonoBehaviour
 {
     [SerializeField]
-    private string jsonFileName = "PlayerSkills";
+    private string jsonFileName = "Skills"; // Resources 폴더에 있는 JSON 파일 이름
 
-    private List<PlayerSkillData> skillList;
+    private List<PlayerSkillData> playerSkillList;
 
     void Start()
     {
@@ -24,19 +25,27 @@ public class PlayerSkillDataLoader : MonoBehaviour
             byte[] bytes = Encoding.Default.GetBytes(jsonFile.text);
             string correctText = Encoding.UTF8.GetString(bytes);
 
-            skillList = JsonConvert.DeserializeObject<List<PlayerSkillData>>(correctText);
+            playerSkillList = JsonConvert.DeserializeObject<List<PlayerSkillData>>(correctText);
 
-            Debug.Log($"로드된 스킬 수: {skillList.Count}");
+            Debug.Log($"로드된 스킬 수 : {playerSkillList.Count}");
 
-            foreach (var skill in skillList)
+            foreach (var skill in playerSkillList)
             {
-                string durationInfo = skill.duration.HasValue ? $"{skill.duration.Value}초" : "없음";
-                Debug.Log($"스킬: {skill.skillName}, 지속시간: {durationInfo}");
+                skill.InitializeEnums();
+                Debug.Log($"스킬: {EncodeKorean(skill.playerSkillName)}, 설명 : {EncodeKorean(skill.playerDescription)}");
             }
+
         }
         else
         {
-            Debug.LogError($"JSON 파일을 찾을 수 없습니다: {jsonFileName}");
+            Debug.LogError($"JSON 파일을 찾을 수 없습니다 : {jsonFileName}");
         }
+    }
+
+    private string EncodeKorean(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return "";
+        byte[] bytes = Encoding.Default.GetBytes(text);
+        return Encoding.UTF8.GetString(bytes);
     }
 }

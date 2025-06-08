@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class FunctionPoint : MonoBehaviour
 {
     public GameManager gameManager;
+
     [Header("UI Elements")]
     public GameObject functionUI;
     public Text functionText;
@@ -37,7 +38,9 @@ public class FunctionPoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-        if(gameManager.WabeCount == 0)
+
+        // 포탈 사용 가능 조건: currentWave == 0 (Stage 1) 이거나 StageClear 상태일 때
+        if (gameManager.currentWave == 0 || gameManager.isStageClear)
         {
             isPlayerNearby = true;
             functionText.text = "F  정화하기";
@@ -64,5 +67,7 @@ public class FunctionPoint : MonoBehaviour
         mainPortal.SetActive(true);
 
         Debug.Log("포탈이 정화되었습니다.");
+
+        // 옵션: 포탈 정화 후 씬 이동 기능도 원하면 추가 가능 (FadeManager 사용 등)
     }
 }

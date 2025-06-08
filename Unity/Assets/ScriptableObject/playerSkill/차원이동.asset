@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45bf3a505c42bd842a4c5d6d30d1a9ae, type: 3}
+  m_Name: "\uCC28\uC6D0\uC774\uB3D9"
+  m_EditorClassIdentifier: 
+  id: 4
+  playerSkillName: "\uCC28\uC6D0\uC774\uB3D9"
+  playerSkillKey: Shift
+  playerSkillTypeString: Movement
+  playerSkillType: 2
+  playerWeaponTypeString: All
+  playerDescription: "\uCC28\uC6D0\uC758 \uAC04\uADF9\uC744 \uC21C\uAC04\uC801\uC73C\uB85C
+    \uC774\uB3D9\uD574 \uC801\uC758 \uACF5\uACA9\uC744 \uD68C\uD53C\uD569\uB2C8\uB2E4."
+  playerSkillCooldown: 8
+  playerSkillDamage: 0
+  playerUseWeaponDamage: 0
+  playerTotalDamageFormula: 
+  playerBuffType: Invincible
+  playerBuffValue: 1.0
+  playerDuration: 0.3
+  skillPrefab: {fileID: 0}
