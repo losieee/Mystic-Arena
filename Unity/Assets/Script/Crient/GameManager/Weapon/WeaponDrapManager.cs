@@ -8,13 +8,7 @@ public class WeaponDropManager : MonoBehaviour
     private void Awake()
     {
         if (weaponInventory == null)
-        {
             weaponInventory = FindObjectOfType<WeaponInventory>();
-            if (weaponInventory == null)
-            {
-                Debug.LogWarning("WeaponInventory를 찾을 수 없습니다.");
-            }
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,9 +16,9 @@ public class WeaponDropManager : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         if (weaponSO == null) return;
 
-        weaponInventory?.AddWeapon(weaponSO);
+        weaponInventory.AddWeapon(weaponSO);  // WeaponSO 타입 변수 전달
         Debug.Log($"{weaponSO.weaponName} 습득 완료");
 
-        Destroy(gameObject); // 습득 후 오브젝트 제거
+        Destroy(gameObject);
     }
 }

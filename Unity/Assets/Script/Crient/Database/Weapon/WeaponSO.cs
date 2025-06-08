@@ -14,10 +14,20 @@ public class WeaponSO : ScriptableObject
     public Sprite icon;
 
     [Header("Prefab")]
-    public GameObject weaponPrefab;  //손에 들 프리팹 연결
+    public GameObject weaponPrefab;
 
     public override string ToString()
     {
-        return $"[{id}] :  {weaponName}무기는 {WeapnType} 타입 입니다.";
+        return $"[{id}] : {weaponName}무기는 {WeapnType} 타입 입니다.";
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is WeaponSO other && id == other.id;
+    }
+
+    public override int GetHashCode()
+    {
+        return id.GetHashCode();
     }
 }

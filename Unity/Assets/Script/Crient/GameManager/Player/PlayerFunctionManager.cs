@@ -41,6 +41,7 @@ public class PlayerFunctionManager : MonoBehaviour
     {
         if (other.CompareTag("Potal"))
         {
+            Debug.Log("Æ÷Å»°ú Ãæµ¹");
             string nextScene = SceneSequenceManager.Instance?.GetNextScene();
 
             if (!string.IsNullOrEmpty(nextScene))

@@ -7,11 +7,7 @@ public class SceneSequenceManager : MonoBehaviour
     public static SceneSequenceManager Instance { get; private set; }
 
     [SerializeField]
-    private List<string> sceneNames = new List<string>
-    {
-        "GameSceneRoom01", "GameSceneRoom02", "GameSceneRoom03", "GameSceneRoom04", "GameSceneRoom05",
-        "GameSceneRoom06", "GameSceneRoom07", "GameSceneRoom08", "GameSceneRoom09", "Boss"
-    };
+    private List<string> sceneNames = new List<string>();
 
     private void Awake()
     {
@@ -25,6 +21,14 @@ public class SceneSequenceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            string nextScene = SceneSequenceManager.Instance?.GetNextScene();
+        }
+    }
     public string GetNextScene()
     {
         string currentScene = SceneManager.GetActiveScene().name;

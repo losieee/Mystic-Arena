@@ -67,7 +67,7 @@ public class FadeManager : MonoBehaviour
     private IEnumerator FadeOut()
     {
         if (fadeImage == null) yield break;
-
+        yield return new WaitForSecondsRealtime(2f);
         float time = 0f;
         Color color = fadeImage.color;
         while (time < fadeDuration)

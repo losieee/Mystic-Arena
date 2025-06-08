@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponInventory : MonoBehaviour
 {
     [SerializeField]
-    private List<WeaponSO> weaponSOList; // 에디터에서 테스트용 무기 리스트
+    private List<WeaponSO> weaponSOList; // 에디터에서 무기 리스트 설정
 
     private Dictionary<WeaponSO, int> weaponCounts = new Dictionary<WeaponSO, int>();
 
@@ -20,7 +20,7 @@ public class WeaponInventory : MonoBehaviour
     {
         foreach (var weapon in weaponSOList)
         {
-            AddWeapon(weapon);
+            AddWeapon(weapon);  // WeaponSO 타입 인자 전달
         }
 
         if (inventoryUI != null)
@@ -32,6 +32,11 @@ public class WeaponInventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             inventoryUI?.ToggleUI();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            EquipNextWeapon();
         }
     }
 
@@ -56,8 +61,18 @@ public class WeaponInventory : MonoBehaviour
         }
 
         equippedWeapon = weapon;
-        weaponHandler?.SetWeapon(weapon); // 실제 무기 장착 처리
+        weaponHandler?.SetWeapon(weapon);
         Debug.Log($"{weapon.weaponName} 장착 완료");
+    }
+
+    public void EquipNextWeapon()
+    {
+        var weapons = new List<WeaponSO>(weaponCounts.Keys);
+        if (weapons.Count == 0) return;
+
+        int currentIndex = weapons.IndexOf(equippedWeapon);
+        int nextIndex = (currentIndex + 1) % weapons.Count;
+        EquipWeapon(weapons[nextIndex]);
     }
 
     public WeaponSO GetEquippedWeapon() => equippedWeapon;

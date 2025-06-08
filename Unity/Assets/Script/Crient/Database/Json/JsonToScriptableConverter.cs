@@ -71,7 +71,7 @@ public class JsonToScriptableConverter : EditorWindow
                         ConvertBossPatternJson();
                         break;
                     case ConversionType.PlayerSkill:
-                        ConvertPlayerSkillJson();
+                        //ConvertPlayerSkillJson();
                         break;
                 }
             }
@@ -232,64 +232,64 @@ public class JsonToScriptableConverter : EditorWindow
         EditorUtility.DisplayDialog("Success", $"Created {createdPatterns.Count} Boss Pattern ScriptableObjects!", "OK");
     }
 
-    private void ConvertPlayerSkillJson()
-    {
-        if (!Directory.Exists(outputFolder))
-            Directory.CreateDirectory(outputFolder);
+    //private void ConvertPlayerSkillJson()
+    //{
+    //    //if (!Directory.Exists(outputFolder))
+    //    //    Directory.CreateDirectory(outputFolder);
 
-        string jsonText = File.ReadAllText(jsonFilePath);
-        List<PlayerSkillData> skillDataList = JsonConvert.DeserializeObject<List<PlayerSkillData>>(jsonText);
+    //    //string jsonText = File.ReadAllText(jsonFilePath);
+    //    //List<SkillData> skillDataList = JsonConvert.DeserializeObject<List<SkillData>>(jsonText);
 
-        List<PlayerSkillSO> createdSkills = new List<PlayerSkillSO>();
+    //    //List<PlayerSkillSO> createdSkills = new List<PlayerSkillSO>();
 
-        foreach (var skillData in skillDataList)
-        {
-            PlayerSkillSO skillSO = ScriptableObject.CreateInstance<PlayerSkillSO>();
+    //    //foreach (var skillData in skillDataList)
+    //    //{
+    //    //    PlayerSkillSO skillSO = ScriptableObject.CreateInstance<PlayerSkillSO>();
 
-            // 기본 데이터 복사
-            skillSO.id = skillData.id;
-            skillSO.skillName = skillData.skillName;
-            skillSO.skillKey = skillData.skillKey;
+    //    //    // 기본 데이터 복사
+    //    //    skillSO.id = skillData.id;
+    //    //    skillSO.skillName = skillData.skillName;
+    //    //    skillSO.skillKey = skillData.skillKey;
 
-            // 문자열 -> enum 변환
-            if (Enum.TryParse(skillData.skillType, out SkillType skillTypeParsed))
-                skillSO.skillType = skillTypeParsed;
+    //    //    // 문자열 -> enum 변환
+    //    //    if (Enum.TryParse(skillData.skillType, out SkillType skillTypeParsed))
+    //    //        skillSO.skillType = skillTypeParsed;
 
-            if (Enum.TryParse(skillData.weaponTypeString, out WeaponTypeString weaponTypeParsed))
-                skillSO.weaponTypeString = weaponTypeParsed;
+    //    //    if (Enum.TryParse(skillData.weaponTypeString, out WeaponTypeString weaponTypeParsed))
+    //    //        skillSO.weaponTypeString = weaponTypeParsed;
 
-            skillSO.description = skillData.description;
-            skillSO.skillCooldown = skillData.skillCooldown;
-            skillSO.skillDamage = skillData.skillDamage;
-            skillSO.useWeaponDamage = skillData.useWeaponDamageBool;
-            skillSO.totalDamageFormula = skillData.totalDamageFormula;
+    //    //    skillSO.description = skillData.description;
+    //    //    skillSO.skillCooldown = skillData.skillCooldown;
+    //    //    skillSO.skillDamage = skillData.skillDamage;
+    //    //    skillSO.useWeaponDamage = skillData.useWeaponDamageBool;
+    //    //    skillSO.totalDamageFormula = skillData.totalDamageFormula;
 
-            if (Enum.TryParse(skillData.buffType, out BuffType buffTypeParsed))
-                skillSO.buffType = buffTypeParsed;
+    //    //    if (Enum.TryParse(skillData.buffType, out BuffType buffTypeParsed))
+    //    //        skillSO.buffType = buffTypeParsed;
 
-            skillSO.buffValue = skillData.buffValue;
-            skillSO.duration = skillData.duration ?? 0f;
+    //    //    skillSO.buffValue = skillData.buffValue;
+    //    //    skillSO.duration = skillData.duration ?? 0f;
 
-            createdSkills.Add(skillSO);
+    //    //    createdSkills.Add(skillSO);
 
-            AssetDatabase.CreateAsset(skillSO, $"{outputFolder}/{skillSO.skillName}.asset");
-            EditorUtility.SetDirty(skillSO);
-        }
+    //    //    AssetDatabase.CreateAsset(skillSO, $"{outputFolder}/{skillSO.skillName}.asset");
+    //    //    EditorUtility.SetDirty(skillSO);
+    //    }
 
-        // DB 생성 옵션
-        if (createDatabase && createdSkills.Count > 0)
-        {
-            PlayerSkillDatabaseSO database = ScriptableObject.CreateInstance<PlayerSkillDatabaseSO>();
-            database.skills = createdSkills;
+    //        // DB 생성 옵션
+    //        if (createDatabase && createdSkills.Count > 0)
+    //        {
+    //            PlayerSkillDatabaseSO database = ScriptableObject.CreateInstance<PlayerSkillDatabaseSO>();
+    //            database.skills = createdSkills;
 
-            AssetDatabase.CreateAsset(database, $"{outputFolder}/playerSkillDatabase.asset");
-            EditorUtility.SetDirty(database);
-        }
+    //            AssetDatabase.CreateAsset(database, $"{outputFolder}/playerSkillDatabase.asset");
+    //            EditorUtility.SetDirty(database);
+    //        }
 
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+    //        AssetDatabase.SaveAssets();
+    //        AssetDatabase.Refresh();
 
-        EditorUtility.DisplayDialog("Success", $"Created {createdSkills.Count} Player Skill ScriptableObjects!", "OK");
-    }
+    //        EditorUtility.DisplayDialog("Success", $"Created {createdSkills.Count} Player Skill ScriptableObjects!", "OK");
+    //    }
 }
 #endif

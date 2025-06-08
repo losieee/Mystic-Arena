@@ -566,6 +566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8103fc141a6af4c9aa3993dc245ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handTransform: {fileID: 0}
 --- !u!1 &185361625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,7 +2450,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 2069865381}
     m_Modifications:
     - target: {fileID: 5516487406859467972, guid: 45e0f06c750176947862c10346226439, type: 3}
       propertyPath: m_LocalScale.x
@@ -2465,15 +2466,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5516487406859467972, guid: 45e0f06c750176947862c10346226439, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.109999
+      value: -17.37899
       objectReference: {fileID: 0}
     - target: {fileID: 5516487406859467972, guid: 45e0f06c750176947862c10346226439, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.7900014
+      value: 4.3052387
       objectReference: {fileID: 0}
     - target: {fileID: 5516487406859467972, guid: 45e0f06c750176947862c10346226439, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 52.02
+      value: 44.55347
       objectReference: {fileID: 0}
     - target: {fileID: 5516487406859467972, guid: 45e0f06c750176947862c10346226439, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2552,6 +2553,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45e0f06c750176947862c10346226439, type: 3}
+--- !u!4 &588740593 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5516487406859467972, guid: 45e0f06c750176947862c10346226439, type: 3}
+  m_PrefabInstance: {fileID: 588740592}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &588740594 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
@@ -5110,6 +5116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDamage: 50
+  hit_Particle: {fileID: 0}
 --- !u!65 &1131337413
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5730,6 +5737,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32aaeb41e8d352245a157477cf638468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchEffect: {fileID: 0}
+  pickupSound: {fileID: 0}
 --- !u!136 &1336978970
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -14153,6 +14162,7 @@ Transform:
   - {fileID: 130267081}
   - {fileID: 2134227197}
   - {fileID: 578393623}
+  - {fileID: 588740593}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2069865382
@@ -14391,11 +14401,18 @@ MonoBehaviour:
   shiftSkillHandler: {fileID: 78739553}
   dashDistance: 5
   dashSpeed: 15
+  attackSoundVolume: 0.2
   animator: {fileID: 2134227196}
   swordTransform: {fileID: 352468296}
+  swordObject: {fileID: 0}
+  comboAttackSound: {fileID: 0}
+  LastComboSound: {fileID: 0}
+  attackSound: {fileID: 0}
   skillHandler: {fileID: 275715979}
   hpBarImage: {fileID: 214594688}
   deathPanel: {fileID: 2025230605}
+  canMove: 1
+  isWorking: 0
   agent: {fileID: 0}
 --- !u!195 &2134227193
 NavMeshAgent:
@@ -14573,7 +14590,6 @@ SceneRoots:
   - {fileID: 1131337416}
   - {fileID: 1415508071}
   - {fileID: 2109708888}
-  - {fileID: 588740592}
   - {fileID: 255368473}
   - {fileID: 1475197451}
   - {fileID: 1717166000}
