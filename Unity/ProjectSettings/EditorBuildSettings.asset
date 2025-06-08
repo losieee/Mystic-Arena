@@ -59,4 +59,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BossCut.unity
     guid: ba20bc9c6bd8f8a4f9be49bae7c12236
+  - enabled: 1
+    path: Assets/Scenes/Lobby Back.unity
+    guid: 21f40d8bc966a1c48b87ce5d242a045b
+  - enabled: 1
+    path: Assets/Scenes/CutScene.unity
+    guid: cef36b058e5cf5b40b0dd9d0894d513d
   m_configObjects: {}

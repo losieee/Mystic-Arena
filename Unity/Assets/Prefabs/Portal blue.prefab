@@ -14685,6 +14685,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c658f6617acf26d4dbc4f3e4321bad1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  purifiedWork: {fileID: 8300000, guid: 81c2bfa349268454e833e22409ac8a48, type: 3}
+  portalClose: {fileID: 8300000, guid: 3f211467dabaf4340bef01e3e4166b58, type: 3}
 --- !u!1 &9161406107582475612
 GameObject:
   m_ObjectHideFlags: 0

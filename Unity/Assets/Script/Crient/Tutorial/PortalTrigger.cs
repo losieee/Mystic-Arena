@@ -4,6 +4,8 @@ using TMPro;
 
 public class PortalTrigger : MonoBehaviour
 {
+    public AudioClip purifiedWork;
+    public AudioClip portalClose;
     private bool playerInRange = false;
     private GameObject player;
     private Fight_Demo playerController;
@@ -13,10 +15,16 @@ public class PortalTrigger : MonoBehaviour
     private bool isProcessing = false;
 
     private TextMeshProUGUI portalText;
+    private AudioSource audioSource;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
 
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -85,6 +93,12 @@ public class PortalTrigger : MonoBehaviour
             playerController.canMove = false;
             playerController.isWorking = true;
 
+            // purifiedWork 사운드 출력
+            if (purifiedWork != null)
+            {
+                StartCoroutine(PlayPurifiedWorkTwice());
+            }
+
             StartCoroutine(ShrinkPortal());
         }
         // Player 초기화 안 됐으면 → 한번만 찾기
@@ -102,12 +116,24 @@ public class PortalTrigger : MonoBehaviour
             }
         }
     }
+    private IEnumerator PlayPurifiedWorkTwice()
+    {
+        audioSource.pitch = 0.8f;
+        audioSource.volume = 0.1f;
+
+        audioSource.PlayOneShot(purifiedWork);
+
+        // purifiedWork 길이만큼 대기
+        yield return new WaitForSeconds(2.5f);
+
+        // 다시 재생
+        audioSource.PlayOneShot(purifiedWork);
+    }
 
     private IEnumerator ShrinkPortal()
     {
         isProcessing = true;
 
-        // 애니메이션 상태 기다리기
         yield return new WaitForSeconds(0.05f);
 
         AnimatorStateInfo stateInfo = playerController.animator.GetCurrentAnimatorStateInfo(0);
@@ -119,18 +145,34 @@ public class PortalTrigger : MonoBehaviour
 
         float animDuration = stateInfo.length;
 
-        // 애니메이션 재생되는 동안 shrink 진행
         GameObject portalObject = transform.root.gameObject;
         Vector3 originalScale = portalObject.transform.localScale;
         Vector3 targetScale = Vector3.zero;
 
         float elapsed = 0f;
 
+        // portalClose 사운드 재생 여부 플래그
+        bool portalClosePlayed = false;
+
         while (elapsed < animDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / animDuration);
-            portalObject.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            Vector3 newScale = Vector3.Lerp(originalScale, targetScale, t);
+            portalObject.transform.localScale = newScale;
+
+            // 크기 x값 기준으로 0.8 이하 순간 → portalClose 출력
+            if (!portalClosePlayed && newScale.x <= 0.5f)
+            {
+                portalClosePlayed = true;
+
+                if (portalClose != null)
+                {
+                    audioSource.volume = 0.5f;
+                    audioSource.PlayOneShot(portalClose);
+                }
+            }
+
             yield return null;
         }
 

@@ -33,5 +33,32 @@ public class WeaponDamage : MonoBehaviour
                 }
             }
         }
+        else if (other.CompareTag("vicinityEnemy"))
+        {
+            var player = GetComponentInParent<Fight_Demo>();
+            if (player != null)
+            {
+                player.SetCurrentAttackHit(true);
+            }
+
+            AIAttack enemy = other.GetComponentInParent<AIAttack>();
+
+            if (enemy != null)
+            {
+                enemy.TakeDamage(10f);
+
+                if (player != null && player.attackSound != null)
+                {
+                    AudioSource.PlayClipAtPoint(player.attackSound, enemy.transform.position, 1f);
+                }
+
+                if (hit_Particle != null)
+                {
+                    Vector3 hitPoint = other.ClosestPoint(transform.position);
+                    GameObject hitEffect = Instantiate(hit_Particle, hitPoint, Quaternion.identity);
+                    Destroy(hitEffect, 1f);
+                }
+            }
+        }
     }
 }
