@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bcd519a692ffe564497872aa932ae322
+guid: edecce22fd7f665428dc4743d2578a4c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Boss_A
-    second: {fileID: 2800000, guid: 74fab6a45d50d744e995bfba4ff6d016, type: 3}
+      name: Field_C
+    second: {fileID: 2800000, guid: 3be4011952cd09d4ea9c22724f081cab, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
