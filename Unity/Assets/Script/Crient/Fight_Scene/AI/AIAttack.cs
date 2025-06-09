@@ -15,6 +15,7 @@ public class AIAttack : MonoBehaviour
     [Header("HitBox 설정")]
     public GameObject leftHitBox;
     public GameObject bodyHitBox;
+    public AudioClip hitSound;
 
     [Header("체력 설정")]
     public float maxHealth = 100f;
@@ -39,7 +40,7 @@ public class AIAttack : MonoBehaviour
         agent.updateRotation = true;
         agent.enabled = true;
 
-        agent.speed = 8f;
+        agent.speed = 5f;
         agent.acceleration = 1000f;
         agent.angularSpeed = 10000f;
 
@@ -181,8 +182,6 @@ public class AIAttack : MonoBehaviour
 
         animator.applyRootMotion = true; // Root Motion 유지
         animator.SetTrigger("Attack1");
-
-        StartCoroutine(EndAttackAfterDelay(1f));
     }
 
     IEnumerator EndAttackAfterDelay(float delay)
@@ -205,6 +204,12 @@ public class AIAttack : MonoBehaviour
     {
         currentHealth -= damage;
 
+        if (hitSound != null)
+        {
+            AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
+        }
+
+
         if (currentHealth <= 0f)
         {
             Die();
@@ -217,7 +222,7 @@ public class AIAttack : MonoBehaviour
         agent.ResetPath();
         agent.isStopped = true;
         animator.SetFloat("MoveSpeed", 0f);
-        animator.SetTrigger("Idle");
+        animator.SetTrigger("Hit");
 
         // 멈칫 후 복귀 코루틴 실행
         StartCoroutine(RecoverFromHit(0.5f));
@@ -250,6 +255,15 @@ public class AIAttack : MonoBehaviour
     {
         isAttacking = false;
         animator.applyRootMotion = false;
+
+        // 위치 보정
+        agent.Warp(transform.position);
+        agent.isStopped = false;
+
+        if (target != null && agent.isOnNavMesh)
+        {
+            agent.SetDestination(target.position);
+        }
     }
     public void EnableLeftHitBox()
     {

@@ -41,6 +41,8 @@ public class Fight_Demo : MonoBehaviour
     private bool isInvincible = false;
     public static bool isDead = false;
     private bool currentAttackHit = false;
+    private bool isHit = false;
+    private bool queuedAttackInput = false;
 
     // 콤보
     private int comboStep = 0;
@@ -100,14 +102,56 @@ public class Fight_Demo : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (isInvincible)
-        {
+        if (isInvincible || isHit)
             return;
-        }
 
         playerSO.playerCurrHp -= damage;
         playerSO.playerCurrHp = Mathf.Clamp(playerSO.playerCurrHp, 0, playerSO.playerMaxHp);
         UpdateHPUI();
+
+        if (playerSO.playerCurrHp <= 0 && !isDead)
+        {
+            isDead = true;
+            animator.SetBool("isDead", true);
+            agent.ResetPath();
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+
+            if (deathPanel != null)
+                deathPanel.SetActive(true);
+
+            return;
+        }
+
+        StartCoroutine(PlayHitAnimation());
+    }
+    private IEnumerator PlayHitAnimation()
+    {
+        isHit = true;
+        canMove = false;
+        isAttacking = false;
+
+        // 공격 취소
+        comboStep = 0;
+        comboQueued = false;
+        canQueueNextCombo = false;
+        animator.SetInteger("ComboCount", 0);
+        animator.SetBool("isAttacking", false);
+
+        animator.SetTrigger("Hit");
+
+        // Hit 애니메이션 길이만큼 대기
+        yield return new WaitForSeconds(0.16f);
+
+        isHit = false;
+        canMove = true;
+
+        // 피격 끝난 후 공격 입력 있었으면 실행
+        if (queuedAttackInput && !isDead)
+        {
+            queuedAttackInput = false;
+            StartAttackCombo(); // 함수로 분리해서 사용
+        }
     }
     private void UpdateHPUI()
     {
@@ -128,12 +172,18 @@ public class Fight_Demo : MonoBehaviour
         }
 
         // 플레이어 사망 시
-        if (isDead)
+        if (isDead || isHit)
         {
             agent.ResetPath();
             animator.SetBool("isRunning", false);
             animator.SetBool("isAttacking", false);
             return;
+        }
+
+        if (queuedAttackInput && !isHit && !isAttacking && canMove && !isDead)
+        {
+            queuedAttackInput = false;
+            StartAttackCombo();
         }
 
         // 평소 조작 처리
@@ -220,21 +270,33 @@ public class Fight_Demo : MonoBehaviour
 
     private void HandleComboInput()
     {
-        if (isWorking) return;
-
-        if (qSkillHandler.IsCasting || eSkillHandler.IsCasting || shiftSkillHandler.IsCasting)
+        if (isWorking || isDead)
             return;
 
-        if (!Input.GetMouseButtonDown(0)) return;
-
-        if (canQueueNextCombo && comboStep < 3)
+        // 입력 저장
+        if (Input.GetMouseButtonDown(0))
         {
-            comboQueued = true;
-            return;
+            // 피격 중이면 저장
+            if (isHit)
+            {
+                queuedAttackInput = true;
+                return;
+            }
+
+            if (canQueueNextCombo && comboStep < 3)
+            {
+                comboQueued = true;
+                return;
+            }
+
+            if (isAttacking)
+                return;
+
+            StartAttackCombo(); // 바로 시작
         }
-
-        if (isAttacking) return;
-
+    }
+    private void StartAttackCombo()
+    {
         DontMove();
 
         // 마우스 위치 기준 회전
