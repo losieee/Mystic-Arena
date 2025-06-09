@@ -18,6 +18,7 @@ TagManager:
   - purification
   - PlayerHitbox
   - vicinityEnemy
+  - Portal
   layers:
   - Default
   - TransparentFX

@@ -1,13 +1,16 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SceneSequenceManager : MonoBehaviour
 {
-    public static SceneSequenceManager Instance { get; private set; }
+    public static SceneSequenceManager Instance;
 
-    [SerializeField]
-    private List<string> sceneNames = new List<string>();
+    public List<string> sceneSequence = new List<string>
+    {
+        "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9"
+    };
+
+    public int currentSceneIndex = 0;
 
     private void Awake()
     {
@@ -21,25 +24,33 @@ public class SceneSequenceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-
-    private void Update()
+    public void AdvanceToNextScene()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if (currentSceneIndex + 1 < sceneSequence.Count)
         {
-            string nextScene = SceneSequenceManager.Instance?.GetNextScene();
+            currentSceneIndex++;
+            Debug.Log($"[SceneSequenceManager] currentSceneIndex 증가됨 → {currentSceneIndex}");
+        }
+        else
+        {
+            Debug.Log("[SceneSequenceManager] 모든 스테이지 완료됨 → 마지막 Stage 유지");
         }
     }
-    public string GetNextScene()
+
+    public string GetCurrentScene()
     {
-        string currentScene = SceneManager.GetActiveScene().name;
-        int currentIndex = sceneNames.IndexOf(currentScene);
+        return sceneSequence[currentSceneIndex];
+    }
 
-        if (currentIndex >= 0 && currentIndex < sceneNames.Count - 1)
+    public string PeekNextScene()
+    {
+        if (currentSceneIndex + 1 < sceneSequence.Count)
         {
-            return sceneNames[currentIndex + 1];
+            return sceneSequence[currentSceneIndex + 1];
         }
-
-        Debug.LogWarning("다음 씬이 존재하지 않거나 현재 씬을 찾을 수 없습니다.");
-        return null;
+        else
+        {
+            return null; // 마지막 스테이지 도달
+        }
     }
 }

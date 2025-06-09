@@ -6,33 +6,35 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    // 웨이브 데이터 구조
     [System.Serializable]
     public class WaveData
     {
-        public int limitTime;      // 제한 시간 (초)
-        public List<int> waveEnemyCounts; // 각 웨이브별 몬스터 수
+        public int limitTime;
+        public List<int> waveEnemyCounts;
     }
 
     public Dictionary<string, WaveData> waveTable = new Dictionary<string, WaveData>();
 
-    public int currentWave = 0;          // 현재 웨이브 인덱스 (0부터 시작)
-    public int currentEnemyCount = 0;    // 현재 웨이브 몬스터 수
-    public float stageTimer = 0f;        // 현재 스테이지 타이머
+    public int currentWave = 0;
+    public int currentEnemyCount = 0;
+    public float remainingTime = 0f;
+    public bool isStageClear = false;
+    public int stageIndex = 1;
 
-    public bool isStageClear = false;    // 스테이지 클리어 여부
-
-    // 유지할 씬 이름 리스트
     private readonly HashSet<string> allowedScenes = new HashSet<string>
     {
         "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9"
     };
 
+    [Header("Monster Spawning")]
+    public GameObject monsterPrefab;
+    public Transform[] spawnPoints;
+    private int aliveMonsterCount = 0;
+
     private void Awake()
     {
         string currentScene = SceneManager.GetActiveScene().name;
 
-        // 유지할 씬이 아니라면 파괴
         if (!allowedScenes.Contains(currentScene))
         {
             Debug.Log($"[GameManager] 현재 씬({currentScene})은 허용되지 않아서 GameManager 오브젝트를 파괴합니다.");
@@ -40,26 +42,23 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // 싱글톤 설정
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // 씬 전환해도 유지
-            InitWaveTable();               // 웨이브 테이블 초기화
-            StartStage(currentScene);      // 현재 씬에 맞게 스테이지 시작
+            DontDestroyOnLoad(gameObject);
+            InitWaveTable();
+            StartStage(currentScene);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else if (instance != this)
         {
-            Destroy(gameObject); // 중복 방지
+            Destroy(gameObject);
         }
     }
 
     private void InitWaveTable()
     {
-        // Stage 1 → 웨이브 X → 몬스터 3마리 고정
         waveTable["Stage_1"] = new WaveData { limitTime = 9999, waveEnemyCounts = new List<int> { 3 } };
-
-        // Stage 2~9 웨이브 정보 설정
         waveTable["Stage_2"] = new WaveData { limitTime = 180, waveEnemyCounts = new List<int> { 7 } };
         waveTable["Stage_3"] = new WaveData { limitTime = 210, waveEnemyCounts = new List<int> { 8, 10 } };
         waveTable["Stage_4"] = new WaveData { limitTime = 220, waveEnemyCounts = new List<int> { 8, 10, 12 } };
@@ -79,21 +78,15 @@ public class GameManager : MonoBehaviour
         }
 
         currentWave = 0;
-        stageTimer = 0f;
+        isStageClear = false;
+        remainingTime = waveTable[stageName].limitTime;
         currentEnemyCount = waveTable[stageName].waveEnemyCounts[currentWave];
-        isStageClear = false; // 스테이지 시작 시 초기화
 
-        if (stageName == "Stage_1")
-        {
-            Debug.Log($"[GameManager] Stage 1 시작 - 웨이브 없음 / 고정 몬스터 수: {currentEnemyCount}");
-            SpawnMonsters(currentEnemyCount); // 몬스터 3마리 스폰 호출
-        }
-        else
-        {
-            Debug.Log($"[GameManager] {stageName} 스테이지 시작 - 제한시간 {waveTable[stageName].limitTime}초 / 웨이브 {waveTable[stageName].waveEnemyCounts.Count}개");
-            Debug.Log($"[GameManager] 첫 웨이브 시작 - 몬스터 수: {currentEnemyCount}");
-            SpawnMonsters(currentEnemyCount); // 첫 웨이브 몬스터 스폰
-        }
+        Debug.Log($"[GameManager] === 스테이지 단계: {stageIndex + 1} ===");
+        Debug.Log($"[GameManager] {stageName} 스테이지 시작 - 제한시간 {remainingTime}초 / 웨이브 {waveTable[stageName].waveEnemyCounts.Count}개");
+        Debug.Log($"[GameManager] 첫 웨이브 시작 - 몬스터 수: {currentEnemyCount}");
+
+        SpawnMonsters(currentEnemyCount);
     }
 
     private void Update()
@@ -102,22 +95,18 @@ public class GameManager : MonoBehaviour
 
         if (allowedScenes.Contains(currentScene))
         {
-            stageTimer += Time.deltaTime;
+            remainingTime -= Time.deltaTime;
 
-            // Stage 1 은 웨이브 없음 → 웨이브 진행 X
-            if (currentScene != "Stage_1")
+            // 테스트 키
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                // 수동 테스트용: K 키 → 다음 웨이브 진행
-                if (Input.GetKeyDown(KeyCode.K))
-                {
-                    NextWave();
-                }
+                Debug.Log("[GameManager] 테스트 키(K) 입력 → NextWave() 호출");
+                NextWave();
+            }
 
-                // 제한시간 초과 체크
-                if (stageTimer > waveTable[currentScene].limitTime)
-                {
-                    Debug.Log($"[GameManager] 스테이지 제한시간 초과 - 게임 오버 처리 가능");
-                }
+            if (remainingTime <= 0f)
+            {
+                Debug.Log($"[GameManager] 스테이지 제한시간 초과 - 게임 오버 처리 가능");
             }
         }
     }
@@ -129,8 +118,7 @@ public class GameManager : MonoBehaviour
         if (currentWave + 1 >= waveTable[currentScene].waveEnemyCounts.Count)
         {
             Debug.Log($"[GameManager] 모든 웨이브 완료!");
-            isStageClear = true; // 스테이지 클리어 처리
-            Debug.Log($"[GameManager] Stage Clear 상태로 변경됨");
+            isStageClear = true;
             return;
         }
 
@@ -138,13 +126,97 @@ public class GameManager : MonoBehaviour
         currentEnemyCount = waveTable[currentScene].waveEnemyCounts[currentWave];
 
         Debug.Log($"[GameManager] 웨이브 {currentWave + 1} 시작 - 몬스터 수: {currentEnemyCount}");
-        SpawnMonsters(currentEnemyCount); // 다음 웨이브 몬스터 스폰
+        SpawnMonsters(currentEnemyCount);
     }
 
-    // 몬스터 스폰 예시 (추후 SpawnManager와 연동 추천)
     private void SpawnMonsters(int count)
     {
-        Debug.Log($"[GameManager] 몬스터 {count}마리 스폰 (SpawnMonsters 호출됨)");
-        // 실제로는 SpawnManager.Instance.Spawn(count); 같은 식으로 구현 가능
+        if (monsterPrefab == null || spawnPoints.Length == 0)
+        {
+            Debug.LogError("[GameManager] 몬스터 프리팹 또는 스폰포인트가 설정되지 않았습니다.");
+            return;
+        }
+
+        aliveMonsterCount = count;
+
+        Debug.Log($"[GameManager] 몬스터 {count}마리 스폰 시작");
+
+        for (int i = 0; i < count; i++)
+        {
+            Transform spawnPoint = spawnPoints[i % spawnPoints.Length];
+            GameObject monster = Instantiate(monsterPrefab, spawnPoint.position, Quaternion.identity);
+
+            // 몬스터에 GameManager 연결 (MeteorDamage에서 사용 가능)
+            MeteorDamage md = monster.GetComponent<MeteorDamage>();
+            if (md != null)
+            {
+                md.gameManager = this;
+            }
+        }
+
+        Debug.Log($"[GameManager] 몬스터 {count}마리 스폰 완료");
+    }
+
+    public void OnMonsterKilled()
+    {
+        aliveMonsterCount--;
+        Debug.Log($"[GameManager] 몬스터 사망 → 남은 수: {aliveMonsterCount}");
+
+        if (aliveMonsterCount <= 0)
+        {
+            Debug.Log("[GameManager] 웨이브 클리어!");
+            NextWave();
+        }
+    }
+
+    public void LoadNextStage()
+    {
+        if (SceneSequenceManager.Instance == null)
+        {
+            Debug.LogError("[GameManager] SceneSequenceManager.Instance 가 존재하지 않습니다!");
+            return;
+        }
+
+        SceneSequenceManager.Instance.AdvanceToNextScene();
+
+        string nextSceneName = SceneSequenceManager.Instance.GetCurrentScene();
+
+        stageIndex = SceneSequenceManager.Instance.currentSceneIndex;
+
+        Debug.Log($"[GameManager] 다음 스테이지로 이동: {nextSceneName} (현재 스테이지 단계: {stageIndex + 1})");
+
+        if (nextSceneName == "Stage_9" && stageIndex >= 8)
+        {
+            if (FadeManager.Instance != null)
+                FadeManager.Instance.LoadSceneWithFade("GameClearScene");
+            else
+                SceneManager.LoadScene("GameClearScene");
+
+            Debug.Log($"[GameManager] GameManager 파괴됨 (최종 stageIndex: {stageIndex + 1})");
+            Destroy(gameObject);
+            return;
+        }
+
+        if (FadeManager.Instance != null)
+            FadeManager.Instance.LoadSceneWithFade(nextSceneName);
+        else
+            SceneManager.LoadScene(nextSceneName);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (allowedScenes.Contains(scene.name))
+        {
+            stageIndex = SceneSequenceManager.Instance.currentSceneIndex;
+
+            Debug.Log($"[GameManager] 씬 로드 완료됨: {scene.name} → StartStage() 자동 호출 / stageIndex={stageIndex + 1}");
+
+            StartStage(scene.name);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

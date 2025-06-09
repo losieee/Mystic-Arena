@@ -6,6 +6,8 @@ public class PlayerFunctionManager : MonoBehaviour
     public GameManager gameManager;
     public GameObject spawnPoint;
 
+    private bool isTransitioningScene = false; // 추가!
+
     private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -18,17 +20,19 @@ public class PlayerFunctionManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // 새로운 씬에서 스폰 포인트 재탐색
         spawnPoint = GameObject.Find("playerPoint");
 
         if (spawnPoint != null)
         {
-            StartCoroutine(MoveToSpawnWithDelay(0.5f)); // 0.5초 후 이동 (페이드 타이밍 맞추기)
+            StartCoroutine(MoveToSpawnWithDelay(0.5f));
         }
         else
         {
             Debug.LogWarning("playerPoint를 찾을 수 없습니다.");
         }
+
+        // 씬 로드 후에는 다시 포탈 활성화 가능
+        isTransitioningScene = false;
     }
 
     private System.Collections.IEnumerator MoveToSpawnWithDelay(float delay)
@@ -39,25 +43,26 @@ public class PlayerFunctionManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Potal"))
+        if (other.CompareTag("Portal"))
         {
-            Debug.Log("포탈과 충돌");
-            string nextScene = SceneSequenceManager.Instance?.GetNextScene();
-
-            if (!string.IsNullOrEmpty(nextScene))
+            Debug.Log("포탈에 충돌");
+            if (isTransitioningScene)
             {
-                if (FadeManager.Instance != null)
-                {
-                    FadeManager.Instance.LoadSceneWithFade(nextScene);
-                }
-                else
-                {
-                    SceneManager.LoadScene(nextScene);
-                }
+                Debug.Log("[PlayerFunctionManager] 씬 전환 중 → 포탈 무시");
+                return;
+            }
+
+            Debug.Log("포탈과 충돌 → 다음 씬 이동 시작");
+
+            isTransitioningScene = true; // 잠금 처리!
+
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.LoadNextStage();
             }
             else
             {
-                Debug.LogWarning("다음 씬 이름을 찾을 수 없습니다.");
+                Debug.LogWarning("GameManager 인스턴스를 찾을 수 없습니다.");
             }
         }
     }

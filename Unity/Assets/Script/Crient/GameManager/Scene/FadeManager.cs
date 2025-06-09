@@ -8,7 +8,7 @@ public class FadeManager : MonoBehaviour
     public static FadeManager Instance;
 
     [Header("Fade 설정")]
-    public Image fadeImage; // 검은 이미지
+    public Image fadeImage;
     public float fadeDuration = 2f;
 
     private void Awake()
