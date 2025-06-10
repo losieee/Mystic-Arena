@@ -56,7 +56,7 @@ public class SkillHandler : MonoBehaviour
         {
             case SkillType.Q:
                 RotateTowardsMouse();
-                damage.currentDamage = 70f;
+                damage.playerSO.playerAttack = 60f;
                 knight_Move.animator.SetTrigger("Qskill");
                 break;
 

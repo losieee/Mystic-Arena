@@ -14,6 +14,6 @@ public class PlayerSO : ScriptableObject
     public int playerSpeed = 5;
     public float playerCurrHp = 200f;
     public float playerMaxHp = 200f;
-    public int playerAttack = 10;
+    public float playerAttack = 10f;
     public PlayerAttackType playerAttackType;
 }

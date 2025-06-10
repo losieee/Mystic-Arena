@@ -582,7 +582,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348664945}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1367,7 +1367,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 737321992}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2025,7 +2025,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143816995}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2113,7 +2113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 903837172953369603, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 903837172953369603, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_TagString
@@ -3084,7 +3084,9 @@ MonoBehaviour:
   remainingTime: 0
   isStageClear: 0
   stageIndex: 1
-  monsterPrefab: {fileID: 4292051390089603575, guid: 982a20b860c8c6f4fb8027c815969b53, type: 3}
+  monsterPrefabs:
+  - {fileID: 1332204719624756567, guid: e1086354f2cbdd74fa664d50b13174e8, type: 3}
+  - {fileID: 6320856609153168288, guid: 4874a28b94f9192439a4da0a2119a785, type: 3}
   spawnPoints:
   - {fileID: 737321996}
   - {fileID: 1878237669}
@@ -3174,7 +3176,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1878237665}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3310,7 +3312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8349088220544104639, guid: ef1f1bc253f98a44cb3ace61364de31b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8349088220544104639, guid: ef1f1bc253f98a44cb3ace61364de31b, type: 3}
       propertyPath: m_TagString
@@ -3477,6 +3479,14 @@ PrefabInstance:
       propertyPath: m_BaseOffset
       value: -0.115
       objectReference: {fileID: 0}
+    - target: {fileID: 6628686063016273074, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
+      propertyPath: playerSO
+      value: 
+      objectReference: {fileID: 11400000, guid: ee452499e474c5f43bfa0653eb75c587, type: 2}
+    - target: {fileID: 6628686063016273074, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
+      propertyPath: weaponSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2049da1b6ce10e846ac83433b707c5af, type: 2}
     - target: {fileID: 7894484949408686333, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
       propertyPath: m_IsActive
       value: 1

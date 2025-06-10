@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 using System.Collections;
-using System.Linq; // FirstOrDefault 사용
+using System.Linq;
 
 public class FunctionPoint : MonoBehaviour
 {
@@ -19,24 +20,29 @@ public class FunctionPoint : MonoBehaviour
     private bool isPlayerNearby = false;
     private bool isPortalActivated = false;
 
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Start()
     {
         if (!gameManager)
         {
             gameManager = FindAnyObjectByType<GameManager>();
         }
-
-        // 최초 한번만 초기화 (OnEnable에서 중복 제거)
-        StartCoroutine(DelayedFindPortalObjects());
     }
 
-    // OnEnable에서는 DelayedFindPortalObjects 호출 제거 (GameManager가 직접 호출)
-    /*
-    private void OnEnable()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // 씬 전환 후 포탈 재탐색
         StartCoroutine(DelayedFindPortalObjects());
     }
-    */
 
     private void Update()
     {
@@ -106,7 +112,6 @@ public class FunctionPoint : MonoBehaviour
 
     private void InitializePortalState()
     {
-        // 씬 시작 시 포탈 상태 초기화
         isPortalActivated = false;
         isPlayerNearby = false;
 
@@ -124,7 +129,7 @@ public class FunctionPoint : MonoBehaviour
 
     private IEnumerator DelayedFindPortalObjects()
     {
-        yield return new WaitForSeconds(0.1f); // 씬 로드 후 한프레임 대기
+        yield return new WaitForSeconds(0.1f); // 씬 로드 후 약간 대기
 
         FindPortalObjectsByName();
         InitializePortalState();
@@ -148,7 +153,6 @@ public class FunctionPoint : MonoBehaviour
         return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(obj => obj.name == name);
     }
 
-    // ? 외부에서 호출용 공개 메서드
     public void InitializePortalFromOutside()
     {
         Debug.Log("외부 호출 → 포탈 상태 초기화 요청됨");

@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Monster1 : MonoBehaviour
 {
+    public GameManager gameManager;
     public EnemySO enemySO;
 
     [Header("AI 설정")]
@@ -19,9 +20,6 @@ public class Monster1 : MonoBehaviour
     public GameObject bodyHitBox;
     public AudioClip hitSound;
 
-    [Header("체력 설정")]
-    public float maxHealth = 100f;
-    public float currentHealth;
 
     private float attackTimer = 0f;
     private bool isAttacking = false;
@@ -36,6 +34,7 @@ public class Monster1 : MonoBehaviour
 
     void Start()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
 
@@ -49,7 +48,7 @@ public class Monster1 : MonoBehaviour
         agent.stoppingDistance = attackRange - 0.3f;
         agent.autoBraking = true;
 
-        currentHealth = maxHealth;
+        enemySO.monstercurrHp = enemySO.monsterHp;
     }
 
     void Update()
@@ -204,7 +203,7 @@ public class Monster1 : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        enemySO.monstercurrHp -= damage;
 
         if (hitSound != null)
         {
@@ -212,7 +211,7 @@ public class Monster1 : MonoBehaviour
         }
 
 
-        if (currentHealth <= 0f)
+        if (enemySO.monstercurrHp <= 0f)
         {
             Die();
             return;
@@ -233,7 +232,7 @@ public class Monster1 : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        if (!Fight_Demo.isDead && currentHealth > 0f)
+        if (!Fight_Demo.isDead && enemySO.monstercurrHp > 0f)
         {
             agent.isStopped = false;
             if (target != null && agent.isOnNavMesh)
@@ -249,7 +248,11 @@ public class Monster1 : MonoBehaviour
 
         if (bodyHitBox != null)
             bodyHitBox.SetActive(false);
-
+        if(gameManager.currentEnemyCount >= 0)
+        {
+            gameManager.currentEnemyCount -= 1;
+            Debug.Log($"현재 몬스터 수는 : {gameManager.currentEnemyCount} 입니다.");
+        }
         animator.SetTrigger("isDead"); 
         Destroy(gameObject, 2f);
     }

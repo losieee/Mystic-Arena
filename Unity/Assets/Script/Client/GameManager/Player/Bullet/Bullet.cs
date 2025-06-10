@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
 {
     public AttackType attackType;
     public PlayerSO playerSO;
-    public EnemyData enemydata;
+    public EnemySO enemySO;
     public float forcePower;
     public float lifeTime = 5f;
 
@@ -49,14 +49,14 @@ public class Bullet : MonoBehaviour
                     break;
             }
 
-            enemydata.monsterHp -= playerSO.playerAttack;
+            enemySO.monsterHp -= playerSO.playerAttack;
             Destroy(gameObject);
             return;
         }
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            playerSO.playerCurrHp -= enemydata.monsterAttack;
+            playerSO.playerCurrHp -= enemySO.monsterAttack;
             Destroy(gameObject);
             return;
         }

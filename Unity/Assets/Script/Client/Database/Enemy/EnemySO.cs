@@ -11,8 +11,9 @@ public class EnemySO : ScriptableObject
     public string spawnStage;
     public string monsterAttackType;
     public EnemyAttackType enemyAttackType;
-    public int monsterHp;
-    public int monsterAttack;
+    public float monsterHp;
+    public float monstercurrHp;
+    public float monsterAttack;
     public int monsterAttackInterval;
 
 

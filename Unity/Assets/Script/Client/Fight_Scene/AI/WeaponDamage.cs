@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class WeaponDamage : MonoBehaviour
 {
-    public float currentDamage = 50f;       // 기본 공격
+    public WeaponSO weaponSO;
+    public PlayerSO playerSO;       
     public GameObject hit_Particle;
 
     private void OnTriggerEnter(Collider other)
@@ -18,7 +19,7 @@ public class WeaponDamage : MonoBehaviour
             BossController boss = other.GetComponent<BossController>();
             if (boss != null)
             {
-                boss.TakeDamage(currentDamage);
+                boss.TakeDamage(playerSO.playerAttack += 70);
 
                 if (player != null && player.attackSound != null)
                 {
@@ -45,7 +46,7 @@ public class WeaponDamage : MonoBehaviour
 
             if (enemy != null)
             {
-                enemy.TakeDamage(10f);
+                enemy.TakeDamage(playerSO.playerAttack);
 
                 if (player != null && player.attackSound != null)
                 {
