@@ -481,15 +481,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6585a03a3286501439116221c9c9c120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySO: {fileID: 0}
+  gameManager: {fileID: 0}
+  enemySO: {fileID: 11400000, guid: 094a8730aa9865249bf96d04e11cde81, type: 2}
   detectionRadius: 10
   attackRange: 2
   attackCooldown: 1
   leftHitBox: {fileID: 1989725844}
   bodyHitBox: {fileID: 868997663}
   hitSound: {fileID: 8300000, guid: 1b80717c75486424ca0cd27711257d63, type: 3}
-  maxHealth: 100
-  currentHealth: 0
 --- !u!1 &1505159253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,6 +1326,14 @@ PrefabInstance:
       propertyPath: m_Speed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6628686063016273074, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
+      propertyPath: playerSO
+      value: 
+      objectReference: {fileID: 11400000, guid: ee452499e474c5f43bfa0653eb75c587, type: 2}
+    - target: {fileID: 6628686063016273074, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
+      propertyPath: weaponSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c4b48d8256babf34db594fba20ff9133, type: 2}
     - target: {fileID: 7663932078593679139, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2539,7 +2546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c032c72b4b3bc149b225ab75ef1e4d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySO: {fileID: 0}
+  enemySO: {fileID: 11400000, guid: 7498521660e5133479f015fc0685ea14, type: 2}
   detectionRadius: 10
   attackRange: 2
   attackCooldown: 1.3

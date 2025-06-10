@@ -14469,7 +14469,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 702c7678051270e48b570fe5bacffb27, type: 2}
     - {fileID: 11400000, guid: 2125c251b4d76d14aa14b96e6178c362, type: 2}
     - {fileID: 11400000, guid: 7fe051443415b304caa8b6081936964f, type: 2}
-    - {fileID: 11400000, guid: 16128309a17af554f8756c65a10c033d, type: 2}
+    - {fileID: 11400000, guid: f29bf4acebe6b224bac4d2dc5ab94499, type: 2}
     - {fileID: 11400000, guid: 2749aa5ee023daa419f17f5f5f447498, type: 2}
     m_Events:
     - m_PersistentCalls:
@@ -26468,7 +26468,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Foot_L'\n\tTransform 'Foot_R'\n\tTransform 'LittelProximal_R'\n\tTransform
+    'Hand_R'\n\tTransform 'LittleDistal_R'\n\tTransform 'LowerArm_L'\n\tTransform
+    'RingIntermediate_R'\n\tTransform 'ThumbProximal_R'\n\tTransform 'RingProximal_L'\n\tTransform
+    'Head'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -30030,6 +30035,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f19219c5d6847ec4695a321b4ce080c8, type: 2}
     - {fileID: 11400000, guid: 11f3b2be12df57d48bd1edbb205c339f, type: 2}
     - {fileID: 11400000, guid: 5cd61ad258dcc2b488c7211ddb6f7ddf, type: 2}
+    - {fileID: 11400000, guid: f29bf4acebe6b224bac4d2dc5ab94499, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -30125,6 +30131,20 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 6
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2121920426}
+          m_TargetAssemblyTypeName: TextReveal, Assembly-CSharp
+          m_MethodName: NextScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0

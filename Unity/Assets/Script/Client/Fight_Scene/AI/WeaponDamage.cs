@@ -42,15 +42,32 @@ public class WeaponDamage : MonoBehaviour
                 player.SetCurrentAttackHit(true);
             }
 
-            Monster1 enemy = other.GetComponentInParent<Monster1>();
+            Monster1 enemy1 = other.GetComponentInParent<Monster1>();
+            Monster2 enemy2 = other.GetComponentInParent<Monster2>();
 
-            if (enemy != null)
+            if (enemy1 != null)
             {
-                enemy.TakeDamage(playerSO.playerAttack);
+                enemy1.TakeDamage(playerSO.playerAttack);
 
                 if (player != null && player.attackSound != null)
                 {
-                    AudioSource.PlayClipAtPoint(player.attackSound, enemy.transform.position, 1f);
+                    AudioSource.PlayClipAtPoint(player.attackSound, enemy1.transform.position, 1f);
+                }
+
+                if (hit_Particle != null)
+                {
+                    Vector3 hitPoint = other.ClosestPoint(transform.position);
+                    GameObject hitEffect = Instantiate(hit_Particle, hitPoint, Quaternion.identity);
+                    Destroy(hitEffect, 1f);
+                }
+            }
+            else if (enemy2 != null)
+            {
+                enemy2.TakeDamage(playerSO.playerAttack);
+
+                if (player != null && player.attackSound != null)
+                {
+                    AudioSource.PlayClipAtPoint(player.attackSound, enemy2.transform.position, 1f);
                 }
 
                 if (hit_Particle != null)

@@ -9,17 +9,21 @@ using UnityEngine.UI;
 public class ButtonHoverSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public AudioClip hoverSound;  // 마우스 올렸을 때 나는 소리
+    public AudioClip clickSound;
+
     private AudioSource audioSource;
 
     public GameObject text;
     public GameObject option;
-    public AudioClip clickSound;
     public Image fadeImage;
+    public GameObject backOption;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
+
+        audioSource.volume = VolumeController.masterVolume;
     }
 
     void Update()
@@ -33,10 +37,10 @@ public class ButtonHoverSound : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerEnter(PointerEventData eventData)
     {
         text.SetActive(true);
-        if (hoverSound != null && audioSource != null)
+        if (hoverSound != null)
         {
             audioSource.clip = hoverSound;
-            audioSource.volume = 0.1f;
+            audioSource.volume = VolumeController.masterVolume;
             audioSource.Play();
         }
     }
@@ -53,21 +57,23 @@ public class ButtonHoverSound : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnSetting()
     {
         option.SetActive(true);
+        backOption.SetActive(true);
     }
     public void CloseOption()
     {
+        backOption.SetActive(false);
         option.SetActive(false);
     }
     public void ExitGame()
     {
-
+        Application.Quit();
     }
     public void PlayClickSound()
     {
-        if (clickSound != null && audioSource != null)
+        if (clickSound != null)
         {
             audioSource.clip = clickSound;
-            audioSource.volume = 0.3f;
+            audioSource.volume = VolumeController.masterVolume;
             audioSource.Play();
         }
     }

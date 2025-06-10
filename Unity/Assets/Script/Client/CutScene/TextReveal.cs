@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TextReveal : MonoBehaviour
 {
@@ -18,7 +20,6 @@ public class TextReveal : MonoBehaviour
     {
         if (dialogueIndex < 0 || dialogueIndex >= dialogueList.Count)
         {
-            Debug.LogWarning($"Dialogue index {dialogueIndex} is out of range!");
             return;
         }
 
@@ -45,5 +46,10 @@ public class TextReveal : MonoBehaviour
             StopCoroutine(revealCoroutine);
 
         textComponent.text = "";
+    }
+
+    public void NextScene()
+    {
+        SceneManager.LoadScene("Stage_1");
     }
 }
