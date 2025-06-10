@@ -41,7 +41,7 @@ public class WeaponDamage : MonoBehaviour
                 player.SetCurrentAttackHit(true);
             }
 
-            AIAttack enemy = other.GetComponentInParent<AIAttack>();
+            Monster1 enemy = other.GetComponentInParent<Monster1>();
 
             if (enemy != null)
             {

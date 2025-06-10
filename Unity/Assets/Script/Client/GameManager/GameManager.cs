@@ -27,9 +27,11 @@ public class GameManager : MonoBehaviour
     };
 
     [Header("Monster Spawning")]
-    public GameObject monsterPrefab;
+    public GameObject[] monsterPrefabs;   // << 변경된 부분: 배열로 받기
     public Transform[] spawnPoints;
     private int aliveMonsterCount = 0;
+
+    private bool isStageStarted = false;  // << 중복 호출 방지용 flag 추가
 
     private void Awake()
     {
@@ -47,8 +49,9 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             InitWaveTable();
-            StartStage(currentScene);
+            isStageStarted = false;  // 초기화
             SceneManager.sceneLoaded += OnSceneLoaded;
+            StartStage(currentScene);
         }
         else if (instance != this)
         {
@@ -71,11 +74,19 @@ public class GameManager : MonoBehaviour
 
     public void StartStage(string stageName)
     {
+        if (isStageStarted)
+        {
+            Debug.Log($"[GameManager] StartStage({stageName}) 중복 호출 방지됨.");
+            return;
+        }
+
         if (!waveTable.ContainsKey(stageName))
         {
             Debug.LogWarning($"[GameManager] 웨이브 데이터가 없는 스테이지입니다: {stageName}");
             return;
         }
+
+        isStageStarted = true;  // flag 설정
 
         currentWave = 0;
         isStageClear = false;
@@ -97,7 +108,6 @@ public class GameManager : MonoBehaviour
         {
             remainingTime -= Time.deltaTime;
 
-            // 테스트 키
             if (Input.GetKeyDown(KeyCode.K))
             {
                 Debug.Log("[GameManager] 테스트 키(K) 입력 → NextWave() 호출");
@@ -131,9 +141,9 @@ public class GameManager : MonoBehaviour
 
     private void SpawnMonsters(int count)
     {
-        if (monsterPrefab == null || spawnPoints.Length == 0)
+        if (monsterPrefabs == null || monsterPrefabs.Length == 0 || spawnPoints.Length == 0)
         {
-            Debug.LogError("[GameManager] 몬스터 프리팹 또는 스폰포인트가 설정되지 않았습니다.");
+            Debug.LogError("[GameManager] 몬스터 프리팹 배열 또는 스폰포인트가 설정되지 않았습니다.");
             return;
         }
 
@@ -144,14 +154,18 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Transform spawnPoint = spawnPoints[i % spawnPoints.Length];
-            GameObject monster = Instantiate(monsterPrefab, spawnPoint.position, Quaternion.identity);
 
-            // 몬스터에 GameManager 연결 (MeteorDamage에서 사용 가능)
-            MeteorDamage md = monster.GetComponent<MeteorDamage>();
-            if (md != null)
-            {
-                md.gameManager = this;
-            }
+            // 랜덤 프리팹 선택
+            GameObject prefabToSpawn = monsterPrefabs[Random.Range(0, monsterPrefabs.Length)];
+
+            GameObject monster = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
+
+            //// 몬스터에 GameManager 연결 (MeteorDamage에서 사용 가능)
+            //MeteorDamage md = monster.GetComponent<MeteorDamage>();
+            //if (md != null)
+            //{
+            //    md.gameManager = this;
+            //}
         }
 
         Debug.Log($"[GameManager] 몬스터 {count}마리 스폰 완료");
@@ -208,6 +222,7 @@ public class GameManager : MonoBehaviour
         if (allowedScenes.Contains(scene.name))
         {
             stageIndex = SceneSequenceManager.Instance.currentSceneIndex;
+            isStageStarted = false;  // 새 씬 로드 시 flag 초기화
 
             Debug.Log($"[GameManager] 씬 로드 완료됨: {scene.name} → StartStage() 자동 호출 / stageIndex={stageIndex + 1}");
 
