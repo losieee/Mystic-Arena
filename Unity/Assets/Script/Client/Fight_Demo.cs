@@ -21,9 +21,6 @@ public class Fight_Demo : MonoBehaviour
     [SerializeField] private float dashDistance = 5f;
     [SerializeField] private float dashSpeed = 15f;
 
-    [Range(0f, 1f)]
-    public float attackSoundVolume = 0.2f;
-
     public Animator animator;
     public Transform swordTransform;
     public Transform swordObject;
@@ -49,6 +46,7 @@ public class Fight_Demo : MonoBehaviour
     private bool isAttacking = false;
     private bool comboQueued = false;
     private bool canQueueNextCombo = false;
+    private float attackSoundVolume = 0.2f;
 
     private CapsuleCollider capsule;
     public NavMeshAgent agent;
@@ -273,10 +271,8 @@ public class Fight_Demo : MonoBehaviour
         if (isWorking || isDead)
             return;
 
-        // 입력 저장
         if (Input.GetMouseButtonDown(0))
         {
-            // 피격 중이면 저장
             if (isHit)
             {
                 queuedAttackInput = true;
@@ -292,24 +288,38 @@ public class Fight_Demo : MonoBehaviour
             if (isAttacking)
                 return;
 
-            StartAttackCombo(); // 바로 시작
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+            Vector3? targetPoint = null;
+            foreach (var hit in hits)
+            {
+                if (ObstructionManager.transparentObjects.Contains(hit.collider.gameObject))
+                    continue;
+
+                targetPoint = hit.point;
+                break;
+            }
+
+            if (targetPoint.HasValue)
+            {
+                Vector3 dir = targetPoint.Value - transform.position;
+                dir.y = 0;
+
+                if (dir.sqrMagnitude > 0.01f)
+                {
+                    capsule.transform.rotation = Quaternion.LookRotation(dir) * idleAttackRotationOffset;
+                }
+            }
+
+            StartAttackCombo();
         }
     }
+
     private void StartAttackCombo()
     {
         DontMove();
-
-        // 마우스 위치 기준 회전
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Field")))
-        {
-            Vector3 dir = hit.point - transform.position;
-            dir.y = 0;
-            if (dir != Vector3.zero)
-            {
-                capsule.transform.rotation = Quaternion.LookRotation(dir) * idleAttackRotationOffset;
-            }
-        }
 
         comboStep = 1;
         isAttacking = true;

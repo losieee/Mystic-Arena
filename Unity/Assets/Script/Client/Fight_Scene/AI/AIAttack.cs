@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class AIAttack : MonoBehaviour
 {
+    public EnemySO enemySO;
+
     [Header("AI 설정")]
     public float detectionRadius = 10f; // 플레이어 감지 반경
 
