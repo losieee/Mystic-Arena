@@ -14368,8 +14368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371851b24bd3b364689955e088217edc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10000
-  currentHP: 10000
+  enemySO: {fileID: 11400000, guid: 0c5f5383b31b78e44b11cb0364e7fd52, type: 2}
   backGroundMusic: {fileID: 8300000, guid: 10dd5059a4a4a68418a57528d42dcf78, type: 3}
   fadeCanvasGroup: {fileID: 1136739752}
   fadeDuration: 1.5
@@ -16229,7 +16228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSO: {fileID: 11400000, guid: 2049da1b6ce10e846ac83433b707c5af, type: 2}
-  playerSO: {fileID: 0}
+  playerSO: {fileID: 11400000, guid: ee452499e474c5f43bfa0653eb75c587, type: 2}
   hit_Particle: {fileID: 8985269664167617137, guid: be87535b6abca6046975a153e7fb8309, type: 3}
 --- !u!65 &1316921178
 BoxCollider:

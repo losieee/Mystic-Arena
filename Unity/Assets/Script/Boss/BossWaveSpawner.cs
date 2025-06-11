@@ -94,7 +94,7 @@ public class BossWaveSpawner : MonoBehaviour
 
         foreach (WarningWave wave in waveSequence)
         {
-            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
+            if (boss == null || boss.enemySO.monstercurrHp <= 0 || Fight_Demo.isDead)
             {
                 yield break;
             }
@@ -165,7 +165,7 @@ public class BossWaveSpawner : MonoBehaviour
 
             yield return WaitForOrInterrupt(maxDuration);
 
-            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
+            if (boss == null || boss.enemySO.monstercurrHp <= 0 || Fight_Demo.isDead)
             {
                 yield break;
             }
@@ -175,7 +175,7 @@ public class BossWaveSpawner : MonoBehaviour
     }
     private IEnumerator AttackThenSpawnIntegerWhenAttackEnds(WarningConfig config, int meteorIndex = 0)
     {
-        if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
+        if (boss == null || boss.enemySO.monstercurrHp <= 0 || Fight_Demo.isDead)
             yield break;
 
         Coroutine shakeCoroutine = null;
@@ -237,7 +237,7 @@ public class BossWaveSpawner : MonoBehaviour
                 break;
 
             case AttackType.Laser:
-                if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
+                if (boss == null || boss.enemySO.monstercurrHp <= 0 || Fight_Demo.isDead)
                     yield break;
 
                 if (config.lazerSound != null)
@@ -347,7 +347,7 @@ public class BossWaveSpawner : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < time)
         {
-            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead)
+            if (boss == null || boss.enemySO.monstercurrHp <= 0 || Fight_Demo.isDead)
                 yield break;
 
             elapsed += Time.deltaTime;
@@ -420,7 +420,7 @@ public class BossWaveSpawner : MonoBehaviour
         float t = 0f;
         while (t < firstDuration)
         {
-            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead) yield break;
+            if (boss == null || boss.enemySO.monstercurrHp <= 0 || Fight_Demo.isDead) yield break;
 
             float currentY = Mathf.Lerp(startY, targetY, t / firstDuration);
             target.rotation = Quaternion.Euler(0f, currentY, 0f);
@@ -440,7 +440,7 @@ public class BossWaveSpawner : MonoBehaviour
         float t2 = 0f;
         while (t2 < secondDuration)
         {
-            if (boss == null || boss.currentHP <= 0 || Fight_Demo.isDead) yield break;
+            if (boss == null || boss.enemySO.monstercurrHp <= 0 || Fight_Demo.isDead) yield break;
             float currentY = Mathf.LerpAngle(returnStartY, returnTargetY, t2 / secondDuration);
             target.rotation = Quaternion.Euler(0f, currentY, 0f);
 

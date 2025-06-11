@@ -17,6 +17,7 @@ MonoBehaviour:
   spawnStage: 10
   monsterAttackType: pattern
   enemyAttackType: 0
-  monsterHp: 10000
+  monsterHp: 12000
+  monstercurrHp: 11550
   monsterAttack: 0
   monsterAttackInterval: 0

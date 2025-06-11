@@ -6,11 +6,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting.FullSerializer;
+using UnityEditor.ProjectWindowCallback;
 
 public class BossController : MonoBehaviour
 {
-    public float maxHP = 10000;
-    public float currentHP;
+    public EnemySO enemySO;
     public AudioClip backGroundMusic;
 
     // º¸½º »ç¸Á ÈÄ
@@ -39,7 +39,7 @@ public class BossController : MonoBehaviour
 
             Destroy(audioObj, backGroundMusic.length);
         }
-        currentHP = maxHP;
+        enemySO.monstercurrHp = enemySO.monsterHp;
         isDead = false;
         isFadeStarted = false;
 
@@ -72,21 +72,21 @@ public class BossController : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        currentHP -= damage;
-        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        enemySO.monstercurrHp -= damage;
+        enemySO.monstercurrHp = Mathf.Clamp(enemySO.monstercurrHp, 0, enemySO.monsterHp);
         UpdateHPUI();
     }
     private void UpdateHPUI()
     {
         if (hpBarImage != null)
         {
-            hpBarImage.fillAmount = currentHP / maxHP;
+            hpBarImage.fillAmount = enemySO.monstercurrHp / enemySO.monsterHp;
         }
     }
 
     private void Update()
     {
-        if (currentHP <= 0 && !isDead)
+        if (enemySO.monstercurrHp <= 0 && !isDead)
         {
             isDead = true;
             isBossDead = true;
