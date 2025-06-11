@@ -1697,7 +1697,7 @@ GameObject:
   - component: {fileID: 7259554426846450973}
   - component: {fileID: 2124440976791853959}
   m_Layer: 0
-  m_Name: Prefabs_Ghoul
+  m_Name: Prefabs_ErodedOne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

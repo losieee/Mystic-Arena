@@ -5,26 +5,24 @@ using UnityEngine.AI;
 
 public class Monster2 : MonoBehaviour
 {
+    public GameManager gameManager;
     public EnemySO enemySO;
 
     [Header("AI 설정")]
-    public float detectionRadius = 10f; // 플레이어 감지 반경
+    public float detectionRadius = 20f; // 플레이어 감지 반경
 
     [Header("공격 설정")]
-    public float attackRange = 2f;
-    public float attackCooldown = 1f;
-
+    public float attackRange = 6f;
+    public float attackCooldown = 3f;
+    
     [Header("HitBox 설정")]
-    public GameObject rightHitBox;
+    public GameObject rock;
+    public GameObject rockSpawn;
     public GameObject bodyHitBox;
     public AudioClip hitSound;
 
-    [Header("체력 설정")]
-    public float maxHealth = 100f;
-    public float currentHealth;
 
     private float attackTimer = 0f;
-    private float animationLockTimer = 0f;
     private bool isAttacking = false;
     private bool isPlayerDead = false;
     private bool isDead = false;
@@ -37,29 +35,28 @@ public class Monster2 : MonoBehaviour
 
     void Start()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
 
         agent.updateRotation = true;
         agent.enabled = true;
 
-        agent.speed = 7f;
+        agent.speed = 5f;
         agent.acceleration = 1000f;
         agent.angularSpeed = 10000f;
 
         agent.stoppingDistance = attackRange - 0.3f;
         agent.autoBraking = true;
 
-        currentHealth = maxHealth;
+        enemySO.monstercurrHp = enemySO.monsterHp;
     }
 
     void Update()
     {
         if (isDead)
         {
-            if (agent.enabled && agent.isOnNavMesh)
-                agent.isStopped = true;
-            animator.SetBool("IsRunning", false);
+            agent.isStopped = true;
             return;
         }
 
@@ -68,79 +65,70 @@ public class Monster2 : MonoBehaviour
 
         if (isPlayerDead)
         {
-            if (agent.enabled && agent.isOnNavMesh)
-                agent.isStopped = true;
-            animator.SetBool("IsRunning", false);
+            agent.isStopped = true;
+            UpdateAnimation();
             return;
         }
-
-        if (animationLockTimer > 0f)
-            animationLockTimer -= Time.deltaTime;
 
         FindTarget();
-
-        if (isAttacking)
-        {
-            if (agent.enabled && agent.isOnNavMesh)
-                agent.isStopped = true;
-            animator.SetBool("IsRunning", false);
-            return;
-        }
-
-        if (animationLockTimer > 0f)
-        {
-            animationLockTimer -= Time.deltaTime;
-        }
 
         if (target != null)
         {
             float distance = Vector3.Distance(transform.position, target.position);
 
+            if (isAttacking)
+            {
+                agent.isStopped = true;
+                UpdateAnimation();
+                return;
+            }
+
             if (distance <= attackRange)
             {
-                if (agent.enabled && agent.isOnNavMesh)
-                    agent.isStopped = true;
+                agent.isStopped = true;
 
                 if (attackTimer >= attackCooldown)
                 {
                     attackTimer = 0f;
                     BasicAttack();
                 }
-
-                if (animationLockTimer <= 0f) UpdateAnimation();
-                return;
             }
             else if (distance <= detectionRadius)
             {
-                if (agent.enabled && agent.isOnNavMesh)
+                agent.isStopped = false;
+                agent.SetDestination(target.position);
+
+                if (agent.velocity.sqrMagnitude > 0.01f)
                 {
-                    agent.isStopped = false;
-                    agent.SetDestination(target.position);
+                    Vector3 lookDirection = agent.velocity.normalized;
+                    lookDirection.y = 0f;
+
+                    Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
                 }
             }
             else
             {
-                if (agent.enabled && agent.isOnNavMesh)
-                    agent.isStopped = true;
+                agent.isStopped = true;
             }
         }
         else
         {
-            if (agent.enabled && agent.isOnNavMesh)
-                agent.isStopped = true;
+            agent.isStopped = true;
         }
 
-        if (animationLockTimer <= 0f)
-            UpdateAnimation();
+        UpdateAnimation();
     }
 
     void LateUpdate()
     {
+        // 공격 중 위치 고정
         if (isAttacking)
         {
-            transform.position = fixedPosition;
+            Vector3 pos = fixedPosition;
+            pos.y = transform.position.y; // y는 유지 (높이 변화는 허용)
+            transform.position = pos;
         }
-        UpdateAnimation();
     }
 
     void FindTarget()
@@ -166,51 +154,36 @@ public class Monster2 : MonoBehaviour
 
     void UpdateAnimation()
     {
-        if (!agent.enabled || !agent.isOnNavMesh)
-        {
-            animator.SetBool("IsRunning", false);
-            return;
-        }
+        if (animator == null || agent == null) return;
 
-        bool isMoving = !agent.isStopped && agent.remainingDistance > agent.stoppingDistance;
         float speed = agent.velocity.magnitude;
-
-        animator.SetBool("IsRunning", isMoving || speed > 0.05f);
+        animator.SetFloat("MoveSpeed", speed);
     }
 
     void BasicAttack()
     {
-        if (isAttacking) return;
-
         isAttacking = true;
 
-        // 1. 가장 먼저 위치 고정
+        // 현재 위치 고정 기억
         fixedPosition = transform.position;
 
-        // 2. 시선 고정
+        agent.isStopped = true;
+
+        // 공격 시작 전 → 바라보기
         if (target != null)
         {
             Vector3 lookDirection = (target.position - transform.position).normalized;
             lookDirection.y = 0f;
+
             if (lookDirection != Vector3.zero)
             {
-                transform.rotation = Quaternion.LookRotation(lookDirection);
+                Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+                transform.rotation = targetRotation;
             }
         }
 
-        // 3. 애니메이션 설정
-        animator.SetBool("isAttacking", true);
-        animator.SetTrigger("Monster2_Attack");
-        animator.applyRootMotion = true;
-
-        // 4. NavMesh 중지
-        if (agent.enabled && agent.isOnNavMesh)
-        {
-            agent.ResetPath();
-            agent.isStopped = true;
-            agent.updatePosition = false;
-            agent.updateRotation = false;
-        }
+        animator.applyRootMotion = true; // Root Motion 유지
+        animator.SetTrigger("Attack2");
     }
 
     IEnumerator EndAttackAfterDelay(float delay)
@@ -218,44 +191,28 @@ public class Monster2 : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         isAttacking = false;
+        animator.applyRootMotion = false; // 이동 시 다시 꺼줌
 
-        if (animator != null)
+        // 공격 후 위치 동기화
+        agent.Warp(transform.position);
+        agent.isStopped = false;
+
+        if (target != null && agent.isOnNavMesh)
         {
-            // 기존 트리거 및 bool 모두 해제
-            animator.applyRootMotion = false;
-            animator.SetBool("isAttacking", false);  
-            animator.SetTrigger("Reset");           
+            agent.SetDestination(target.position);
         }
-
-        // NavMesh 복구
-        if (!agent.enabled)
-            agent.enabled = true;
-
-        if (agent.isOnNavMesh)
-        {
-            transform.position = fixedPosition;
-            agent.Warp(fixedPosition);
-
-            agent.updatePosition = true;
-            agent.updateRotation = true;
-            agent.isStopped = false;
-
-            if (target != null)
-                agent.SetDestination(target.position);
-        }
-
-        UpdateAnimation();
     }
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        enemySO.monstercurrHp -= damage;
 
         if (hitSound != null)
         {
             AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
         }
 
-        if (currentHealth <= 0f)
+
+        if (enemySO.monstercurrHp <= 0f)
         {
             Die();
             return;
@@ -264,13 +221,10 @@ public class Monster2 : MonoBehaviour
         // 강제 상태 초기화 (멈칫 처리)
         isAttacking = false;
         animator.applyRootMotion = false;
-        if (agent.enabled && agent.isOnNavMesh)
-        {
-            agent.ResetPath();
-            agent.isStopped = true;
-        }
-        animator.SetBool("IsRunning", false);
-        animator.SetTrigger("Monster2_Hit");
+        agent.ResetPath();
+        agent.isStopped = true;
+        animator.SetFloat("MoveSpeed", 0f);
+        animator.SetTrigger("Hit");
 
         // 멈칫 후 복귀 코루틴 실행
         StartCoroutine(RecoverFromHit(0.5f));
@@ -279,95 +233,63 @@ public class Monster2 : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        if (!Fight_Demo.isDead && currentHealth > 0f)
+        if (!Fight_Demo.isDead && enemySO.monstercurrHp > 0f)
         {
-            if (agent.enabled && agent.isOnNavMesh)
+            agent.isStopped = false;
+            if (target != null && agent.isOnNavMesh)
             {
-                agent.updatePosition = true;
-                agent.updateRotation = true;
-                agent.isStopped = false;
-                if (target != null)
-                {
-                    agent.SetDestination(target.position);
-                }
+                agent.SetDestination(target.position);
             }
-
-            UpdateAnimation();
         }
     }
     private void Die()
     {
         isDead = true;
-
-        if (agent.enabled && agent.isOnNavMesh)
-            agent.isStopped = true;
+        agent.isStopped = true;
 
         if (bodyHitBox != null)
             bodyHitBox.SetActive(false);
-
+        if (gameManager.currentEnemyCount >= 0)
+        {
+            gameManager.currentEnemyCount -= 1;
+            Debug.Log($"현재 몬스터 수는 : {gameManager.currentEnemyCount} 입니다.");
+        }
         animator.SetTrigger("isDead");
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 2f);
     }
     public void EndAttack()
     {
         isAttacking = false;
-
-        if (animator != null)
-        {
-            animator.SetBool("isAttacking", false);
-            animator.applyRootMotion = false;
-        }
-
-        if (!agent.enabled)
-            agent.enabled = true;
-
-        if (agent.isOnNavMesh)
-        {
-            agent.Warp(transform.position); 
-            agent.updatePosition = true;
-            agent.updateRotation = true;
-            agent.isStopped = false;
-
-            if (target != null)
-            {
-                agent.SetDestination(target.position);
-            }
-        }
-
-        UpdateAnimation();
-    }
-    public void EnableLeftHitBox()
-    {
-        if (rightHitBox != null)
-            rightHitBox.SetActive(true);
-    }
-
-    public void DisableLeftHitBox()
-    {
-        if (rightHitBox != null)
-            rightHitBox.SetActive(false);
-    }
-    public void EndHit()
-    {
-        if (isDead) return;
-
-        animator.ResetTrigger("Monster2_Hit");
-
-        if (agent.enabled && agent.isOnNavMesh)
-        {
-            agent.isStopped = false;
-            agent.updatePosition = true;
-            agent.updateRotation = true;
-
-            if (target != null)
-                agent.SetDestination(target.position);
-        }
-
-        // 상태 복구
-        isAttacking = false;
         animator.applyRootMotion = false;
-        animator.SetBool("isAttacking", false);
 
-        UpdateAnimation(); // Run 상태 복구
+        // 위치 보정
+        agent.Warp(transform.position);
+        agent.isStopped = false;
+
+        if (target != null && agent.isOnNavMesh)
+        {
+            agent.SetDestination(target.position);
+        }
+    }
+    public void SpawnRock()
+    {
+        if (rock != null && rockSpawn != null && target != null)
+        {
+            GameObject newRock = Instantiate(rock, rockSpawn.transform.position, Quaternion.identity);
+
+            Rigidbody rb = newRock.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 direction = (target.position - rockSpawn.transform.position).normalized;
+
+                direction.y = 0f;
+                direction.Normalize();
+
+                float throwForce = 20f;
+                rb.AddForce(direction * throwForce, ForceMode.Impulse);
+            }
+
+            Destroy(newRock, 1f);
+        }
     }
 }

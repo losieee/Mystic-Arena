@@ -44,6 +44,8 @@ public class WeaponDamage : MonoBehaviour
 
             Monster1 enemy1 = other.GetComponentInParent<Monster1>();
             Monster2 enemy2 = other.GetComponentInParent<Monster2>();
+            Monster3 enemy3 = other.GetComponentInParent<Monster3>();
+            Monster4 enemy4 = other.GetComponentInParent<Monster4>();
 
             if (enemy1 != null)
             {
@@ -61,6 +63,22 @@ public class WeaponDamage : MonoBehaviour
                     Destroy(hitEffect, 1f);
                 }
             }
+            else if (enemy3 != null)
+            {
+                enemy3.TakeDamage(playerSO.playerAttack);
+
+                if (player != null && player.attackSound != null)
+                {
+                    AudioSource.PlayClipAtPoint(player.attackSound, enemy3.transform.position, 1f);
+                }
+
+                if (hit_Particle != null)
+                {
+                    Vector3 hitPoint = other.ClosestPoint(transform.position);
+                    GameObject hitEffect = Instantiate(hit_Particle, hitPoint, Quaternion.identity);
+                    Destroy(hitEffect, 1f);
+                }
+            }
             else if (enemy2 != null)
             {
                 enemy2.TakeDamage(playerSO.playerAttack);
@@ -68,6 +86,22 @@ public class WeaponDamage : MonoBehaviour
                 if (player != null && player.attackSound != null)
                 {
                     AudioSource.PlayClipAtPoint(player.attackSound, enemy2.transform.position, 1f);
+                }
+
+                if (hit_Particle != null)
+                {
+                    Vector3 hitPoint = other.ClosestPoint(transform.position);
+                    GameObject hitEffect = Instantiate(hit_Particle, hitPoint, Quaternion.identity);
+                    Destroy(hitEffect, 1f);
+                }
+            }
+            else if (enemy4 != null)
+            {
+                enemy4.TakeDamage(playerSO.playerAttack);
+
+                if (player != null && player.attackSound != null)
+                {
+                    AudioSource.PlayClipAtPoint(player.attackSound, enemy4.transform.position, 1f);
                 }
 
                 if (hit_Particle != null)
