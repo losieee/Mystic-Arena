@@ -1386,7 +1386,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -9103484930961366303, guid: f8b176d4bad5d90428a2770425be10c3, type: 3}
+  - {fileID: 2100000, guid: 74f130f83183de448a9874144dbefda3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1808,7 +1808,6 @@ MonoBehaviour:
   shiftSkillHandler: {fileID: 1753726862873283317}
   dashDistance: 5
   dashSpeed: 15
-  attackSoundVolume: 0.2
   animator: {fileID: 3471453167186279452}
   swordTransform: {fileID: 10089515895962521}
   swordObject: {fileID: 5948083041375264062}
@@ -2292,7 +2291,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5022302536205057809, guid: f8b176d4bad5d90428a2770425be10c3, type: 3}
+  - {fileID: 2100000, guid: 74f130f83183de448a9874144dbefda3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3512,7 +3511,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3232588489946476775, guid: f8b176d4bad5d90428a2770425be10c3, type: 3}
+  - {fileID: 2100000, guid: 74f130f83183de448a9874144dbefda3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5577,7 +5576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9397696e194b7764ea31a4ea2739315d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDamage: 50
+  weaponSO: {fileID: 0}
+  playerSO: {fileID: 0}
   hit_Particle: {fileID: 8985269664167617137, guid: be87535b6abca6046975a153e7fb8309, type: 3}
 --- !u!54 &1079775743495107991
 Rigidbody:
