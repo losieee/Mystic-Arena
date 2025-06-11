@@ -1220,7 +1220,6 @@ MonoBehaviour:
   shiftSkillHandler: {fileID: 1371596491}
   dashDistance: 5
   dashSpeed: 15
-  attackSoundVolume: 0.05
   animator: {fileID: 384060966}
   swordTransform: {fileID: 1664932132}
   swordObject: {fileID: 0}
@@ -7332,7 +7331,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: edad98330302f3b4bbb7464b46dd3677, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a934c3b2c5d636442b8253d4173595dd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16229,7 +16228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9397696e194b7764ea31a4ea2739315d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDamage: 50
+  weaponSO: {fileID: 11400000, guid: 2049da1b6ce10e846ac83433b707c5af, type: 2}
+  playerSO: {fileID: 0}
   hit_Particle: {fileID: 8985269664167617137, guid: be87535b6abca6046975a153e7fb8309, type: 3}
 --- !u!65 &1316921178
 BoxCollider:
@@ -17962,6 +17962,10 @@ MonoBehaviour:
   target: {fileID: 384060967}
   offset: {x: 0.15, y: 17.3, z: -15.9}
   smoothSpeed: 5
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  transparentMaterial: {fileID: 0}
 --- !u!1 &1635252903
 GameObject:
   m_ObjectHideFlags: 0

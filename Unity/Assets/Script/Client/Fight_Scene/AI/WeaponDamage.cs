@@ -19,7 +19,7 @@ public class WeaponDamage : MonoBehaviour
             BossController boss = other.GetComponent<BossController>();
             if (boss != null)
             {
-                boss.TakeDamage(playerSO.playerAttack += 70);
+                boss.TakeDamage(weaponSO.baseDamage);
 
                 if (player != null && player.attackSound != null)
                 {
@@ -47,7 +47,7 @@ public class WeaponDamage : MonoBehaviour
 
             if (enemy1 != null)
             {
-                enemy1.TakeDamage(playerSO.playerAttack);
+                enemy1.TakeDamage(weaponSO.baseDamage);
 
                 if (player != null && player.attackSound != null)
                 {

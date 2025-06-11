@@ -1333,7 +1333,7 @@ PrefabInstance:
     - target: {fileID: 6628686063016273074, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
       propertyPath: weaponSO
       value: 
-      objectReference: {fileID: 11400000, guid: c4b48d8256babf34db594fba20ff9133, type: 2}
+      objectReference: {fileID: 11400000, guid: 2049da1b6ce10e846ac83433b707c5af, type: 2}
     - target: {fileID: 7663932078593679139, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2549,7 +2549,7 @@ MonoBehaviour:
   enemySO: {fileID: 11400000, guid: 7498521660e5133479f015fc0685ea14, type: 2}
   detectionRadius: 10
   attackRange: 2
-  attackCooldown: 1.3
+  attackCooldown: 2
   rightHitBox: {fileID: 1505159253}
   bodyHitBox: {fileID: 1569031827}
   hitSound: {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
