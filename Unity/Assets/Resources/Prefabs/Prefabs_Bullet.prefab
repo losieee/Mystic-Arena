@@ -147,8 +147,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: 0
-  playerSO: {fileID: 0}
-  enemydata: {fileID: 0}
   forcePower: 0
   lifeTime: 5
+  fight_Demo: {fileID: 0}
+  monster1: {fileID: 0}
+  monster2: {fileID: 0}
+  monster3: {fileID: 0}
+  monster4: {fileID: 0}
   rb: {fileID: 0}
+  weaponSO: {fileID: 0}

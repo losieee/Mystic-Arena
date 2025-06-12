@@ -33,7 +33,7 @@ public class Monster2 : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
-    private float currentHp;
+    public float currentHp;
 
     void Start()
     {

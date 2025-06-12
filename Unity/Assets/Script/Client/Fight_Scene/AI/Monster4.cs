@@ -32,7 +32,7 @@ public class Monster4 : MonoBehaviour
     private Transform target; // 플레이어 위치 저장
     private NavMeshAgent agent;
     private Animator animator;
-    private float currentHp; // ? 개별 체력 변수
+    public float currentHp; // ? 개별 체력 변수
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();

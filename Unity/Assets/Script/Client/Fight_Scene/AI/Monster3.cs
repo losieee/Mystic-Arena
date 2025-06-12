@@ -32,7 +32,7 @@ public class Monster3 : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
-    private float currentHp; // ? 개별 체력 변수
+    public float currentHp; // ? 개별 체력 변수
 
     void Start()
     {
