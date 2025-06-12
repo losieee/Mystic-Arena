@@ -146,6 +146,27 @@ public class GameManager : MonoBehaviour
                 NextWave();
             }
 
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                Debug.Log("[GameManager] 테스트 키(9) 입력 → Stage_9로 이동");
+                stageIndex = 8;
+                if (FadeManager.Instance != null)
+                    FadeManager.Instance.LoadSceneWithFade("Stage_9");
+                else
+                    SceneManager.LoadScene("Stage_9");
+            }
+
+            if (Input.GetKeyDown(KeyCode.F) && currentScene == "Stage_9" && isStageClear)
+            {
+                Debug.Log("[GameManager] Stage_9 클리어 후 F키 입력 → BossIntro로 이동");
+                if (FadeManager.Instance != null)
+                    FadeManager.Instance.LoadSceneWithFade("BossIntro");
+                else
+                    SceneManager.LoadScene("BossIntro");
+                Destroy(gameObject, 3);
+                return;
+            }
+
             if (remainingTime <= 0f)
             {
                 Debug.Log("[GameManager] 스테이지 제한시간 초과 - 게임 오버 처리 가능");
@@ -197,13 +218,11 @@ public class GameManager : MonoBehaviour
         aliveMonsterCount--;
         Debug.Log($"[GameManager] 몬스터 사망 → 남은 수: {aliveMonsterCount}");
 
-        // 살아있는 몬스터가 아직 남아있으면 아무것도 하지 않음
         if (aliveMonsterCount > 0)
             return;
 
         string currentScene = SceneManager.GetActiveScene().name;
 
-        // 다음 웨이브가 없다면 스테이지 클리어 처리
         if (currentWave + 1 >= waveTable[currentScene].waveEnemyCounts.Count)
         {
             Debug.Log("[GameManager] 모든 웨이브 완료 → 스테이지 클리어!");
@@ -211,7 +230,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // 다음 웨이브 시작
             NextWave();
         }
     }
@@ -238,11 +256,7 @@ public class GameManager : MonoBehaviour
 
         if (nextSceneName == "Stage_9" && stageIndex >= 8)
         {
-            if (FadeManager.Instance != null)
-                FadeManager.Instance.LoadSceneWithFade("BossIntro");
-            else
-                SceneManager.LoadScene("BossIntro");
-
+            SceneManager.LoadScene("BossIntro");
             Debug.Log($"[GameManager] GameManager 파괴됨 (최종 stageIndex: {stageIndex + 1})");
             Destroy(gameObject);
             return;
@@ -262,7 +276,6 @@ public class GameManager : MonoBehaviour
             isStageStarted = false;
             Debug.Log($"[GameManager] 씬 로드 완료됨: {scene.name} → StartStage() 자동 호출 / stageIndex={stageIndex + 1}");
             StartStage(scene.name);
-
         }
     }
 
