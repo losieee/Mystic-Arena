@@ -6,9 +6,10 @@ using UnityEngine.AI;
 public class Monster3 : MonoBehaviour
 {
     public EnemySO enemySO;
+    public GameManager gameManager;
 
-    [Header("AI 설정")]
-    public float detectionRadius = 10f; // 플레이어 감지 반경
+    //[Header("AI 설정")]
+    //public float detectionRadius = 10f; // 플레이어 감지 반경
 
     [Header("공격 설정")]
     public float attackRange = 2f;
@@ -18,10 +19,6 @@ public class Monster3 : MonoBehaviour
     public GameObject rightHitBox;
     public GameObject bodyHitBox;
     public AudioClip hitSound;
-
-    [Header("체력 설정")]
-    public float maxHealth = 100f;
-    public float currentHealth;
 
     private float attackTimer = 0f;
     private float animationLockTimer = 0f;
@@ -34,6 +31,8 @@ public class Monster3 : MonoBehaviour
     private Transform target; // 플레이어 위치 저장
     private NavMeshAgent agent;
     private Animator animator;
+
+    private float currentHp; // ? 개별 체력 변수
 
     void Start()
     {
@@ -50,7 +49,7 @@ public class Monster3 : MonoBehaviour
         agent.stoppingDistance = attackRange - 0.3f;
         agent.autoBraking = true;
 
-        currentHealth = maxHealth;
+        currentHp = enemySO.monsterHp; // 개별 체력 초기화
     }
 
     void Update()
@@ -110,7 +109,7 @@ public class Monster3 : MonoBehaviour
                 if (animationLockTimer <= 0f) UpdateAnimation();
                 return;
             }
-            else if (distance <= detectionRadius)
+            else if (distance <= enemySO.monsterAttackInterval)
             {
                 if (agent.enabled && agent.isOnNavMesh)
                 {
@@ -154,7 +153,7 @@ public class Monster3 : MonoBehaviour
         {
             float dist = Vector3.Distance(transform.position, obj.transform.position);
 
-            if (dist < detectionRadius && dist < closestDist)
+            if (dist < enemySO.monsterAttackInterval && dist < closestDist)
             {
                 closestDist = dist;
                 closestTarget = obj.transform;
@@ -223,8 +222,8 @@ public class Monster3 : MonoBehaviour
         {
             // 기존 트리거 및 bool 모두 해제
             animator.applyRootMotion = false;
-            animator.SetBool("isAttacking", false);  
-            animator.SetTrigger("Reset");           
+            animator.SetBool("isAttacking", false);
+            animator.SetTrigger("Reset");
         }
 
         // NavMesh 복구
@@ -248,14 +247,14 @@ public class Monster3 : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        currentHp = damage;
 
         if (hitSound != null)
         {
             AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
         }
 
-        if (currentHealth <= 0f)
+        if (currentHp <= 0f)
         {
             Die();
             return;
@@ -279,7 +278,7 @@ public class Monster3 : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        if (!Fight_Demo.isDead && currentHealth > 0f)
+        if (!Fight_Demo.isDead && currentHp > 0f)
         {
             if (agent.enabled && agent.isOnNavMesh)
             {
@@ -298,6 +297,12 @@ public class Monster3 : MonoBehaviour
     private void Die()
     {
         isDead = true;
+
+
+        if (gameManager.aliveMonsterCount >= 0)
+        {
+            GameManager.instance.OnMonsterKilled();
+        }
 
         if (agent.enabled && agent.isOnNavMesh)
             agent.isStopped = true;
@@ -323,7 +328,7 @@ public class Monster3 : MonoBehaviour
 
         if (agent.isOnNavMesh)
         {
-            agent.Warp(transform.position); 
+            agent.Warp(transform.position);
             agent.updatePosition = true;
             agent.updateRotation = true;
             agent.isStopped = false;

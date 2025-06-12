@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
-using System.Text.RegularExpressions;
-using UnityEditor.TerrainTools;
+//using System.Text.RegularExpressions;
+//using UnityEditor.TerrainTools;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.ComponentModel;
-using Unity.Properties;
+//using System.ComponentModel;
+//using Unity.Properties;
 
 public class Fight_Demo : MonoBehaviour
 {
     public PlayerSO playerSO;
+
+    public float player_currHp;
 
     [Header("Skill Handlers")]
     [SerializeField] private SkillHandler qSkillHandler;
@@ -31,8 +33,8 @@ public class Fight_Demo : MonoBehaviour
     public Image hpBarImage;
     public GameObject deathPanel;
 
-    [HideInInspector]public bool canMove = true;
-    [HideInInspector]public bool isWorking = false;
+    [HideInInspector] public bool canMove = true;
+    [HideInInspector] public bool isWorking = false;
     private bool isMove = false;
     private bool isDashing = false;
     private bool isInvincible = false;
@@ -83,7 +85,7 @@ public class Fight_Demo : MonoBehaviour
 
     private void Start()
     {
-        playerSO.playerCurrHp = playerSO.playerMaxHp;
+        player_currHp = playerSO.playerCurrHp;
         UpdateHPUI();
         Debug.Log(isDashing);
 
@@ -92,6 +94,7 @@ public class Fight_Demo : MonoBehaviour
         isMove = false;
         isDashing = false;
         isInvincible = false;
+        player_currHp = playerSO.playerMaxHp;
 
         animator.SetBool("isDead", false);
         if (deathPanel != null)
@@ -103,11 +106,11 @@ public class Fight_Demo : MonoBehaviour
         if (isInvincible || isHit)
             return;
 
-        playerSO.playerCurrHp -= damage;
-        playerSO.playerCurrHp = Mathf.Clamp(playerSO.playerCurrHp, 0, playerSO.playerMaxHp);
+        player_currHp -= damage;
+        player_currHp = Mathf.Clamp(player_currHp, 0, playerSO.playerMaxHp);
         UpdateHPUI();
 
-        if (playerSO.playerCurrHp <= 0 && !isDead)
+        if (player_currHp <= 0 && !isDead)
         {
             isDead = true;
             animator.SetBool("isDead", true);
@@ -151,11 +154,11 @@ public class Fight_Demo : MonoBehaviour
             StartAttackCombo(); // 함수로 분리해서 사용
         }
     }
-    private void UpdateHPUI()
+    public void UpdateHPUI()
     {
         if (hpBarImage != null)
         {
-            hpBarImage.fillAmount = playerSO.playerCurrHp / playerSO.playerMaxHp;
+            hpBarImage.fillAmount = player_currHp / playerSO.playerMaxHp;
         }
     }
     private void Update()
@@ -213,7 +216,7 @@ public class Fight_Demo : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
                 eSkillHandler.TryUseSkill();
 
-            if(Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
                 shiftSkillHandler.TryUseSkill();
         }
 
@@ -560,7 +563,7 @@ public class Fight_Demo : MonoBehaviour
     {
         swordObject.gameObject.SetActive(false);
     }
-    
+
     public void EnableSword()
     {
         swordObject.gameObject.SetActive(true);

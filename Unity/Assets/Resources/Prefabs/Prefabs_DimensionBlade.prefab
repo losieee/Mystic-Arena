@@ -121,7 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9397696e194b7764ea31a4ea2739315d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDamage: 50
+  weaponSO: {fileID: 0}
+  playerSO: {fileID: 0}
   hit_Particle: {fileID: 8985269664167617137, guid: be87535b6abca6046975a153e7fb8309, type: 3}
 --- !u!54 &8147734058486719933
 Rigidbody:

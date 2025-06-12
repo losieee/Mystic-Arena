@@ -6,10 +6,10 @@ using UnityEngine.AI;
 public class Monster1 : MonoBehaviour
 {
     public GameManager gameManager;
-    public EnemySO enemySO;
+    public EnemySO enemySO; // 읽기 전용 템플릿
 
-    [Header("AI 설정")]
-    public float detectionRadius = 10f; // 플레이어 감지 반경
+    //[Header("AI 설정")]
+    //public float detectionRadius = 10f;
 
     [Header("공격 설정")]
     public float attackRange = 2f;
@@ -20,7 +20,6 @@ public class Monster1 : MonoBehaviour
     public GameObject bodyHitBox;
     public AudioClip hitSound;
 
-
     private float attackTimer = 0f;
     private bool isAttacking = false;
     private bool isPlayerDead = false;
@@ -28,9 +27,11 @@ public class Monster1 : MonoBehaviour
 
     private Vector3 fixedPosition;
 
-    private Transform target; // 플레이어 위치 저장
+    private Transform target;
     private NavMeshAgent agent;
     private Animator animator;
+
+    private float currentHp; // ? 개별 체력 변수
 
     void Start()
     {
@@ -48,7 +49,7 @@ public class Monster1 : MonoBehaviour
         agent.stoppingDistance = attackRange - 0.3f;
         agent.autoBraking = true;
 
-        enemySO.monstercurrHp = enemySO.monsterHp;
+        currentHp = enemySO.monsterHp; // 개별 체력 초기화
     }
 
     void Update()
@@ -92,7 +93,7 @@ public class Monster1 : MonoBehaviour
                     BasicAttack();
                 }
             }
-            else if (distance <= detectionRadius)
+            else if (distance <= enemySO.monsterAttackInterval)
             {
                 agent.isStopped = false;
                 agent.SetDestination(target.position);
@@ -121,11 +122,10 @@ public class Monster1 : MonoBehaviour
 
     void LateUpdate()
     {
-        // 공격 중 위치 고정
         if (isAttacking)
         {
             Vector3 pos = fixedPosition;
-            pos.y = transform.position.y; // y는 유지 (높이 변화는 허용)
+            pos.y = transform.position.y;
             transform.position = pos;
         }
     }
@@ -141,7 +141,7 @@ public class Monster1 : MonoBehaviour
         {
             float dist = Vector3.Distance(transform.position, obj.transform.position);
 
-            if (dist < detectionRadius && dist < closestDist)
+            if (dist < enemySO.monsterAttackInterval && dist < closestDist)
             {
                 closestDist = dist;
                 closestTarget = obj.transform;
@@ -162,13 +162,9 @@ public class Monster1 : MonoBehaviour
     void BasicAttack()
     {
         isAttacking = true;
-
-        // 현재 위치 고정 기억
         fixedPosition = transform.position;
-
         agent.isStopped = true;
 
-        // 공격 시작 전 → 바라보기
         if (target != null)
         {
             Vector3 lookDirection = (target.position - transform.position).normalized;
@@ -181,7 +177,7 @@ public class Monster1 : MonoBehaviour
             }
         }
 
-        animator.applyRootMotion = true; // Root Motion 유지
+        animator.applyRootMotion = true;
         animator.SetTrigger("Attack1");
     }
 
@@ -190,9 +186,8 @@ public class Monster1 : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         isAttacking = false;
-        animator.applyRootMotion = false; // 이동 시 다시 꺼줌
+        animator.applyRootMotion = false;
 
-        // 공격 후 위치 동기화
         agent.Warp(transform.position);
         agent.isStopped = false;
 
@@ -201,23 +196,22 @@ public class Monster1 : MonoBehaviour
             agent.SetDestination(target.position);
         }
     }
+
     public void TakeDamage(float damage)
     {
-        enemySO.monstercurrHp -= damage;
+        currentHp -= damage; // 개별 체력 차감
 
         if (hitSound != null)
         {
             AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
         }
 
-
-        if (enemySO.monstercurrHp <= 0f)
+        if (currentHp <= 0f)
         {
             Die();
             return;
         }
 
-        // 강제 상태 초기화 (멈칫 처리)
         isAttacking = false;
         animator.applyRootMotion = false;
         agent.ResetPath();
@@ -225,14 +219,14 @@ public class Monster1 : MonoBehaviour
         animator.SetFloat("MoveSpeed", 0f);
         animator.SetTrigger("Hit");
 
-        // 멈칫 후 복귀 코루틴 실행
         StartCoroutine(RecoverFromHit(0.5f));
     }
+
     private IEnumerator RecoverFromHit(float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        if (!Fight_Demo.isDead && enemySO.monstercurrHp > 0f)
+        if (!Fight_Demo.isDead && currentHp > 0f)
         {
             agent.isStopped = false;
             if (target != null && agent.isOnNavMesh)
@@ -241,6 +235,7 @@ public class Monster1 : MonoBehaviour
             }
         }
     }
+
     private void Die()
     {
         isDead = true;
@@ -248,20 +243,21 @@ public class Monster1 : MonoBehaviour
 
         if (bodyHitBox != null)
             bodyHitBox.SetActive(false);
-        if(gameManager.currentEnemyCount >= 0)
+
+        if (gameManager.aliveMonsterCount >= 0)
         {
-            gameManager.currentEnemyCount -= 1;
-            Debug.Log($"현재 몬스터 수는 : {gameManager.currentEnemyCount} 입니다.");
+            GameManager.instance.OnMonsterKilled();
         }
-        animator.SetTrigger("isDead"); 
+
+        animator.SetTrigger("isDead");
         Destroy(gameObject, 2f);
     }
+
     public void EndAttack()
     {
         isAttacking = false;
         animator.applyRootMotion = false;
 
-        // 위치 보정
         agent.Warp(transform.position);
         agent.isStopped = false;
 
@@ -270,6 +266,7 @@ public class Monster1 : MonoBehaviour
             agent.SetDestination(target.position);
         }
     }
+
     public void EnableLeftHitBox()
     {
         if (leftHitBox != null)

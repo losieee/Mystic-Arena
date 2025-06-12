@@ -8,13 +8,13 @@ public class Monster2 : MonoBehaviour
     public GameManager gameManager;
     public EnemySO enemySO;
 
-    [Header("AI 설정")]
-    public float detectionRadius = 20f; // 플레이어 감지 반경
+    //[Header("AI 설정")]
+    //public float detectionRadius = 20f; // 플레이어 감지 반경
 
     [Header("공격 설정")]
     public float attackRange = 6f;
     public float attackCooldown = 3f;
-    
+
     [Header("HitBox 설정")]
     public GameObject rock;
     public GameObject rockSpawn;
@@ -33,6 +33,8 @@ public class Monster2 : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
+    private float currentHp;
+
     void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
@@ -49,7 +51,7 @@ public class Monster2 : MonoBehaviour
         agent.stoppingDistance = attackRange - 0.3f;
         agent.autoBraking = true;
 
-        enemySO.monstercurrHp = enemySO.monsterHp;
+        currentHp = enemySO.monsterHp;
     }
 
     void Update()
@@ -93,7 +95,7 @@ public class Monster2 : MonoBehaviour
                     BasicAttack();
                 }
             }
-            else if (distance <= detectionRadius)
+            else if (distance <= enemySO.monsterAttackInterval)
             {
                 agent.isStopped = false;
                 agent.SetDestination(target.position);
@@ -142,7 +144,7 @@ public class Monster2 : MonoBehaviour
         {
             float dist = Vector3.Distance(transform.position, obj.transform.position);
 
-            if (dist < detectionRadius && dist < closestDist)
+            if (dist < enemySO.monsterAttackInterval && dist < closestDist)
             {
                 closestDist = dist;
                 closestTarget = obj.transform;
@@ -212,7 +214,7 @@ public class Monster2 : MonoBehaviour
         }
 
 
-        if (enemySO.monstercurrHp <= 0f)
+        if (currentHp <= 0f)
         {
             Die();
             return;
@@ -233,7 +235,7 @@ public class Monster2 : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        if (!Fight_Demo.isDead && enemySO.monstercurrHp > 0f)
+        if (!Fight_Demo.isDead && currentHp > 0f)
         {
             agent.isStopped = false;
             if (target != null && agent.isOnNavMesh)
@@ -249,10 +251,9 @@ public class Monster2 : MonoBehaviour
 
         if (bodyHitBox != null)
             bodyHitBox.SetActive(false);
-        if (gameManager.currentEnemyCount >= 0)
+        if (gameManager.aliveMonsterCount >= 0)
         {
-            gameManager.currentEnemyCount -= 1;
-            Debug.Log($"현재 몬스터 수는 : {gameManager.currentEnemyCount} 입니다.");
+            GameManager.instance.OnMonsterKilled();
         }
         animator.SetTrigger("isDead");
         Destroy(gameObject, 2f);
