@@ -10,6 +10,7 @@ public class FunctionPoint : MonoBehaviour
     public Fight_Demo Fight_Demo;
     public PlayerSO playerSO;
     public GameManager gameManager;
+    public AudioClip potalIn;
 
     [Header("UI Elements")]
     public TextMeshProUGUI functionText;
@@ -22,6 +23,7 @@ public class FunctionPoint : MonoBehaviour
     private bool isPortalActivated = false;
     private bool isSceneTransitioning = false;
 
+    private AudioSource audioSource;
     private int portalCloseCount = 0;
     private const int portalCloseThreshold = 3;
     private const int requiredCloseCount = 3;
@@ -41,6 +43,11 @@ public class FunctionPoint : MonoBehaviour
         if (!gameManager)
         {
             gameManager = FindAnyObjectByType<GameManager>();
+        }
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -90,6 +97,12 @@ public class FunctionPoint : MonoBehaviour
         if (!isSceneTransitioning && gameManager != null)
         {
             isSceneTransitioning = true;
+            if (potalIn != null)
+            {
+                audioSource.clip = potalIn;
+                audioSource.volume = 0.1f;
+                audioSource.Play();
+            }
             gameManager.LoadNextStage();
         }
     }

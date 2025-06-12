@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
         { 6, "UnlockObject_7" }  // Stage_7
     };
 
+    [Header("Audio")]
+    public AudioSource bgmSource;
+    public AudioClip[] bgmClips;
+
     public int currentWave = 0;
     public float remainingTime = 0f;
     public bool isStageClear = false;
@@ -126,6 +130,28 @@ public class GameManager : MonoBehaviour
         Debug.Log($"[GameManager] 첫 웨이브 시작 - 몬스터 수: {aliveMonsterCount}");
 
         SpawnMonsters(aliveMonsterCount);
+        PlayStageBGM(stageIndex);
+    }
+    private void PlayStageBGM(int index)
+    {
+        if (bgmClips == null || bgmClips.Length == 0 || bgmSource == null)
+        {
+            Debug.LogWarning("[GameManager] BGM 재생 실패: 클립 또는 AudioSource가 없습니다.");
+            return;
+        }
+
+        if (index >= 0 && index < bgmClips.Length && bgmClips[index] != null)
+        {
+            bgmSource.volume = 0.02f;
+            bgmSource.clip = bgmClips[index];
+            bgmSource.loop = true;
+            bgmSource.Play();
+            Debug.Log($"[GameManager] Stage {index + 1} BGM 재생 시작");
+        }
+        else
+        {
+            Debug.LogWarning($"[GameManager] Stage {index + 1}에 맞는 BGM 클립이 없습니다.");
+        }
     }
 
     private void FindSpawnPoints()

@@ -5,6 +5,8 @@ using System.Collections;
 //using UnityEditor.TerrainTools;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using static System.Net.Mime.MediaTypeNames;
+using TMPro;
 //using System.ComponentModel;
 //using Unity.Properties;
 
@@ -29,9 +31,12 @@ public class Fight_Demo : MonoBehaviour
     public Transform swordObject;
     public AudioClip comboAttackSound;
     public AudioClip LastComboSound;
+    public AudioClip clickSound;
     public AudioClip attackSound;
+    public AudioClip deathSound;
+    
     public SkillHandler skillHandler;
-    public Image hpBarImage;
+    public UnityEngine.UI.Image hpBarImage;
     public GameObject deathPanel;
 
     [HideInInspector] public bool canMove = true;
@@ -122,6 +127,11 @@ public class Fight_Demo : MonoBehaviour
             agent.ResetPath();
             animator.SetBool("isRunning", false);
             animator.SetBool("isAttacking", false);
+
+            if (deathSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(deathSound, 0.5f);
+            }
 
             if (deathPanel != null)
                 deathPanel.SetActive(true);
@@ -629,5 +639,14 @@ public class Fight_Demo : MonoBehaviour
 
         if (deathPanel != null)
             deathPanel.SetActive(false);
+    }
+    public void PlayClickSound()
+    {
+        if (clickSound != null)
+        {
+            audioSource.clip = clickSound;
+            audioSource.volume = 0.1f;
+            audioSource.Play();
+        }
     }
 }
