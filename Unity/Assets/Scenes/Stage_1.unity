@@ -4119,6 +4119,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4600831083211887414, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
+      propertyPath: weaponSO
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5508433903438025458, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
       propertyPath: m_Enabled
       value: 0
