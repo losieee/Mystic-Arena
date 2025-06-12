@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class Fight_Demo : MonoBehaviour
 {
+    public WeaponSO weaponSO;
     public PlayerSO playerSO;
 
     public float player_currHp;
