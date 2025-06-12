@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class Fight_Demo : MonoBehaviour
 {
-    public WeaponDatabaseSO weaponDatabaseSO;
+    public WeaponSO weaponSO;
     public PlayerSO playerSO;
 
     public float player_currHp;
@@ -43,6 +43,7 @@ public class Fight_Demo : MonoBehaviour
     private bool currentAttackHit = false;
     private bool isHit = false;
     private bool queuedAttackInput = false;
+    private SceneSequenceManager sceneManager;
 
     // 콤보
     private int comboStep = 0;
@@ -86,11 +87,13 @@ public class Fight_Demo : MonoBehaviour
 
     private void Start()
     {
-        player_currHp = playerSO.playerCurrHp;
+        playerSO.playerCurrHp = playerSO.playerMaxHp;
+        player_currHp = playerSO.playerMaxHp;
         UpdateHPUI();
         Debug.Log(isDashing);
 
         isDead = false;
+        isHit = false;
         canMove = true;
         isMove = false;
         isDashing = false;
@@ -98,6 +101,7 @@ public class Fight_Demo : MonoBehaviour
         player_currHp = playerSO.playerMaxHp;
 
         animator.SetBool("isDead", false);
+
         if (deathPanel != null)
             deathPanel.SetActive(false);
     }
@@ -164,6 +168,8 @@ public class Fight_Demo : MonoBehaviour
     }
     private void Update()
     {
+        EnsureMainCamera();
+
         // 보스 사망 시
         if (BossController.isBossDead)
         {
@@ -222,6 +228,13 @@ public class Fight_Demo : MonoBehaviour
         }
 
         LookMoveDirection();
+    }
+    private void EnsureMainCamera()
+    {
+        if (mainCamera == null || !mainCamera.enabled)
+        {
+            mainCamera = Camera.main;
+        }
     }
     private IEnumerator LoadSceneAfterDelay(float delay)
     {
@@ -376,9 +389,6 @@ public class Fight_Demo : MonoBehaviour
             comboQueued = false;
             canQueueNextCombo = false;
 
-            canMove = false;
-            // 콤보 종료 후 대기
-            yield return new WaitForSeconds(0.4f);
             canMove = true;
             animator.SetBool("isAttacking", false);
         }
@@ -507,28 +517,31 @@ public class Fight_Demo : MonoBehaviour
     public void OnRespawnButtonClicked()
     {
         BossController.isBossDead = false;
-        SceneManager.LoadScene("BossRoom");
+
+        if (deathPanel != null)
+            deathPanel.SetActive(false);
+
+        if (TryGetComponent(out Fight_Demo player))
+        {
+            player.playerSO.playerCurrHp = player.playerSO.playerMaxHp;
+            player.player_currHp = player.playerSO.playerMaxHp;
+            player.UpdateHPUI();
+
+            isDead = false;
+            player.canMove = true;
+            player.animator.SetBool("isDead", false);
+        }
+
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentScene);
     }
     public void EnableWeaponCollider()
     {
-        currentAttackHit = false;
-
-        var weaponCollider = swordTransform.GetComponent<Collider>();
-        if (weaponCollider != null)
-        {
-            weaponCollider.enabled = true;
-        }
+        EnableActiveWeaponCollider(swordObject);
     }
     public void DisableWeaponCollider()
     {
-        var weaponCollider = swordTransform.GetComponent<Collider>();
-        if (weaponCollider != null)
-        {
-            weaponCollider.enabled = false;
-        }
-
-        int currentComboStep = comboStep;
-        PlayAttackSound(currentComboStep);
+        DisableActiveWeaponCollider(swordObject);
     }
     public void PlayAttackSound(int step)
     {
@@ -568,5 +581,53 @@ public class Fight_Demo : MonoBehaviour
     public void EnableSword()
     {
         swordObject.gameObject.SetActive(true);
+    }
+    public void DisableActiveWeaponCollider(Transform weaponRoot)
+    {
+        foreach (Transform child in weaponRoot)
+        {
+            if (!child.gameObject.activeSelf)
+                continue;
+
+            // 현재 활성화된 무기의 하위 트랜스폼 중에서 BoxCollider 찾기
+            BoxCollider box = child.GetComponentInChildren<BoxCollider>(true);
+            if (box != null)
+            {
+                box.enabled = false;
+            }
+        }
+    }
+
+    public void EnableActiveWeaponCollider(Transform weaponRoot)
+    {
+        foreach (Transform child in weaponRoot)
+        {
+            if (!child.gameObject.activeSelf)
+                continue;
+
+            // 현재 활성화된 무기의 하위 트랜스폼 중에서 BoxCollider 찾기
+            BoxCollider box = child.GetComponentInChildren<BoxCollider>(true);
+            if (box != null)
+            {
+                box.enabled = true;
+            }
+        }
+    }
+    public void RevivePlayer()
+    {
+        isDead = false;
+        isHit = false;
+        isDashing = false;
+        canMove = true;
+        isMove = false;
+
+        player_currHp = playerSO.playerMaxHp;
+        playerSO.playerCurrHp = playerSO.playerMaxHp;
+        UpdateHPUI();
+
+        animator.SetBool("isDead", false);
+
+        if (deathPanel != null)
+            deathPanel.SetActive(false);
     }
 }

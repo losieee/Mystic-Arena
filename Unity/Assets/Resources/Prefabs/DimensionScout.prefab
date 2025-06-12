@@ -1804,7 +1804,7 @@ GameObject:
   - component: {fileID: 5946568450750993883}
   m_Layer: 0
   m_Name: DimensionScout
-  m_TagString: Untagged
+  m_TagString: vicinityEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1883,16 +1883,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecaa97eb2bd1c4c46bb688a30520398f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySO: {fileID: 0}
-  detectionRadius: 20
+  enemySO: {fileID: 11400000, guid: 094a8730aa9865249bf96d04e11cde81, type: 2}
+  gameManager: {fileID: 0}
   attackRange: 10
   attackCooldown: 3
-  rock: {fileID: 3705422996200706889, guid: 0b558b5b47fe7b3418bd575cd3e15bca, type: 3}
+  rock: {fileID: 100000, guid: 79bce83937e43d042843a359e671ca99, type: 3}
   rockSpawn: {fileID: 1919999257135722617}
   bodyHitBox: {fileID: 3695101593158383989}
   hitSound: {fileID: 0}
-  maxHealth: 100
-  currentHealth: 0
+  currentHp: 0
 --- !u!1 &6368477559461024528
 GameObject:
   m_ObjectHideFlags: 0

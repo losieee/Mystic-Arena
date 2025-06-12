@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Linq;
-using Unity.VisualScripting;
 
 public class FunctionPoint : MonoBehaviour
 {
@@ -22,6 +21,10 @@ public class FunctionPoint : MonoBehaviour
     private bool isPlayerNearby = false;
     private bool isPortalActivated = false;
     private bool isSceneTransitioning = false;
+
+    private int portalCloseCount = 0;
+    private const int portalCloseThreshold = 3;
+    private const int requiredCloseCount = 3;
 
     private void Awake()
     {
@@ -51,25 +54,20 @@ public class FunctionPoint : MonoBehaviour
         if (isPlayerNearby && !isPortalActivated && Input.GetKeyDown(KeyCode.F))
         {
             Fight_Demo.player_currHp = playerSO.playerCurrHp;
-            Debug.Log("F 키 입력 감지 → 포탈 정화 및 씬 전환 시도");
             StartCoroutine(ActivatePortalAndMoveToNextScene());
         }
 
-        if (gameManager.isStageClear)
-        {
-            beforePortal.gameObject.SetActive(false);
-            glowPortal.gameObject.SetActive(true);
-        }
+        CheckAndOpenPortal();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
-        if (gameManager != null && gameManager.isStageClear)
+        if (gameManager != null && gameManager.isStageClear && portalCloseCount >= requiredCloseCount)
         {
             isPlayerNearby = true;
-            functionText.text = "F  정화하기";
+            functionText.text = "F를 눌러\n다음 스테이지로 이동";
             functionText.gameObject.SetActive(true);
         }
     }
@@ -81,23 +79,28 @@ public class FunctionPoint : MonoBehaviour
         isPlayerNearby = false;
         functionText.gameObject.SetActive(false);
     }
-    
+
     private IEnumerator ActivatePortalAndMoveToNextScene()
     {
         isPortalActivated = true;
         if (functionText != null) functionText.gameObject.SetActive(false);
-
-        Debug.Log("포탈 정화 완료 - 씬 전환 대기 중");
 
         yield return new WaitForSeconds(1.5f);
 
         if (!isSceneTransitioning && gameManager != null)
         {
             isSceneTransitioning = true;
-            gameManager.LoadNextStage(); // GameManager 통해 다음 씬 로드
+            gameManager.LoadNextStage();
         }
     }
 
+    public void AddPortalCloseCount()
+    {
+        portalCloseCount++;
+        Debug.Log($"[FunctionPoint] 포탈 닫힘 수: {portalCloseCount}");
+
+        CheckAndOpenPortal();
+    }
 
     private void InitializePortalState()
     {
@@ -105,11 +108,29 @@ public class FunctionPoint : MonoBehaviour
         isPlayerNearby = false;
         isSceneTransitioning = false;
 
+        portalCloseCount = 0;
+
         if (beforePortal != null) beforePortal.SetActive(true);
         if (glowPortal != null) glowPortal.SetActive(false);
 
         if (functionText != null)
             functionText.gameObject.SetActive(false);
+    }
+    private void CheckAndOpenPortal()
+    {
+        if (gameManager != null && gameManager.isStageClear && portalCloseCount >= portalCloseThreshold)
+        {
+            if (glowPortal != null && !glowPortal.activeSelf)
+            {
+                glowPortal.SetActive(true);
+                Debug.Log("[FunctionPoint] 모든 조건 충족 → glowPortal 활성화");
+            }
+
+            if (beforePortal != null && beforePortal.activeSelf)
+            {
+                beforePortal.SetActive(false);
+            }
+        }
     }
 
     private IEnumerator DelayedFindPortalObjects()

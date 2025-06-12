@@ -18,5 +18,6 @@ MonoBehaviour:
   monsterAttackType: Melee
   enemyAttackType: 1
   monsterHp: 90
+  monstercurrHp: 0
   monsterAttack: 25
-  monsterAttackInterval: 1
+  monsterAttackInterval: 15

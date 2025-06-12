@@ -3,19 +3,11 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float forcePower;
-    public Rigidbody rb;
-
-    private void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        rb = GetComponent<Rigidbody>();
+        if (other.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+        }
     }
-
-    public void Shoot(Vector3 direction, float force, Monster1 targetMonster)
-    {
-        forcePower = force;
-        rb = GetComponent<Rigidbody>();
-        rb.AddForce(direction * forcePower, ForceMode.Impulse);
-    }
-
 }

@@ -14,7 +14,7 @@ public class EnemySO : ScriptableObject
     public float monsterHp;
     public float monstercurrHp;
     public float monsterAttack;
-    public int monsterAttackInterval;
+    public float monsterAttackInterval;
 
 
     public override string ToString()

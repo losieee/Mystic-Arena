@@ -208,14 +208,12 @@ public class Monster2 : MonoBehaviour
     {
         enemySO.monstercurrHp -= damage;
 
-        if (hitSound != null)
+        if (enemySO.monstercurrHp <= 0f)
         {
-            AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
-        }
-
-
-        if (currentHp <= 0f)
-        {
+            if (hitSound != null)
+            {
+                AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
+            }
             Die();
             return;
         }

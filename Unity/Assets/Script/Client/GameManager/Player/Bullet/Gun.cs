@@ -27,7 +27,6 @@ public class Gun : MonoBehaviour
         if (rb != null)
         {
             rb.AddForce(firePoint.forward * bulletForce, ForceMode.Impulse);
-            Debug.Log("ÃÑ¾Ë ¹ß»ç!");
         }
         else
         {

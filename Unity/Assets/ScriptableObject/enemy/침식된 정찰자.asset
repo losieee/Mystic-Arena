@@ -18,5 +18,6 @@ MonoBehaviour:
   monsterAttackType: Ranged
   enemyAttackType: 2
   monsterHp: 45
+  monstercurrHp: -3900
   monsterAttack: 15
-  monsterAttackInterval: 3
+  monsterAttackInterval: 15

@@ -22,6 +22,8 @@ TagManager:
   - sword02
   - gun01
   - gun02
+  - Bullet
+  - Rock
   layers:
   - Default
   - TransparentFX

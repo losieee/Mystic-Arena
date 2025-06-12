@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System.Collections;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,16 +19,25 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<string, WaveData> waveTable = new Dictionary<string, WaveData>();
 
+    Dictionary<int, string> stageClearUnlockObjectNames = new()
+    {
+        { 2, "UnlockObject_3" }, // Stage_3
+        { 4, "UnlockObject_5" }, // Stage_5
+        { 6, "UnlockObject_7" }  // Stage_7
+    };
+
     public int currentWave = 0;
     public float remainingTime = 0f;
     public bool isStageClear = false;
     public int stageIndex = 1;
-
+    public Fight_Demo fight_Demo;
     private string lastStartedScene = "";
+    private bool hasBossIntroLoaded = false;
+    private bool isTransitioning = false;
 
     private readonly HashSet<string> allowedScenes = new HashSet<string>
     {
-        "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9"
+        "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9", "BossIntro"
     };
 
     [Header("Monster Spawning")]
@@ -38,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
-    public Slider purificationGauge;
+    public Image purificationGauge;
     private int purificationValue = 0;
     private const int maxPurification = 100;
 
@@ -82,6 +93,11 @@ public class GameManager : MonoBehaviour
 
     public void StartStage(string stageName)
     {
+        if (fight_Demo != null)
+        {
+            fight_Demo.RevivePlayer();
+        }
+
         if (isStageStarted && lastStartedScene == stageName)
         {
             Debug.Log($"[GameManager] StartStage({stageName}) 중복 호출 방지됨.");
@@ -119,7 +135,6 @@ public class GameManager : MonoBehaviour
         {
             var allPoints = spawnerGroup.GetComponentsInChildren<Transform>();
             spawnPoints = allPoints.Length > 1 ? allPoints[1..] : new Transform[0];
-            Debug.Log($"[GameManager] 스폰 포인트 {spawnPoints.Length}개 로드됨.");
         }
         else
         {
@@ -156,22 +171,36 @@ public class GameManager : MonoBehaviour
                     SceneManager.LoadScene("Stage_9");
             }
 
-            if (Input.GetKeyDown(KeyCode.F) && currentScene == "Stage_9" && isStageClear)
+            if (!hasBossIntroLoaded && Input.GetKeyDown(KeyCode.F) && currentScene == "Stage_9" && isStageClear)
             {
-                Debug.Log("[GameManager] Stage_9 클리어 후 F키 입력 → BossIntro로 이동");
+                hasBossIntroLoaded = true;
+                Debug.Log("보스 인트로 씬 로드 시도!");
+
                 if (FadeManager.Instance != null)
+                {
+                    Debug.Log("페이드 매니저 통해 BossIntro 로드");
                     FadeManager.Instance.LoadSceneWithFade("BossIntro");
+                    StartCoroutine(DestroyLater());
+                }
                 else
+                {
+                    Debug.Log("직접 BossIntro 로드");
                     SceneManager.LoadScene("BossIntro");
-                Destroy(gameObject, 3);
-                return;
+                }
             }
 
             if (remainingTime <= 0f)
             {
-                Debug.Log("[GameManager] 스테이지 제한시간 초과 - 게임 오버 처리 가능");
+                fight_Demo.player_currHp = 0;
+                fight_Demo.UpdateHPUI();
+                Fight_Demo.isDead = true;
             }
         }
+    }
+    private IEnumerator DestroyLater()
+    {
+        yield return new WaitForSeconds(1f); // FadeOut 시간 고려
+        Destroy(gameObject);
     }
 
     public void NextWave()
@@ -201,7 +230,6 @@ public class GameManager : MonoBehaviour
         }
 
         aliveMonsterCount = count;
-        Debug.Log($"[GameManager] 몬스터 {count}마리 스폰 시작");
 
         for (int i = 0; i < count; i++)
         {
@@ -221,18 +249,29 @@ public class GameManager : MonoBehaviour
         if (aliveMonsterCount > 0)
             return;
 
-        string currentScene = SceneManager.GetActiveScene().name;
+        int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
 
-        if (currentWave + 1 >= waveTable[currentScene].waveEnemyCounts.Count)
+        if (stageClearUnlockObjectNames.TryGetValue(currentIndex, out string objectName))
         {
-            Debug.Log("[GameManager] 모든 웨이브 완료 → 스테이지 클리어!");
-            isStageClear = true;
+            GameObject unlockObj = GameObject.Find(objectName);
+            if (unlockObj != null)
+            {
+                foreach (Transform child in unlockObj.transform)
+                {
+                    child.gameObject.SetActive(true);
+                    Debug.Log($"[GameManager] 자식 오브젝트 '{child.name}' 활성화됨");
+                }
+                Debug.Log($"[GameManager] Stage {currentIndex + 1} 클리어 → 오브젝트 '{objectName}'의 자식 오브젝트 활성화 완료");
+            }
+            else
+            {
+                Debug.LogWarning($"[GameManager] 오브젝트 '{objectName}' 씬에서 찾을 수 없습니다");
+            }
         }
-        else
-        {
-            NextWave();
-        }
+
+        NextWave();
     }
+
 
     public void LoadNextStage()
     {
@@ -249,18 +288,18 @@ public class GameManager : MonoBehaviour
         if (purificationGauge != null)
         {
             purificationValue = Mathf.Min(purificationValue + 10, maxPurification);
-            purificationGauge.value = purificationValue / 100f;
+            purificationGauge.fillAmount = purificationValue / 100f;
         }
 
         Debug.Log($"[GameManager] 다음 스테이지로 이동: {nextSceneName} (현재 스테이지 단계: {stageIndex + 1})");
 
-        if (nextSceneName == "Stage_9" && stageIndex >= 8)
-        {
-            SceneManager.LoadScene("BossIntro");
-            Debug.Log($"[GameManager] GameManager 파괴됨 (최종 stageIndex: {stageIndex + 1})");
-            Destroy(gameObject);
-            return;
-        }
+        //if (nextSceneName == "Stage_9" && stageIndex >= 8)
+        //{
+        //    SceneManager.LoadScene("BossIntro");
+        //    Debug.Log($"[GameManager] GameManager 파괴됨 (최종 stageIndex: {stageIndex + 1})");
+        //    Destroy(gameObject);
+        //    return;
+        //}
 
         if (FadeManager.Instance != null)
             FadeManager.Instance.LoadSceneWithFade(nextSceneName);
@@ -270,11 +309,10 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (allowedScenes.Contains(scene.name))
+        if (allowedScenes.Contains(scene.name) && scene.name != "BossIntro")
         {
             stageIndex = SceneSequenceManager.Instance.currentSceneIndex;
             isStageStarted = false;
-            Debug.Log($"[GameManager] 씬 로드 완료됨: {scene.name} → StartStage() 자동 호출 / stageIndex={stageIndex + 1}");
             StartStage(scene.name);
         }
     }

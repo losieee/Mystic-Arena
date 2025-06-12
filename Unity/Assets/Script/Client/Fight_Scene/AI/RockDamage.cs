@@ -17,4 +17,11 @@ public class RockDamage : MonoBehaviour
             }
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Rock" || collision.gameObject.tag == "vicinityEnemy")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

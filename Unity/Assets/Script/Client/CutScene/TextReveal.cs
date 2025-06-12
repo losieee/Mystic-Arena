@@ -52,4 +52,14 @@ public class TextReveal : MonoBehaviour
     {
         SceneManager.LoadScene("Stage_1");
     }
+
+    public void CreditScene()
+    {
+        SceneManager.LoadScene("Credit");
+    }
+
+    public void ExitGame()
+    {
+        SceneManager.LoadScene("LobbyBack");
+    }
 }

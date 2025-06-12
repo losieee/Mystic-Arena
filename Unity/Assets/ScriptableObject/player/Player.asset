@@ -15,5 +15,5 @@ MonoBehaviour:
   playerSpeed: 5
   playerCurrHp: 200
   playerMaxHp: 200
-  playerAttack: 45
+  playerAttack: 0
   playerAttackType: 0

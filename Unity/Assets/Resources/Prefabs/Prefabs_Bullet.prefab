@@ -101,7 +101,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -146,13 +146,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164e7b9bbdeca3e4891db5c74f6ea5a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: 0
-  forcePower: 0
-  lifeTime: 5
-  fight_Demo: {fileID: 0}
-  monster1: {fileID: 0}
-  monster2: {fileID: 0}
-  monster3: {fileID: 0}
-  monster4: {fileID: 0}
-  rb: {fileID: 0}
-  weaponSO: {fileID: 0}

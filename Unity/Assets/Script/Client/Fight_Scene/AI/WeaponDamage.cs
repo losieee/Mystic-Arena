@@ -65,7 +65,7 @@ public class WeaponDamage : MonoBehaviour
             }
             else if (enemy3 != null)
             {
-                enemy3.TakeDamage(playerSO.playerAttack);
+                enemy3.TakeDamage(weaponSO.baseDamage);
 
                 if (player != null && player.attackSound != null)
                 {
@@ -81,7 +81,7 @@ public class WeaponDamage : MonoBehaviour
             }
             else if (enemy2 != null)
             {
-                enemy2.TakeDamage(playerSO.playerAttack);
+                enemy2.TakeDamage(weaponSO.baseDamage);
 
                 if (player != null && player.attackSound != null)
                 {
@@ -97,7 +97,7 @@ public class WeaponDamage : MonoBehaviour
             }
             else if (enemy4 != null)
             {
-                enemy4.TakeDamage(playerSO.playerAttack);
+                enemy4.TakeDamage(weaponSO.baseDamage);
 
                 if (player != null && player.attackSound != null)
                 {

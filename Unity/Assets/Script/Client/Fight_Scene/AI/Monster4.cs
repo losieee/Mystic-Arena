@@ -35,6 +35,7 @@ public class Monster4 : MonoBehaviour
     public float currentHp; // ? 개별 체력 변수
     void Start()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
 
@@ -248,13 +249,12 @@ public class Monster4 : MonoBehaviour
     {
         currentHp -= damage;
 
-        if (hitSound != null)
-        {
-            AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
-        }
-
         if (currentHp <= 0f)
         {
+            if (hitSound != null)
+            {
+                AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
+            }
             Die();
             return;
         }
@@ -297,17 +297,16 @@ public class Monster4 : MonoBehaviour
     {
         isDead = true;
 
-
-        if (gameManager.aliveMonsterCount >= 0)
-        {
-            GameManager.instance.OnMonsterKilled();
-        }
-
         if (agent.enabled && agent.isOnNavMesh)
             agent.isStopped = true;
 
         if (bodyHitBox != null)
             bodyHitBox.SetActive(false);
+
+        if (gameManager.aliveMonsterCount >= 0)
+        {
+            GameManager.instance.OnMonsterKilled();
+        }
 
         animator.SetTrigger("isDead");
         Destroy(gameObject, 3f);

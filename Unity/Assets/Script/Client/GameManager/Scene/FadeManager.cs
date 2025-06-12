@@ -10,12 +10,12 @@ public class FadeManager : MonoBehaviour
 
     [Header("Fade 설정")]
     public Image fadeImage;
-    public float fadeDuration = 2f;
+    public float fadeDuration = 0.5f;
 
     // 허용된 씬 목록
     private readonly HashSet<string> allowedScenes = new HashSet<string>
     {
-        "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9"
+        "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9", "BossIntro"
     };
 
     private void Awake()
@@ -83,7 +83,7 @@ public class FadeManager : MonoBehaviour
     private IEnumerator FadeOut()
     {
         if (fadeImage == null) yield break;
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(1f);
         float time = 0f;
         Color color = fadeImage.color;
         while (time < fadeDuration)

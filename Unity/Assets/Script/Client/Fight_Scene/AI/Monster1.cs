@@ -201,13 +201,12 @@ public class Monster1 : MonoBehaviour
     {
         currentHp -= damage; // 개별 체력 차감
 
-        if (hitSound != null)
-        {
-            AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
-        }
-
         if (currentHp <= 0f)
         {
+            if (hitSound != null)
+            {
+                AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
+            }
             Die();
             return;
         }

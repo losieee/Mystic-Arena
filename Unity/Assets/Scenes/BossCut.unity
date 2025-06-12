@@ -2547,6 +2547,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 40ba319f7abee8148b3d8c9144bde755, type: 2}
     - {fileID: 11400000, guid: 63d3476c87167ee45a907b423965d97c, type: 2}
     - {fileID: 11400000, guid: 62e1a4771f256c84a93cb3657d3bb6e4, type: 2}
+    - {fileID: 11400000, guid: 165a520872d6a2c4493a92299dfd682e, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -2586,6 +2587,20 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 978922456}
+          m_TargetAssemblyTypeName: TextReveal, Assembly-CSharp
+          m_MethodName: CreditScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -2964,10 +2979,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 1000
+  far clip plane: 5000
   field of view: 60.000004
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3226,7 +3241,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Foot_L'\n\tTransform 'Foot_R'\n\tTransform 'LittelProximal_R'\n\tTransform
+    'Hand_R'\n\tTransform 'LittleDistal_R'\n\tTransform 'LowerArm_L'\n\tTransform
+    'RingIntermediate_R'\n\tTransform 'ThumbProximal_R'\n\tTransform 'RingProximal_L'\n\tTransform
+    'Head'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

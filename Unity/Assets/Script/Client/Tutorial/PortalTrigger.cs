@@ -17,6 +17,8 @@ public class PortalTrigger : MonoBehaviour
     private TextMeshProUGUI portalText;
     private AudioSource audioSource;
 
+    public int potalCloseCount;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -82,6 +84,7 @@ public class PortalTrigger : MonoBehaviour
         // F 키 입력 처리
         if (playerInitialized && playerInRange && !isProcessing && Input.GetKeyDown(KeyCode.F))
         {
+            potalCloseCount++;
             if (portalText != null)
             {
                 portalText.gameObject.SetActive(false);
@@ -187,6 +190,12 @@ public class PortalTrigger : MonoBehaviour
         }
 
         isProcessing = false;
+
+        FunctionPoint fp = FindObjectOfType<FunctionPoint>();
+        if (fp != null)
+        {
+            fp.AddPortalCloseCount(); // 카운트 증가 및 포탈 열림 여부 체크
+        }
     }
     private void LookAtPortal()
     {

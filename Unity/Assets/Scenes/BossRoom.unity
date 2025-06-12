@@ -1214,7 +1214,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c49e169679ae84fafca6a5bfb7f37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSO: {fileID: 0}
   playerSO: {fileID: 11400000, guid: ee452499e474c5f43bfa0653eb75c587, type: 2}
+  player_currHp: 0
   qSkillHandler: {fileID: 1028601431}
   eSkillHandler: {fileID: 756635202}
   shiftSkillHandler: {fileID: 1371596491}
@@ -7331,7 +7333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a934c3b2c5d636442b8253d4173595dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b4583d420ed4056448d8776e5874c6d2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16443,7 +16445,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 04dfa5a69813c8b49b67ef694a6ab29e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 50635ad47b013aa4e8b4f4513660f656, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

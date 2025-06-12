@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 7650953191534946856}
   m_Layer: 0
   m_Name: DimensionKeeper
-  m_TagString: Untagged
+  m_TagString: vicinityEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,14 +221,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySO: {fileID: 11400000, guid: 7498521660e5133479f015fc0685ea14, type: 2}
-  detectionRadius: 10
+  gameManager: {fileID: 0}
   attackRange: 2
   attackCooldown: 2
   rightHitBox: {fileID: 5220663953724073116}
   bodyHitBox: {fileID: 2121216758688304084}
   hitSound: {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
-  maxHealth: 100
-  currentHealth: 0
+  currentHp: 0
 --- !u!1 &1478389294557254812
 GameObject:
   m_ObjectHideFlags: 0
