@@ -1227,7 +1227,9 @@ MonoBehaviour:
   swordObject: {fileID: 0}
   comboAttackSound: {fileID: 8300000, guid: fada9e5c499351a4cacc2e2797108efd, type: 3}
   LastComboSound: {fileID: 8300000, guid: 746493b769913be4c9361db3be5fdffa, type: 3}
+  clickSound: {fileID: 0}
   attackSound: {fileID: 8300000, guid: 14efd9e7c827f304a872959db12655bb, type: 3}
+  deathSound: {fileID: 0}
   skillHandler: {fileID: 1028601431}
   hpBarImage: {fileID: 1070911408}
   deathPanel: {fileID: 1038693506}
@@ -7426,7 +7428,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3232588489946476775, guid: f8b176d4bad5d90428a2770425be10c3, type: 3}
+  - {fileID: 2100000, guid: 74f130f83183de448a9874144dbefda3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17514,7 +17516,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5022302536205057809, guid: f8b176d4bad5d90428a2770425be10c3, type: 3}
+  - {fileID: 2100000, guid: 74f130f83183de448a9874144dbefda3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17675,7 +17677,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -9103484930961366303, guid: f8b176d4bad5d90428a2770425be10c3, type: 3}
+  - {fileID: 2100000, guid: 74f130f83183de448a9874144dbefda3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

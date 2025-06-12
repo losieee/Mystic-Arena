@@ -122,24 +122,27 @@ public class Fight_Demo : MonoBehaviour
 
         if (player_currHp <= 0 && !isDead)
         {
-            isDead = true;
-            animator.SetBool("isDead", true);
-            agent.ResetPath();
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isAttacking", false);
-
-            if (deathSound != null && audioSource != null)
-            {
-                audioSource.PlayOneShot(deathSound, 0.5f);
-            }
-
-            if (deathPanel != null)
-                deathPanel.SetActive(true);
-
+            Dead();
             return;
         }
 
         StartCoroutine(PlayHitAnimation());
+    }
+    public void Dead()
+    {
+        isDead = true;
+        animator.SetBool("isDead", true);
+        agent.ResetPath();
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isAttacking", false);
+
+        if (deathSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(deathSound, 0.5f);
+        }
+
+        if (deathPanel != null)
+            deathPanel.SetActive(true);
     }
     private IEnumerator PlayHitAnimation()
     {

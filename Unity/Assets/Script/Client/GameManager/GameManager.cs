@@ -217,9 +217,7 @@ public class GameManager : MonoBehaviour
 
             if (remainingTime <= 0f)
             {
-                fight_Demo.player_currHp = 0;
-                fight_Demo.UpdateHPUI();
-                Fight_Demo.isDead = true;
+                fight_Demo.Dead();
             }
         }
     }
