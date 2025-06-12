@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class FadeManager : MonoBehaviour
 {
@@ -11,8 +12,23 @@ public class FadeManager : MonoBehaviour
     public Image fadeImage;
     public float fadeDuration = 2f;
 
+    // 허용된 씬 목록
+    private readonly HashSet<string> allowedScenes = new HashSet<string>
+    {
+        "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9"
+    };
+
     private void Awake()
     {
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (!allowedScenes.Contains(currentScene))
+        {
+            Debug.Log($"[FadeManager] 현재 씬({currentScene})은 허용되지 않아서 FadeManager 오브젝트를 파괴합니다.");
+            Destroy(gameObject);
+            return;
+        }
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);

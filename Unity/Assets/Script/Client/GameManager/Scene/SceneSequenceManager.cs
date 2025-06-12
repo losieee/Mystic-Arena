@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneSequenceManager : MonoBehaviour
 {
@@ -12,8 +13,22 @@ public class SceneSequenceManager : MonoBehaviour
 
     public int currentSceneIndex = 0;
 
+    private readonly HashSet<string> allowedScenes = new HashSet<string>
+    {
+        "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9"
+    };
+
     private void Awake()
     {
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (!allowedScenes.Contains(currentScene))
+        {
+            Debug.Log($"[SceneSequenceManager] 현재 씬({currentScene})은 허용되지 않아 오브젝트를 파괴합니다.");
+            Destroy(gameObject);
+            return;
+        }
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -22,6 +37,7 @@ public class SceneSequenceManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        Debug.Log("[SceneSequenceManager] 초기화 완료");
     }
 
     public void AdvanceToNextScene()

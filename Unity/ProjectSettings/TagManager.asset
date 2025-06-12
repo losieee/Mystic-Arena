@@ -19,6 +19,9 @@ TagManager:
   - PlayerHitbox
   - vicinityEnemy
   - Portal
+  - sword02
+  - gun01
+  - gun02
   layers:
   - Default
   - TransparentFX

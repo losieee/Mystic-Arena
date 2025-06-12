@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class FunctionPoint : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class FunctionPoint : MonoBehaviour
     [Header("Portal Objects")]
     public GameObject beforePortal;
     public GameObject glowPortal;
-    public GameObject mainPortal;
 
     private bool isPlayerNearby = false;
     private bool isPortalActivated = false;
@@ -54,6 +54,12 @@ public class FunctionPoint : MonoBehaviour
             Debug.Log("F 키 입력 감지 → 포탈 정화 및 씬 전환 시도");
             StartCoroutine(ActivatePortalAndMoveToNextScene());
         }
+
+        if (gameManager.isStageClear)
+        {
+            beforePortal.gameObject.SetActive(false);
+            glowPortal.gameObject.SetActive(true);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -75,15 +81,10 @@ public class FunctionPoint : MonoBehaviour
         isPlayerNearby = false;
         functionText.gameObject.SetActive(false);
     }
-
+    
     private IEnumerator ActivatePortalAndMoveToNextScene()
     {
         isPortalActivated = true;
-
-        // 포탈 정화 이펙트
-        if (beforePortal != null) beforePortal.SetActive(false);
-        if (glowPortal != null) glowPortal.SetActive(true);
-        if (mainPortal != null) mainPortal.SetActive(true);
         if (functionText != null) functionText.gameObject.SetActive(false);
 
         Debug.Log("포탈 정화 완료 - 씬 전환 대기 중");
@@ -97,6 +98,7 @@ public class FunctionPoint : MonoBehaviour
         }
     }
 
+
     private void InitializePortalState()
     {
         isPortalActivated = false;
@@ -105,7 +107,6 @@ public class FunctionPoint : MonoBehaviour
 
         if (beforePortal != null) beforePortal.SetActive(true);
         if (glowPortal != null) glowPortal.SetActive(false);
-        if (mainPortal != null) mainPortal.SetActive(false);
 
         if (functionText != null)
             functionText.gameObject.SetActive(false);
