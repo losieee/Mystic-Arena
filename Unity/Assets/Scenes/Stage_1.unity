@@ -4123,6 +4123,10 @@ PrefabInstance:
       propertyPath: weaponSO
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4600831083211887414, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
+      propertyPath: weaponDatabaseSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 08e1480a62257c14c8fa2533372787e8, type: 2}
     - target: {fileID: 5508433903438025458, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
       propertyPath: m_Enabled
       value: 0
