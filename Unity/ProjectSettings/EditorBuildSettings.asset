@@ -20,36 +20,39 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 53b3d347a46669345a81712b703a2470
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tutorial.unity
     guid: d2cdec6dcf0185345ac4dc1b0ff81e06
   - enabled: 1
+    path: Assets/Scenes/CutScene.unity
+    guid: cef36b058e5cf5b40b0dd9d0894d513d
+  - enabled: 1
     path: Assets/Scenes/Stage_1.unity
-    guid: 3b3788b6dfe95004182ec5d5a245a00d
+    guid: f1d6827aec9e0cf46943742ede0b7f88
   - enabled: 1
     path: Assets/Scenes/Stage_2.unity
-    guid: ae1d185f31a1252438e227a22610945f
+    guid: 4fa82cf9b554ae34184dc542eee10597
   - enabled: 1
     path: Assets/Scenes/Stage_3.unity
-    guid: 4a9c65de8d496d742a5e0e435dbb17d4
+    guid: a5f0968b682d628419f5fa8286dd08d7
   - enabled: 1
     path: Assets/Scenes/Stage_4.unity
-    guid: 9d45f7ea3fa35894b977c8093703de5a
+    guid: be7d67cdf50265e4e9d7256216a69917
   - enabled: 1
     path: Assets/Scenes/Stage_5.unity
-    guid: bf803917db1aceb48951ecd9d49e0910
+    guid: 936fff87dd6f0be4781e6a6a2cc9876b
   - enabled: 1
     path: Assets/Scenes/Stage_6.unity
-    guid: 466ba928c62288b4580291a067b9ba44
+    guid: 16e0344bc8badc0459dd607c64e6a3d5
   - enabled: 1
     path: Assets/Scenes/Stage_7.unity
-    guid: d49e8077089e36e4aa3e352342b46f5e
+    guid: 779fb16331bc65547bbf934715c7026f
   - enabled: 1
     path: Assets/Scenes/Stage_8.unity
-    guid: 7a6f1ccd2c0593442b61ffdf08a121be
+    guid: 85f480b549e4a8241b5ea9c6f2aec0dc
   - enabled: 1
     path: Assets/Scenes/Stage_9.unity
-    guid: 90732e80b520c1e478dd5426c6123f96
+    guid: 8d4729a6094b5b64cac8ff81306b36a4
   - enabled: 1
     path: Assets/Scenes/BossIntro.unity
     guid: 6160f7623afc8ec4e9f272c7bcb2071f
@@ -62,9 +65,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyBack.unity
     guid: 21f40d8bc966a1c48b87ce5d242a045b
-  - enabled: 1
-    path: Assets/Scenes/CutScene.unity
-    guid: cef36b058e5cf5b40b0dd9d0894d513d
   - enabled: 1
     path: Assets/Scenes/Credit.unity
     guid: 3905d178936f2744e966defb5d874c1c
