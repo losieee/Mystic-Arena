@@ -2125,6 +2125,7 @@ MonoBehaviour:
   Fight_Demo: {fileID: 0}
   playerSO: {fileID: 11400000, guid: ee452499e474c5f43bfa0653eb75c587, type: 2}
   gameManager: {fileID: 0}
+  potalIn: {fileID: 0}
   functionText: {fileID: 0}
   beforePortal: {fileID: 0}
   glowPortal: {fileID: 0}
@@ -2149,6 +2150,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.1
   m_Center: {x: -0.00000011920929, y: 0, z: 0.099383496}
+--- !u!114 &1351545584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351545575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca89363fb5efbb45a8e8b492b5c2820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1376102104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2958,6 +2971,10 @@ PrefabInstance:
       value: 0.34929
       objectReference: {fileID: 0}
     - target: {fileID: 2459090883146670107, guid: d24e07d0bbded744eb2b85517f63224d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459090883146670107, guid: d24e07d0bbded744eb2b85517f63224d, type: 3}
       propertyPath: m_Center.x
       value: 1.2018846e-15
       objectReference: {fileID: 0}
@@ -3076,6 +3093,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6342269298498527807, guid: d24e07d0bbded744eb2b85517f63224d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1351545583}
+    - targetCorrespondingSourceObject: {fileID: 6342269298498527807, guid: d24e07d0bbded744eb2b85517f63224d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1351545584}
   m_SourcePrefab: {fileID: 100100000, guid: d24e07d0bbded744eb2b85517f63224d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

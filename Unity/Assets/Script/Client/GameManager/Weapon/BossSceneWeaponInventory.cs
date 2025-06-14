@@ -9,8 +9,8 @@ public class BossSceneWeaponInventory : MonoBehaviour
 
     public bool isSword01 = true;
     public bool isSword02 = true;
-    public bool isGun01 = true;
-    public bool isGun02 = true;
+    public bool isGun01 = false;
+    public bool isGun02 = false;
 
     void Update()
     {

@@ -19,12 +19,14 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<string, WaveData> waveTable = new Dictionary<string, WaveData>();
 
-    Dictionary<int, string> stageClearUnlockObjectNames = new()
+    private Dictionary<int, string> stageClearUnlockObjectNames = new()
     {
         { 2, "UnlockObject_3" }, // Stage_3
         { 4, "UnlockObject_5" }, // Stage_5
         { 6, "UnlockObject_7" }  // Stage_7
     };
+
+    public Dictionary<int, string> StageClearUnlockObjectNames => stageClearUnlockObjectNames;
 
     [Header("Audio")]
     public AudioSource bgmSource;
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI timerText;
     public Image purificationGauge;
+    public TextMeshProUGUI dialogueText;
     private int purificationValue = 0;
     private const int maxPurification = 100;
 
@@ -100,6 +103,7 @@ public class GameManager : MonoBehaviour
         if (fight_Demo != null)
         {
             fight_Demo.RevivePlayer();
+            fight_Demo.UpdateHPUI();
         }
 
         if (isStageStarted && lastStartedScene == stageName)
@@ -273,25 +277,25 @@ public class GameManager : MonoBehaviour
         if (aliveMonsterCount > 0)
             return;
 
-        int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
+        //int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
 
-        if (stageClearUnlockObjectNames.TryGetValue(currentIndex, out string objectName))
-        {
-            GameObject unlockObj = GameObject.Find(objectName);
-            if (unlockObj != null)
-            {
-                foreach (Transform child in unlockObj.transform)
-                {
-                    child.gameObject.SetActive(true);
-                    Debug.Log($"[GameManager] 자식 오브젝트 '{child.name}' 활성화됨");
-                }
-                Debug.Log($"[GameManager] Stage {currentIndex + 1} 클리어 → 오브젝트 '{objectName}'의 자식 오브젝트 활성화 완료");
-            }
-            else
-            {
-                Debug.LogWarning($"[GameManager] 오브젝트 '{objectName}' 씬에서 찾을 수 없습니다");
-            }
-        }
+        //if (stageClearUnlockObjectNames.TryGetValue(currentIndex, out string objectName))
+        //{
+        //    GameObject unlockObj = GameObject.Find(objectName);
+        //    if (unlockObj != null)
+        //    {
+        //        foreach (Transform child in unlockObj.transform)
+        //        {
+        //            child.gameObject.SetActive(true);
+        //            Debug.Log($"[GameManager] 자식 오브젝트 '{child.name}' 활성화됨");
+        //        }
+        //        Debug.Log($"[GameManager] Stage {currentIndex + 1} 클리어 → 오브젝트 '{objectName}'의 자식 오브젝트 활성화 완료");
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning($"[GameManager] 오브젝트 '{objectName}' 씬에서 찾을 수 없습니다");
+        //    }
+        //}
 
         NextWave();
     }

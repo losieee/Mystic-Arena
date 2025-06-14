@@ -137,6 +137,26 @@ public class FunctionPoint : MonoBehaviour
             {
                 glowPortal.SetActive(true);
                 Debug.Log("[FunctionPoint] 모든 조건 충족 → glowPortal 활성화");
+
+                // unlockObject 자식 오브젝트 비활성화
+                int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
+
+                if (gameManager.StageClearUnlockObjectNames.TryGetValue(currentIndex, out string objectName))
+                {
+                    GameObject unlockObj = GameObject.Find(objectName);
+                    if (unlockObj != null)
+                    {
+                        foreach (Transform child in unlockObj.transform)
+                        {
+                            child.gameObject.SetActive(true); // 자식 오브젝트 활성화
+                            Debug.Log($"[FunctionPoint] 자식 오브젝트 '{child.name}' 비활성화됨");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[FunctionPoint] 오브젝트 '{objectName}' 씬에서 찾을 수 없음");
+                    }
+                }
             }
 
             if (beforePortal != null && beforePortal.activeSelf)

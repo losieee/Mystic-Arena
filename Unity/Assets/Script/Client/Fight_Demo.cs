@@ -26,6 +26,17 @@ public class Fight_Demo : MonoBehaviour
     [SerializeField] private float dashDistance = 5f;
     [SerializeField] private float dashSpeed = 15f;
 
+    [Header("Weapon Text")]
+    public GameObject textPanel;
+    public TextMeshProUGUI text1;
+    public TextMeshProUGUI text2;
+    public TextMeshProUGUI text3;
+    public TextMeshProUGUI text4;
+    public TextMeshProUGUI text5;
+    public GameObject qskillImage;
+    public GameObject shiftSkillImage;
+    public GameObject eSkillImage;
+
     public Animator animator;
     public Transform swordTransform;
     public Transform swordObject;
@@ -65,6 +76,7 @@ public class Fight_Demo : MonoBehaviour
     private AudioSource audioSource;
 
     private Quaternion idleAttackRotationOffset;    //애니메이션 기울이기용
+    private Coroutine typingCoroutine = null;
 
     private void Awake()
     {
@@ -651,5 +663,58 @@ public class Fight_Demo : MonoBehaviour
             audioSource.volume = 0.1f;
             audioSource.Play();
         }
+    }
+
+    public void WeaponText()
+    {
+        
+        string[] dialogueLines = new string[]
+        {
+            "선택받은 자\n\n이건 뭐지?",  
+            "연합 본부 통신기\n\n확인 결과, 차원의 파장 속에서 형성된 무기입니다. 실물로는... 처음 보네요",
+            "연합 본부 통신기\n\n그 무기의 이름은 시공도, 그 신비한 힘은 차원의 법칙조차 베어버릴 수 있다고 전해집니다.",
+            "연합 본부 통신기\n\n당신이 아니면 다룰 수 없을겁니다.",
+            "선택받은 자\n\n차원이 내게 건넨 검… 이건 단순한 무기가 아니야. 이 힘, 끝까지 가지고 나아가야 해."
+        };
+
+        qskillImage?.SetActive(false);
+        shiftSkillImage?.SetActive(false);
+        eSkillImage?.SetActive(false);
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+        }
+
+        typingCoroutine = StartCoroutine(ShowDialogueLineByLine(dialogueLines, 0.05f, 1.0f));
+    }
+    private IEnumerator ShowDialogueLineByLine(string[] lines, float charDelay, float lineDelay)
+    {
+        if (textPanel != null)
+            textPanel.SetActive(true);
+
+        if (text1 != null) text1.text = "";
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+            text1.text = ""; // 이전 줄 제거
+
+            for (int j = 0; j < line.Length; j++)
+            {
+                text1.text += line[j];
+                yield return new WaitForSeconds(charDelay);
+            }
+
+            yield return new WaitForSeconds(lineDelay);
+        }
+
+        yield return new WaitForSeconds(2f);
+        if (textPanel != null)
+            textPanel.SetActive(false);
+
+        qskillImage?.SetActive(true);
+        shiftSkillImage?.SetActive(true);
+        eSkillImage?.SetActive(true);
     }
 }

@@ -9695,7 +9695,7 @@ Transform:
   m_GameObject: {fileID: 706870271}
   serializedVersion: 2
   m_LocalRotation: {x: -0.30344436, y: 0.10204603, z: -0.04069792, w: -0.9464946}
-  m_LocalPosition: {x: 1.6840924, y: 5.829097, z: -7.950545}
+  m_LocalPosition: {x: 1.6847291, y: 5.82723, z: -7.9501624}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15440,12 +15440,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Foot_L'\n\tTransform 'Foot_R'\n\tTransform 'LittelProximal_R'\n\tTransform
-    'Hand_R'\n\tTransform 'LittleDistal_R'\n\tTransform 'LowerArm_L'\n\tTransform
-    'RingIntermediate_R'\n\tTransform 'ThumbProximal_R'\n\tTransform 'RingProximal_L'\n\tTransform
-    'Head'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -19880,12 +19875,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Foot_L'\n\tTransform 'Foot_R'\n\tTransform 'LittelProximal_R'\n\tTransform
-    'Hand_R'\n\tTransform 'LittleDistal_R'\n\tTransform 'LowerArm_L'\n\tTransform
-    'RingIntermediate_R'\n\tTransform 'ThumbProximal_R'\n\tTransform 'RingProximal_L'\n\tTransform
-    'Head'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -26485,12 +26475,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Foot_L'\n\tTransform 'Foot_R'\n\tTransform 'LittelProximal_R'\n\tTransform
-    'Hand_R'\n\tTransform 'LittleDistal_R'\n\tTransform 'LowerArm_L'\n\tTransform
-    'RingIntermediate_R'\n\tTransform 'ThumbProximal_R'\n\tTransform 'RingProximal_L'\n\tTransform
-    'Head'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -30373,6 +30358,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -98.638
       objectReference: {fileID: 0}
+    - target: {fileID: -6054648167012071458, guid: 101c7b9447d1379418f3a26ac99f8028, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: cfef0a04c929fea41a4bfe6e28dd0a51, type: 2}
     - target: {fileID: 919132149155446097, guid: 101c7b9447d1379418f3a26ac99f8028, type: 3}
       propertyPath: m_Name
       value: sword
