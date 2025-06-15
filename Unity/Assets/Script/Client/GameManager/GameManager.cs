@@ -199,6 +199,8 @@ public class GameManager : MonoBehaviour
                 else
                     SceneManager.LoadScene("Stage_9");
                     stageIndex = 8;
+
+                purificationGauge.fillAmount = 0.8f;
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {

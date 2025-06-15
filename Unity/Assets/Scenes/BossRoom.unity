@@ -2672,14 +2672,14 @@ RectTransform:
   m_GameObject: {fileID: 601593419}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 70.097145, y: 0.83715653, z: 1}
+  m_LocalScale: {x: 70.097145, y: 0.95734835, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1156237202}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.1399803, y: 0.43242}
+  m_AnchoredPosition: {x: 1.1399803, y: -0}
   m_SizeDelta: {x: 100.89636, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &601593421
@@ -15027,6 +15027,7 @@ MonoBehaviour:
   fadeCanvasGroup: {fileID: 899019830}
   fadeDuration: 1.5
   hpBarImage: {fileID: 601593421}
+  gauge: {fileID: 1621737190}
 --- !u!1 &851267963
 GameObject:
   m_ObjectHideFlags: 0

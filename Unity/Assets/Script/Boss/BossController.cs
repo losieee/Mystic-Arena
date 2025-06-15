@@ -19,6 +19,8 @@ public class BossController : MonoBehaviour
     public static bool isBossDead = false;
     public Image hpBarImage;
 
+    public Image gauge;
+
     private bool isDead = false;
     private bool isFadeStarted = false;
 
@@ -42,6 +44,9 @@ public class BossController : MonoBehaviour
         enemySO.monstercurrHp = enemySO.monsterHp;
         isDead = false;
         isFadeStarted = false;
+
+        gauge.fillAmount = 0.9f;
+        
 
         if (fadeCanvasGroup != null)
         {
