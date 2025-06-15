@@ -194,11 +194,15 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha9))
             {
                 Debug.Log("[GameManager] 테스트 키(9) 입력 → Stage_9로 이동");
-                stageIndex = 8;
                 if (FadeManager.Instance != null)
                     FadeManager.Instance.LoadSceneWithFade("Stage_9");
                 else
                     SceneManager.LoadScene("Stage_9");
+                    stageIndex = 8;
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isStageClear = true;
             }
 
             if (!hasBossIntroLoaded && Input.GetKeyDown(KeyCode.F) && currentScene == "Stage_9" && isStageClear)
@@ -321,13 +325,14 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"[GameManager] 다음 스테이지로 이동: {nextSceneName} (현재 스테이지 단계: {stageIndex + 1})");
 
-        //if (nextSceneName == "Stage_9" && stageIndex >= 8)
-        //{
-        //    SceneManager.LoadScene("BossIntro");
-        //    Debug.Log($"[GameManager] GameManager 파괴됨 (최종 stageIndex: {stageIndex + 1})");
-        //    Destroy(gameObject);
-        //    return;
-        //}
+        if (nextSceneName == "Stage_9" && stageIndex >= 8)
+        {
+            gameObject.SetActive(false);
+            SceneManager.LoadScene("BossIntro");
+            Debug.Log($"[GameManager] GameManager 파괴됨 (최종 stageIndex: {stageIndex + 1})");
+            Destroy(gameObject);
+            return;
+        }
 
         if (FadeManager.Instance != null)
             FadeManager.Instance.LoadSceneWithFade(nextSceneName);
