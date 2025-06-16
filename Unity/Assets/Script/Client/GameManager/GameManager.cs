@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
     private bool hasBossIntroLoaded = false;
     private bool isTransitioning = false;
 
+    // 30초 간격을 위한 변수 추가
+    private float waveTimer = 0f;
+    private float waveInterval = 30f;  // 30초마다 웨이브 진행
+
     private readonly HashSet<string> allowedScenes = new HashSet<string>
     {
         "Stage_1", "Stage_2", "Stage_3", "Stage_4", "Stage_5", "Stage_6", "Stage_7", "Stage_8", "Stage_9", "BossIntro"
@@ -84,6 +88,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
 
     private void InitWaveTable()
     {
@@ -185,6 +191,19 @@ public class GameManager : MonoBehaviour
             if (timerText != null)
                 timerText.text = $"{minutes:D2}:{seconds:D2}";
 
+            // 30초마다 웨이브 자동 진행
+            if (!isStageClear)
+            {
+                waveTimer += Time.deltaTime;
+                if (waveTimer >= waveInterval)
+                {
+                    waveTimer = 0f;
+                    Debug.Log("[GameManager] 30초 경과 → NextWave() 자동 호출");
+                    NextWave();
+                }
+            }
+
+            // 기존 테스트용 키 입력(유지하거나 필요시 삭제)
             if (Input.GetKeyDown(KeyCode.K))
             {
                 Debug.Log("[GameManager] 테스트 키(K) 입력 → NextWave() 호출");
@@ -198,9 +217,13 @@ public class GameManager : MonoBehaviour
                     FadeManager.Instance.LoadSceneWithFade("Stage_9");
                 else
                     SceneManager.LoadScene("Stage_9");
+
+                stageIndex = 8;
+
                     stageIndex = 8;
 
                 purificationGauge.fillAmount = 0.8f;
+
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -280,8 +303,8 @@ public class GameManager : MonoBehaviour
         aliveMonsterCount--;
         Debug.Log($"[GameManager] 몬스터 사망 → 남은 수: {aliveMonsterCount}");
 
-        if (aliveMonsterCount > 0)
-            return;
+        //if (aliveMonsterCount > 0)
+        //    return;
 
         //int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
 
@@ -303,7 +326,7 @@ public class GameManager : MonoBehaviour
         //    }
         //}
 
-        NextWave();
+        //NextWave();
     }
 
 
