@@ -84,7 +84,9 @@ public class GameManager : MonoBehaviour
     private string lastStartedScene = "";
     private bool hasBossIntroLoaded = false;
     private bool isDialoguePlaying = false;
-
+    // ---------------------------------------------------------------------------------
+    private bool isFullWave = false;
+    // ---------------------------------------------------------------------------------
     // 30초 간격을 위한 변수 추가
     private float waveTimer = 0f;
     private float waveInterval = 30f;  // 30초마다 웨이브 진행
@@ -164,6 +166,15 @@ public class GameManager : MonoBehaviour
             fight_Demo.UpdateHPUI();
             fight_Demo.LockPlayerControl();
         }
+       // ---------------------------------------------------------------------------------
+        currentWave = 0;
+        isStageClear = false;
+        remainingTime = waveTable[stageName].limitTime;
+        aliveMonsterCount = waveTable[stageName].waveEnemyCounts[currentWave];
+
+        // 웨이브가 1개뿐이면 isFullWave = true로 설정
+        isFullWave = (waveTable[stageName].waveEnemyCounts.Count == 1);
+        // ---------------------------------------------------------------------------------
 
         if (isStageStarted && lastStartedScene == stageName)
         {
@@ -358,18 +369,19 @@ public class GameManager : MonoBehaviour
 
     public void NextWave()
     {
+        // ---------------------------------------------------------------------------------
         string currentScene = SceneManager.GetActiveScene().name;
 
         if (currentWave + 1 >= waveTable[currentScene].waveEnemyCounts.Count)
         {
             Debug.Log("[GameManager] 모든 웨이브 완료!");
-            isStageClear = true;
+            isFullWave = true; // 마지막 웨이브 완료 표시
             return;
         }
 
         currentWave++;
         aliveMonsterCount = waveTable[currentScene].waveEnemyCounts[currentWave];
-
+        // ---------------------------------------------------------------------------------
         Debug.Log($"[GameManager] 웨이브 {currentWave + 1} 시작 - 몬스터 수: {aliveMonsterCount}");
         SpawnMonsters(aliveMonsterCount);
     }
@@ -401,6 +413,10 @@ public class GameManager : MonoBehaviour
 
         if (aliveMonsterCount > 0)
             return;
+        // ---------------------------------------------------------------------------------
+        if (aliveMonsterCount == 0 && isFullWave)
+            isStageClear = true;
+        // ---------------------------------------------------------------------------------
 
         //int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
 
