@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
     public Fight_Demo fight_Demo;
     private string lastStartedScene = "";
     private bool hasBossIntroLoaded = false;
-    private bool isTransitioning = false;
     private bool isDialoguePlaying = false;
 
     // 30초 간격을 위한 변수 추가
@@ -99,7 +98,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] monsterPrefabs;
     private Transform[] spawnPoints;
     private GameObject[] currentStageMonsters;
-    public GameObject SkilIImage;
+    public GameObject SkillImage;
     public int aliveMonsterCount = 0;
     private bool isStageStarted = false;
 
@@ -161,10 +160,9 @@ public class GameManager : MonoBehaviour
     {
         if (fight_Demo != null)
         {
-            fight_Demo.RevivePlayer();
+            fight_Demo.RevivePlayer();           
             fight_Demo.UpdateHPUI();
-
-            isDialoguePlaying = true;
+            fight_Demo.LockPlayerControl();
         }
 
         if (isStageStarted && lastStartedScene == stageName)
@@ -200,9 +198,21 @@ public class GameManager : MonoBehaviour
         if (stageStartDialogues.TryGetValue(stageName, out List<string> dialogues))
         {
             if (dialogueCoroutine != null) StopCoroutine(dialogueCoroutine);
-            SkilIImage.SetActive(false);
+
+            foreach (SkillHandler handler in SkillImage.GetComponentsInChildren<SkillHandler>(true))
+            {
+                handler.ResetCooldownUI();
+            }
+            SkillImage.SetActive(false);
 
             dialogueCoroutine = StartCoroutine(ShowDialogueSequence(dialogues));
+        }
+
+        if (fight_Demo != null && fight_Demo.agent != null)
+        {
+            fight_Demo.agent.ResetPath();
+            fight_Demo.agent.velocity = Vector3.zero;
+            fight_Demo.isMove = false;
         }
     }
     private IEnumerator ClearDialogueAfterSeconds(float delay)
@@ -251,87 +261,94 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (!allowedScenes.Contains(SceneManager.GetActiveScene().name))
+            return;
+
         string currentScene = SceneManager.GetActiveScene().name;
+
 
         if (isDialoguePlaying)
         {
             fight_Demo.SetInputLock(true);
+            return;
         }
-
-        if (allowedScenes.Contains(currentScene))
+        else
         {
-            if (!isDialoguePlaying)
-            {
-                remainingTime -= Time.deltaTime;
-            }
+            fight_Demo.SetInputLock(false);
+        }
+        remainingTime -= Time.deltaTime;
 
-            int minutes = Mathf.FloorToInt(remainingTime / 60f);
+        int minutes = Mathf.FloorToInt(remainingTime / 60f);
             int seconds = Mathf.FloorToInt(remainingTime % 60f);
-            if (timerText != null)
-                timerText.text = $"{minutes:D2}:{seconds:D2}";
+        if (timerText != null)
+            timerText.text = $"{minutes:D2}:{seconds:D2}";
 
-            // 30초마다 웨이브 자동 진행
-            if (!isStageClear)
-            {
-                waveTimer += Time.deltaTime;
-                if (waveTimer >= waveInterval)
-                {
-                    waveTimer = 0f;
-                    Debug.Log("[GameManager] 30초 경과 → NextWave() 자동 호출");
-                    NextWave();
-                }
-            }
+        if (!isStageClear && waveTable.ContainsKey(currentScene) &&
+        waveTable[currentScene].waveEnemyCounts.Count > 1)
+        {
+            waveTimer += Time.deltaTime;
 
-            // 기존 테스트용 키 입력(유지하거나 필요시 삭제)
-            if (Input.GetKeyDown(KeyCode.K))
+            if (waveTimer >= waveInterval)
             {
-                Debug.Log("[GameManager] 테스트 키(K) 입력 → NextWave() 호출");
+                waveTimer = 0f;
+                Debug.Log("[GameManager] 30초 경과 → NextWave() 자동 호출");
                 NextWave();
             }
+        }
 
-            if (Input.GetKeyDown(KeyCode.Alpha9))
+        // 기존 테스트용 키 입력(유지하거나 필요시 삭제)
+        // 테스트 키: K → 수동 웨이브
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("[GameManager] 테스트 키(K) 입력 → NextWave() 호출");
+            NextWave();
+        }
+
+        // 테스트 키: 9 → Stage_9 강제 이동
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            Debug.Log("[GameManager] 테스트 키(9) 입력 → Stage_9로 이동");
+            if (FadeManager.Instance != null)
+                FadeManager.Instance.LoadSceneWithFade("Stage_9");
+            else
+                SceneManager.LoadScene("Stage_9");
+
+            stageIndex = 8;
+            purificationGauge.fillAmount = 0.8f;
+        }
+
+        // 테스트 키: 스페이스 → 스테이지 클리어 상태로 변경
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isStageClear = true;
+        }
+
+        // 보스 인트로로 진입
+        if (!hasBossIntroLoaded && Input.GetKeyDown(KeyCode.Alpha9) &&
+            currentScene == "Stage_9" && isStageClear)
+        {
+            hasBossIntroLoaded = true;
+            Debug.Log("보스 인트로 씬 로드 시도!");
+
+            if (FadeManager.Instance != null)
             {
-                Debug.Log("[GameManager] 테스트 키(9) 입력 → Stage_9로 이동");
-                if (FadeManager.Instance != null)
-                    FadeManager.Instance.LoadSceneWithFade("Stage_9");
-                else
-                    SceneManager.LoadScene("Stage_9");
-
-                stageIndex = 8;
-
-                    stageIndex = 8;
-
-                purificationGauge.fillAmount = 0.8f;
-
+                Debug.Log("페이드 매니저 통해 BossIntro 로드");
+                FadeManager.Instance.LoadSceneWithFade("BossIntro");
+                StartCoroutine(DestroyLater());
             }
-            if (Input.GetKeyDown(KeyCode.Space))
+            else
             {
-                isStageClear = true;
-            }
-
-            if (!hasBossIntroLoaded && Input.GetKeyDown(KeyCode.F) && currentScene == "Stage_9" && isStageClear)
-            {
-                hasBossIntroLoaded = true;
-                Debug.Log("보스 인트로 씬 로드 시도!");
-
-                if (FadeManager.Instance != null)
-                {
-                    Debug.Log("페이드 매니저 통해 BossIntro 로드");
-                    FadeManager.Instance.LoadSceneWithFade("BossIntro");
-                    StartCoroutine(DestroyLater());
-                }
-                else
-                {
-                    Debug.Log("직접 BossIntro 로드");
-                    SceneManager.LoadScene("BossIntro");
-                }
-            }
-
-            if (remainingTime <= 0f)
-            {
-                fight_Demo.Dead();
+                Debug.Log("직접 BossIntro 로드");
+                SceneManager.LoadScene("BossIntro");
             }
         }
+
+        if (remainingTime <= 0f)
+        {
+            fight_Demo.Dead();
+            timerText.gameObject.SetActive(false);
+        }
+        
     }
     private IEnumerator DestroyLater()
     {
@@ -382,8 +399,8 @@ public class GameManager : MonoBehaviour
         aliveMonsterCount--;
         Debug.Log($"[GameManager] 몬스터 사망 → 남은 수: {aliveMonsterCount}");
 
-        //if (aliveMonsterCount > 0)
-        //    return;
+        if (aliveMonsterCount > 0)
+            return;
 
         //int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
 
@@ -405,7 +422,7 @@ public class GameManager : MonoBehaviour
         //    }
         //}
 
-        //NextWave();
+        NextWave();
     }
 
 
@@ -515,14 +532,14 @@ public class GameManager : MonoBehaviour
             dialoguePanel.SetActive(false);
 
         isDialoguePlaying = false;
+        waveTimer = 0f; // 대화 끝났으므로 30초 카운트 시작
 
-        if (SkilIImage != null)
-            SkilIImage.SetActive(true);
+        if (SkillImage != null)
+            SkillImage.SetActive(true);
 
         if (fight_Demo != null)
         {
-            fight_Demo.SetInputLock(false);
-            fight_Demo.EndWorking();
+            fight_Demo.UnlockPlayerControl();
         }
     }
 }

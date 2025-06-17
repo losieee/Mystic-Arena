@@ -222,4 +222,18 @@ public class SkillHandler : MonoBehaviour
     {
         isCasting = false;
     }
+    public void ResetCooldownUI()
+    {
+        if (cooldownImage != null)
+        {
+            cooldownImage.fillAmount = 0f;
+            cooldownImage.gameObject.SetActive(false);
+        }
+
+        if (cooldownText != null)
+        {
+            cooldownText.text = "";
+            cooldownText.gameObject.SetActive(false);
+        }
+    }
 }

@@ -4465,6 +4465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c7819f846d420243b61feba419d8593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSO: {fileID: 11400000, guid: ee452499e474c5f43bfa0653eb75c587, type: 2}
   sceneSequence:
   - Stage_1
   - Stage_2
@@ -6840,6 +6841,7 @@ MonoBehaviour:
   deathPanel: {fileID: 5364484584444113095}
   canMove: 1
   isWorking: 0
+  isMove: 0
   agent: {fileID: 8906437175968819998}
 --- !u!4 &2308767212321281149
 Transform:

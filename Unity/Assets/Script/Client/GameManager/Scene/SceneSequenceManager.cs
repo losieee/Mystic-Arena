@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneSequenceManager : MonoBehaviour
 {
+    public PlayerSO playerSO;
     public static SceneSequenceManager Instance;
 
     public List<string> sceneSequence = new List<string>
@@ -45,6 +46,7 @@ public class SceneSequenceManager : MonoBehaviour
         if (currentSceneIndex + 1 < sceneSequence.Count)
         {
             currentSceneIndex++;
+            playerSO.playerMaxHp += 10f;
             Debug.Log($"[SceneSequenceManager] currentSceneIndex Áõ°¡µÊ ¡æ {currentSceneIndex}");
         }
         else

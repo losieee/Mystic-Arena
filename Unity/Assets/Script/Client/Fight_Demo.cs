@@ -52,7 +52,7 @@ public class Fight_Demo : MonoBehaviour
 
     [HideInInspector] public bool canMove = true;
     [HideInInspector] public bool isWorking = false;
-    private bool isMove = false;
+    public bool isMove = false;
     private bool isDashing = false;
     private bool isInvincible = false;
     public static bool isDead = false;
@@ -197,6 +197,13 @@ public class Fight_Demo : MonoBehaviour
     private void Update()
     {
         EnsureMainCamera();
+
+        if (isDialoguePlaying || inputLocked)
+        {
+            agent.ResetPath();
+            animator.SetBool("isRunning", false);
+            return;
+        }
 
         if (inputLocked) return;
 
@@ -477,7 +484,7 @@ public class Fight_Demo : MonoBehaviour
             agent.velocity = Vector3.zero;
         }
 
-        // 애니메이션 이동 상태 해제 (선택)
+        // 애니메이션 이동 상태 해제
         if (TryGetComponent(out Animator anim))
         {
             anim.SetBool("isRunning", false);
@@ -671,6 +678,12 @@ public class Fight_Demo : MonoBehaviour
 
     public void WeaponText()
     {
+        if (agent != null && agent.enabled)
+        {
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+        }
+        animator.SetBool("isRunning", false);
 
         string[] dialogueLines = new string[]
         {
@@ -695,9 +708,18 @@ public class Fight_Demo : MonoBehaviour
     private IEnumerator ShowDialogueLineByLine(string[] lines, float charDelay, float lineDelay)
     {
         isDialoguePlaying = true;
+        SetInputLock(true);
         canMove = false;
         isAttacking = false;
         comboStep = 0;
+
+        if (agent != null && agent.enabled)
+        {
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+        }
+
+        animator.SetBool("isRunning", false);
 
         if (textPanel != null)
             textPanel.SetActive(true);
@@ -707,7 +729,7 @@ public class Fight_Demo : MonoBehaviour
         for (int i = 0; i < lines.Length; i++)
         {
             string line = lines[i];
-            text1.text = ""; // 이전 줄 제거
+            text1.text = "";
 
             for (int j = 0; j < line.Length; j++)
             {
@@ -724,6 +746,7 @@ public class Fight_Demo : MonoBehaviour
 
         isDialoguePlaying = false;
         canMove = true;
+        SetInputLock(false);
 
         qskillImage?.SetActive(true);
         shiftSkillImage?.SetActive(true);
@@ -732,5 +755,17 @@ public class Fight_Demo : MonoBehaviour
     public void SetInputLock(bool locked)
     {
         inputLocked = locked;
+    }
+    public void LockPlayerControl()
+    {
+        StopAgentImmediately();
+        SetInputLock(true);
+        isWorking = true;
+    }
+
+    public void UnlockPlayerControl()
+    {
+        SetInputLock(false);
+        EndWorking();
     }
 }
