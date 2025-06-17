@@ -384,7 +384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4755065443048844847, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26.856348
+      value: 27.84
       objectReference: {fileID: 0}
     - target: {fileID: 4755065443048844847, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -392,7 +392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4755065443048844847, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.22076178
+      value: 0.22
       objectReference: {fileID: 0}
     - target: {fileID: 4755065443048844847, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1071,27 +1071,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   spawnPoint: {fileID: 0}
---- !u!135 &407517735
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240848567222741507}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &407517736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1610,7 +1589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4755065443048844847, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -27.219238
+      value: -27.51
       objectReference: {fileID: 0}
     - target: {fileID: 4755065443048844847, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4433,7 +4412,7 @@ MonoBehaviour:
   - {fileID: 1408447823350116044, guid: 9aa2083abb770184d885209e39f48059, type: 3}
   - {fileID: 3245608051779447105, guid: 3913b712c0e79e44d9a29d8d19dcbd48, type: 3}
   - {fileID: 6346073222170093495, guid: 2f05c482be0e94d49a6f465a54b06383, type: 3}
-  SkilIImage: {fileID: 6867800327747223868}
+  SkillImage: {fileID: 6867800327747223868}
   aliveMonsterCount: 0
   timerText: {fileID: 1690770548}
   purificationGauge: {fileID: 264083575}
@@ -5126,7 +5105,6 @@ GameObject:
   - component: {fileID: 8906437175968819998}
   - component: {fileID: 2301573253912476882}
   - component: {fileID: 407517729}
-  - component: {fileID: 407517735}
   - component: {fileID: 407517736}
   m_Layer: 12
   m_Name: Player
@@ -11002,14 +10980,14 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.16
-  m_Height: 1.42
+  m_Radius: 0.57
+  m_Height: 1.78
   m_Direction: 1
-  m_Center: {x: 0, y: 0.57, z: 0}
+  m_Center: {x: 0, y: 0.65, z: 0}
 --- !u!4 &7827106153051963297
 Transform:
   m_ObjectHideFlags: 0

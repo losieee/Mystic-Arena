@@ -128,7 +128,7 @@ public class Fight_Demo : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (isInvincible || isHit)
+        if (isInvincible)
             return;
 
         player_currHp -= damage;
@@ -141,7 +141,11 @@ public class Fight_Demo : MonoBehaviour
             return;
         }
 
-        StartCoroutine(PlayHitAnimation());
+        // 피격 애니메이션은 작업 중이 아닐 때만 적용
+        if (!isHit && !isWorking)
+        {
+            StartCoroutine(PlayHitAnimation());
+        }
     }
     public void Dead()
     {
