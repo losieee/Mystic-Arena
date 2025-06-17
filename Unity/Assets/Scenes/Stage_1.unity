@@ -4433,10 +4433,12 @@ MonoBehaviour:
   - {fileID: 1408447823350116044, guid: 9aa2083abb770184d885209e39f48059, type: 3}
   - {fileID: 3245608051779447105, guid: 3913b712c0e79e44d9a29d8d19dcbd48, type: 3}
   - {fileID: 6346073222170093495, guid: 2f05c482be0e94d49a6f465a54b06383, type: 3}
+  SkilIImage: {fileID: 6867800327747223868}
   aliveMonsterCount: 0
   timerText: {fileID: 1690770548}
   purificationGauge: {fileID: 264083575}
-  dialogueText: {fileID: 0}
+  dialogueText: {fileID: 2006269695}
+  dialoguePanel: {fileID: 700162735}
 --- !u!114 &1868841594
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,7 +45,7 @@ public class Fight_Demo : MonoBehaviour
     public AudioClip clickSound;
     public AudioClip attackSound;
     public AudioClip deathSound;
-    
+
     public SkillHandler skillHandler;
     public UnityEngine.UI.Image hpBarImage;
     public GameObject deathPanel;
@@ -59,7 +59,8 @@ public class Fight_Demo : MonoBehaviour
     private bool currentAttackHit = false;
     private bool isHit = false;
     private bool queuedAttackInput = false;
-    private SceneSequenceManager sceneManager;
+    private bool isDialoguePlaying = false;
+    private bool inputLocked = false;
 
     // 콤보
     private int comboStep = 0;
@@ -74,6 +75,8 @@ public class Fight_Demo : MonoBehaviour
     private Vector3 destination;
     private Coroutine comboResetCoroutine;
     private AudioSource audioSource;
+    private SceneSequenceManager sceneManager;
+
 
     private Quaternion idleAttackRotationOffset;    //애니메이션 기울이기용
     private Coroutine typingCoroutine = null;
@@ -195,6 +198,10 @@ public class Fight_Demo : MonoBehaviour
     {
         EnsureMainCamera();
 
+        if (inputLocked) return;
+
+        if (isWorking || isDead || isDialoguePlaying) return;
+
         // 보스 사망 시
         if (BossController.isBossDead)
         {
@@ -261,14 +268,11 @@ public class Fight_Demo : MonoBehaviour
             mainCamera = Camera.main;
         }
     }
-    private IEnumerator LoadSceneAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("BossRoom");
-    }
 
     private void HandleKeyboardMoveInput()
     {
+        if (!canMove) return;
+
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         input = input.normalized;
 
@@ -667,10 +671,10 @@ public class Fight_Demo : MonoBehaviour
 
     public void WeaponText()
     {
-        
+
         string[] dialogueLines = new string[]
         {
-            "선택받은 자\n\n이건 뭐지?",  
+            "선택받은 자\n\n이건 뭐지?",
             "연합 본부 통신기\n\n확인 결과, 차원의 파장 속에서 형성된 무기입니다. 실물로는... 처음 보네요",
             "연합 본부 통신기\n\n그 무기의 이름은 시공도, 그 신비한 힘은 차원의 법칙조차 베어버릴 수 있다고 전해집니다.",
             "연합 본부 통신기\n\n당신이 아니면 다룰 수 없을겁니다.",
@@ -690,6 +694,11 @@ public class Fight_Demo : MonoBehaviour
     }
     private IEnumerator ShowDialogueLineByLine(string[] lines, float charDelay, float lineDelay)
     {
+        isDialoguePlaying = true;
+        canMove = false;
+        isAttacking = false;
+        comboStep = 0;
+
         if (textPanel != null)
             textPanel.SetActive(true);
 
@@ -713,8 +722,15 @@ public class Fight_Demo : MonoBehaviour
         if (textPanel != null)
             textPanel.SetActive(false);
 
+        isDialoguePlaying = false;
+        canMove = true;
+
         qskillImage?.SetActive(true);
         shiftSkillImage?.SetActive(true);
         eSkillImage?.SetActive(true);
+    }
+    public void SetInputLock(bool locked)
+    {
+        inputLocked = locked;
     }
 }

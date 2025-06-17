@@ -19,6 +19,50 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<string, WaveData> waveTable = new Dictionary<string, WaveData>();
 
+    private Dictionary<string, List<string>> stageStartDialogues = new()
+    {
+        { "Stage_1", new List<string> {
+            "선택받은 지\n\n여기가.. 차원의 균열이군",
+            "선택받은 자\n\n...!! 저기 몬스터다! 어서 움직여서 처치해야겠어"
+        }},
+        { "Stage_2", new List<string> {
+            "선택받은 자\n\n공기가… 끈적하고 기분이 나쁘군.",
+            "선택받은 자\n\n이건 단순한 침입이 아니다. 차원 자체가 무너지고 있어.",
+            "연합 본부 통신기\n\n곧 '침식된 자' 들이 들이닥치겠군요. 모두 정화시키세요."
+        }},
+        { "Stage_3", new List<string> {
+            "연합 본부 통신기\n\n...여기는 본부. 정화 속도가 몬스터 출현 속도를 따라가지 못하고 있습니다.",
+            "연합 본부 통신기\n\n차원 자체가 무너지고 있습니다. 지금 즉시 정화에 착수하세요. 선택받은 자."
+        }},
+        { "Stage_4", new List<string> {
+            "선택받은 자\n\n...정화된 줄 알았던 차원 틈이 다시 열리고있어.",
+            "선택받은 자\n\n뭔가 이상하군, 이전과는 다른 기척이 느껴진다."
+        }},
+        { "Stage_5", new List<string> {
+            "선택받은 자\n\n...전투와 정화를 거듭할수록 어색한 점들이 한 두가지가 아니야. 이곳에 무언가 감춰진 진실이 있는것인가.",
+            "선택받은 자\n\n이 깊이에 다다른 이상, 멈출 수는 없어."
+        }},
+        { "Stage_6", new List<string> {
+            "선택받은 자\n\n차원문을 계속 정화하고 있지만.. 차원의 침식이 멈추지 않는다. 오히려 더 깊게 스며들고 있어.",
+            "선택받은 자\n\n게다가... 이 기척은.. 또 다른 존재군.",
+            "선택받은 자\n\n..무언가 나를 지켜보고 있다."
+        }},
+        { "Stage_7", new List<string> {
+            "선택받은 자\n\n정화는 계속되고 있지만..",
+            "선택받은 자\n\n차원의 저편이 이쪽을 주시하고 있는 듯한 느낌이 들어"
+        }},
+        { "Stage_8", new List<string> {
+            "선택받은 자\n\n..끝이 보이지 않는군.",
+            "선택받은 자\n\n절망이란 이런 건가... 무너지는 균형 속에서 버텨야 한다."
+        }},
+        { "Stage_9", new List<string> {
+            "선택받은 자\n\n여긴... 다른 차원문과는 무언가 달라.",
+            "선택받은 자\n\n공기부터가 정화되지 않은 악의로 가득 차 있어",
+            "선택받은 자\n\n가자, 세상을 구하는거다."
+        }},
+    };
+
+
     private Dictionary<int, string> stageClearUnlockObjectNames = new()
     {
         { 2, "UnlockObject_3" }, // Stage_3
@@ -40,6 +84,7 @@ public class GameManager : MonoBehaviour
     private string lastStartedScene = "";
     private bool hasBossIntroLoaded = false;
     private bool isTransitioning = false;
+    private bool isDialoguePlaying = false;
 
     // 30초 간격을 위한 변수 추가
     private float waveTimer = 0f;
@@ -54,6 +99,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] monsterPrefabs;
     private Transform[] spawnPoints;
     private GameObject[] currentStageMonsters;
+    public GameObject SkilIImage;
     public int aliveMonsterCount = 0;
     private bool isStageStarted = false;
 
@@ -61,8 +107,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public Image purificationGauge;
     public TextMeshProUGUI dialogueText;
+    public GameObject dialoguePanel;
     private int purificationValue = 0;
     private const int maxPurification = 100;
+    private Coroutine dialogueCoroutine;
 
     private void Awake()
     {
@@ -89,6 +137,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (fight_Demo == null)
+            fight_Demo = FindObjectOfType<Fight_Demo>();
+    }
 
 
     private void InitWaveTable()
@@ -110,6 +163,8 @@ public class GameManager : MonoBehaviour
         {
             fight_Demo.RevivePlayer();
             fight_Demo.UpdateHPUI();
+
+            isDialoguePlaying = true;
         }
 
         if (isStageStarted && lastStartedScene == stageName)
@@ -141,7 +196,22 @@ public class GameManager : MonoBehaviour
 
         SpawnMonsters(aliveMonsterCount);
         PlayStageBGM(stageIndex);
+
+        if (stageStartDialogues.TryGetValue(stageName, out List<string> dialogues))
+        {
+            if (dialogueCoroutine != null) StopCoroutine(dialogueCoroutine);
+            SkilIImage.SetActive(false);
+
+            dialogueCoroutine = StartCoroutine(ShowDialogueSequence(dialogues));
+        }
     }
+    private IEnumerator ClearDialogueAfterSeconds(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (dialogueText != null)
+            dialogueText.text = "";
+    }
+
     private void PlayStageBGM(int index)
     {
         if (bgmClips == null || bgmClips.Length == 0 || bgmSource == null)
@@ -183,9 +253,18 @@ public class GameManager : MonoBehaviour
     {
         string currentScene = SceneManager.GetActiveScene().name;
 
+        if (isDialoguePlaying)
+        {
+            fight_Demo.SetInputLock(true);
+        }
+
         if (allowedScenes.Contains(currentScene))
         {
-            remainingTime -= Time.deltaTime;
+            if (!isDialoguePlaying)
+            {
+                remainingTime -= Time.deltaTime;
+            }
+
             int minutes = Mathf.FloorToInt(remainingTime / 60f);
             int seconds = Mathf.FloorToInt(remainingTime % 60f);
             if (timerText != null)
@@ -406,5 +485,44 @@ public class GameManager : MonoBehaviour
             monstersToSpawn.AddRange(monsterPrefabs);
 
         currentStageMonsters = monstersToSpawn.ToArray();
+    }
+    private IEnumerator ShowDialogueSequence(List<string> lines, float delayPerLine = 2.5f, float charInterval = 0.05f)
+    {
+        isDialoguePlaying = true;
+
+        if (dialoguePanel != null)
+            dialoguePanel.SetActive(true);
+
+        foreach (string line in lines)
+        {
+            if (dialogueText != null)
+            {
+                dialogueText.text = "";
+                foreach (char c in line)
+                {
+                    dialogueText.text += c;
+                    yield return new WaitForSeconds(charInterval);
+                }
+            }
+
+            yield return new WaitForSeconds(delayPerLine);
+        }
+
+        if (dialogueText != null)
+            dialogueText.text = "";
+
+        if (dialoguePanel != null)
+            dialoguePanel.SetActive(false);
+
+        isDialoguePlaying = false;
+
+        if (SkilIImage != null)
+            SkilIImage.SetActive(true);
+
+        if (fight_Demo != null)
+        {
+            fight_Demo.SetInputLock(false);
+            fight_Demo.EndWorking();
+        }
     }
 }
