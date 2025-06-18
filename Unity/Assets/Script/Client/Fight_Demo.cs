@@ -39,6 +39,7 @@ public class Fight_Demo : MonoBehaviour
 
     public Animator animator;
     public Transform swordTransform;
+    public Transform Hitbox;
     public Transform swordObject;
     public AudioClip comboAttackSound;
     public AudioClip LastComboSound;
@@ -49,6 +50,7 @@ public class Fight_Demo : MonoBehaviour
     public SkillHandler skillHandler;
     public UnityEngine.UI.Image hpBarImage;
     public GameObject deathPanel;
+    public ParticleSystem slashEffect;
 
     [HideInInspector] public bool canMove = true;
     [HideInInspector] public bool isWorking = false;
@@ -570,6 +572,7 @@ public class Fight_Demo : MonoBehaviour
             isDead = false;
             player.canMove = true;
             player.animator.SetBool("isDead", false);
+            player.animator.Play("Idle");
         }
 
         string currentScene = SceneManager.GetActiveScene().name;
@@ -771,5 +774,16 @@ public class Fight_Demo : MonoBehaviour
     {
         SetInputLock(false);
         EndWorking();
+    }
+    public void PlaySlash()
+    {
+        if (slashEffect == null || Hitbox == null) return;
+
+        Vector3 offset = Hitbox.forward * 1.0f;
+
+        slashEffect.transform.position = Hitbox.position + Hitbox.forward * 0.5f;
+        slashEffect.transform.rotation = Hitbox.rotation;
+
+        slashEffect.Play();
     }
 }

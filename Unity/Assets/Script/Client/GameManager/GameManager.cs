@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     public bool isStageClear = false;
     public int stageIndex = 1;
     public Fight_Demo fight_Demo;
+    public EnemySO enemySO;
     private string lastStartedScene = "";
     private bool hasBossIntroLoaded = false;
     private bool isDialoguePlaying = false;
@@ -106,6 +107,7 @@ public class GameManager : MonoBehaviour
     public GameObject SkillImage;
     public int aliveMonsterCount = 0;
     private bool isStageStarted = false;
+    private bool isPlayerDeadByTime = false;
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
@@ -145,6 +147,8 @@ public class GameManager : MonoBehaviour
     {
         if (fight_Demo == null)
             fight_Demo = FindObjectOfType<Fight_Demo>();
+        if (enemySO == null)
+            enemySO = Resources.Load<EnemySO>("Enmey");
     }
 
 
@@ -246,7 +250,7 @@ public class GameManager : MonoBehaviour
 
         if (index >= 0 && index < bgmClips.Length && bgmClips[index] != null)
         {
-            bgmSource.volume = 0.02f;
+            bgmSource.volume = 0.06f;
             bgmSource.clip = bgmClips[index];
             bgmSource.loop = true;
             bgmSource.Play();
@@ -280,7 +284,7 @@ public class GameManager : MonoBehaviour
 
         string currentScene = SceneManager.GetActiveScene().name;
 
-
+        // 대화 중이면 입력 잠금
         if (isDialoguePlaying)
         {
             fight_Demo.SetInputLock(true);
@@ -290,32 +294,27 @@ public class GameManager : MonoBehaviour
         {
             fight_Demo.SetInputLock(false);
         }
-        remainingTime -= Time.deltaTime;
 
+        // 웨이브 간격을 스테이지별로 다르게 설정
+        waveInterval = (currentScene == "Stage_7" || currentScene == "Stage_8" || currentScene == "Stage_9") ? 50f : 30f;
+
+        remainingTime -= Time.deltaTime;
         int minutes = Mathf.FloorToInt(remainingTime / 60f);
-            int seconds = Mathf.FloorToInt(remainingTime % 60f);
+        int seconds = Mathf.FloorToInt(remainingTime % 60f);
         if (timerText != null)
             timerText.text = $"{minutes:D2}:{seconds:D2}";
 
         if (!isStageClear && waveTable.ContainsKey(currentScene) &&
-        waveTable[currentScene].waveEnemyCounts.Count > 1)
+            waveTable[currentScene].waveEnemyCounts.Count > 1)
         {
             waveTimer += Time.deltaTime;
 
             if (waveTimer >= waveInterval)
             {
                 waveTimer = 0f;
-                Debug.Log("[GameManager] 30초 경과 → NextWave() 자동 호출");
+                Debug.Log($"[GameManager] {waveInterval}초 경과 → NextWave() 자동 호출");
                 NextWave();
             }
-        }
-
-        // 기존 테스트용 키 입력(유지하거나 필요시 삭제)
-        // 테스트 키: K → 수동 웨이브
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Debug.Log("[GameManager] 테스트 키(K) 입력 → NextWave() 호출");
-            NextWave();
         }
 
         // 테스트 키: 3 → Stage_3 강제 이동
@@ -329,7 +328,7 @@ public class GameManager : MonoBehaviour
             else
                 SceneManager.LoadScene("Stage_3");
 
-       
+
             purificationGauge.fillAmount = 0.2f;
         }
 
@@ -345,7 +344,7 @@ public class GameManager : MonoBehaviour
             else
                 SceneManager.LoadScene("Stage_9");
 
-           
+
             purificationGauge.fillAmount = 0.8f;
         }
 
@@ -375,12 +374,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (remainingTime <= 0f)
+        if (!isPlayerDeadByTime && remainingTime <= 0f)
         {
             fight_Demo.Dead();
             timerText.gameObject.SetActive(false);
+            isPlayerDeadByTime = true;
         }
-        
+
     }
     private IEnumerator DestroyLater()
     {
@@ -400,6 +400,8 @@ public class GameManager : MonoBehaviour
         }
 
         currentWave++;
+        if (currentWave + 1 >= waveTable[currentScene].waveEnemyCounts.Count)
+            isFullWave = true;
         aliveMonsterCount += waveTable[currentScene].waveEnemyCounts[currentWave];
         // ---------------------------------------------------------------------------------
         Debug.Log($"[GameManager] 웨이브 {currentWave + 1} 시작 - 몬스터 수: {aliveMonsterCount}");
@@ -434,29 +436,7 @@ public class GameManager : MonoBehaviour
         if (aliveMonsterCount > 0)
             return;
     
-            DieCcount();
-
-        //int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
-
-        //if (stageClearUnlockObjectNames.TryGetValue(currentIndex, out string objectName))
-        //{
-        //    GameObject unlockObj = GameObject.Find(objectName);
-        //    if (unlockObj != null)
-        //    {
-        //        foreach (Transform child in unlockObj.transform)
-        //        {
-        //            child.gameObject.SetActive(true);
-        //            Debug.Log($"[GameManager] 자식 오브젝트 '{child.name}' 활성화됨");
-        //        }
-        //        Debug.Log($"[GameManager] Stage {currentIndex + 1} 클리어 → 오브젝트 '{objectName}'의 자식 오브젝트 활성화 완료");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning($"[GameManager] 오브젝트 '{objectName}' 씬에서 찾을 수 없습니다");
-        //    }
-        //}
-
-        NextWave();
+        DieCcount();
     }
 
 
@@ -507,8 +487,12 @@ public class GameManager : MonoBehaviour
 
     private void DieCcount()
     {
-        if (aliveMonsterCount == 0 && isFullWave)
+        if (aliveMonsterCount <= 0 && isFullWave)
+        {
+            Debug.Log("dd");
             isStageClear = true;
+
+        }
     }
 
     private void OnDestroy()
@@ -550,6 +534,7 @@ public class GameManager : MonoBehaviour
         if (dialoguePanel != null)
             dialoguePanel.SetActive(true);
 
+
         foreach (string line in lines)
         {
             if (dialogueText != null)
@@ -581,5 +566,9 @@ public class GameManager : MonoBehaviour
         {
             fight_Demo.UnlockPlayerControl();
         }
+    }
+    public bool IsDialoguePlaying()
+    {
+        return isDialoguePlaying;
     }
 }

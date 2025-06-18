@@ -10,6 +10,7 @@ public class BossWaveSpawner : MonoBehaviour
     public GameObject warningAreaPrefab;
     public Transform cameraShakeHolder;
     public WarningWave[] waveSequence;
+    public EnemySO enemySO;
 
     public enum AttackType
     {
@@ -82,9 +83,13 @@ public class BossWaveSpawner : MonoBehaviour
 
     private void Start()
     {
+        if (enemySO != null)
+        {
+            enemySO.monstercurrHp = enemySO.monsterHp;
+        }
+
         boss = GameObject.FindGameObjectWithTag("Boss")?.GetComponent<BossController>();
 
-        StopAllCoroutines();
         StartCoroutine(SpawnWaveSequence());
     }
 

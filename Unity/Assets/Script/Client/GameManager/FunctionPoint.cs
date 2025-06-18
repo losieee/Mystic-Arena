@@ -71,7 +71,7 @@ public class FunctionPoint : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        if (gameManager != null && gameManager.isStageClear && portalCloseCount >= requiredCloseCount)
+        if (gameManager != null && gameManager.isStageClear && portalCloseCount >= GetRequiredCloseCount())
         {
             isPlayerNearby = true;
             functionText.text = "F를 눌러\n다음 스테이지로 이동";
@@ -131,7 +131,7 @@ public class FunctionPoint : MonoBehaviour
     }
     private void CheckAndOpenPortal()
     {
-        if (gameManager != null && gameManager.isStageClear && portalCloseCount >= portalCloseThreshold)
+        if (gameManager != null && gameManager.isStageClear && portalCloseCount >= GetRequiredCloseCount())
         {
             if (glowPortal != null && !glowPortal.activeSelf)
             {
@@ -187,5 +187,23 @@ public class FunctionPoint : MonoBehaviour
         Debug.Log("외부 호출로 포탈 초기화");
         FindPortalObjectsByName();
         InitializePortalState();
+    }
+    private int GetRequiredCloseCount()
+    {
+        if (SceneSequenceManager.Instance == null)
+            return portalCloseThreshold;
+
+        int index = SceneSequenceManager.Instance.currentSceneIndex;
+
+        if (index <= 1)
+            return 1;
+        else if (index <= 3)
+            return 2;
+        else if (index <= 5)
+            return 3;
+        else if (index <= 8)
+            return 7;
+
+        return portalCloseThreshold; // 그 외는 기본값
     }
 }

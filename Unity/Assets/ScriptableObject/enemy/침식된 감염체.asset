@@ -20,4 +20,4 @@ MonoBehaviour:
   monsterHp: 90
   monstercurrHp: 0
   monsterAttack: 25
-  monsterAttackInterval: 15
+  monsterAttackInterval: 50

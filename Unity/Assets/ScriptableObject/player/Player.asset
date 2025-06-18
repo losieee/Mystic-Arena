@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   playerSpeed: 5
-  playerCurrHp: 200
-  playerMaxHp: 200
+  playerCurrHp: 220
+  playerMaxHp: 220
   playerAttack: 60
   playerAttackType: 0

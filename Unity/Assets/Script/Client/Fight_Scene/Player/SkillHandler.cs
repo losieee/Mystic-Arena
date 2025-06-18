@@ -43,6 +43,11 @@ public class SkillHandler : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource.playOnAwake = false;
     }
+    private void OnEnable()
+    {
+        ResetCooldownUI();
+        isCooldown = false;
+    }
 
     public void TryUseSkill()
     {

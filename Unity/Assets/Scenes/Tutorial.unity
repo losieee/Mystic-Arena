@@ -308,6 +308,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal blue
       objectReference: {fileID: 0}
+    - target: {fileID: 903837172953369603, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4755065443048844847, guid: 76bc7ea7a04a361468655698ffb2db3d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.21
@@ -446,7 +450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1223514497
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -667,6 +671,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DimensionScout
       objectReference: {fileID: 0}
+    - target: {fileID: 6346073222170093495, guid: 2f05c482be0e94d49a6f465a54b06383, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -747,6 +755,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4600831083211887414, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
+      propertyPath: slashEffect
+      value: 
+      objectReference: {fileID: 3545871117873009853, guid: d9156c552d3b00041ada58c649548b37, type: 3}
     - target: {fileID: 6607834793925264634, guid: 821a2932108399f4b89b1a441c14fca6, type: 3}
       propertyPath: m_Speed
       value: 5
@@ -836,6 +848,10 @@ PrefabInstance:
     - target: {fileID: 8175792360117670833, guid: 61dc7718bee121f479b7dbd47a4bc358, type: 3}
       propertyPath: m_Name
       value: ErodedOne
+      objectReference: {fileID: 0}
+    - target: {fileID: 8175792360117670833, guid: 61dc7718bee121f479b7dbd47a4bc358, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8816744547743437016, guid: 61dc7718bee121f479b7dbd47a4bc358, type: 3}
       propertyPath: m_LocalPosition.x
@@ -953,6 +969,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DimensionKeeper
       objectReference: {fileID: 0}
+    - target: {fileID: 1408447823350116044, guid: 9aa2083abb770184d885209e39f48059, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -996,6 +1016,10 @@ PrefabInstance:
     - target: {fileID: 3245608051779447105, guid: 3913b712c0e79e44d9a29d8d19dcbd48, type: 3}
       propertyPath: m_Name
       value: ErodedScout
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245608051779447105, guid: 3913b712c0e79e44d9a29d8d19dcbd48, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6960540247833956338, guid: 3913b712c0e79e44d9a29d8d19dcbd48, type: 3}
       propertyPath: m_LocalPosition.x

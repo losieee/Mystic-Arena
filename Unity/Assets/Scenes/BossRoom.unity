@@ -15010,6 +15010,7 @@ MonoBehaviour:
     waitAfterWave: 5
     effectSpawnPosition: {x: -0.77, y: 2.22, z: -20.86}
     attackBehaviorPrefab: {fileID: 0}
+  enemySO: {fileID: 11400000, guid: 0c5f5383b31b78e44b11cb0364e7fd52, type: 2}
 --- !u!114 &848356121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15919,6 +15920,7 @@ MonoBehaviour:
   deathPanel: {fileID: 704261581}
   canMove: 1
   isWorking: 0
+  isMove: 0
   agent: {fileID: 1031106873}
 --- !u!195 &1031106873
 NavMeshAgent:

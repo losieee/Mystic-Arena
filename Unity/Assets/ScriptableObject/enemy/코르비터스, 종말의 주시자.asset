@@ -18,6 +18,6 @@ MonoBehaviour:
   monsterAttackType: pattern
   enemyAttackType: 0
   monsterHp: 12000
-  monstercurrHp: 0
+  monstercurrHp: 12000
   monsterAttack: 0
   monsterAttackInterval: 0

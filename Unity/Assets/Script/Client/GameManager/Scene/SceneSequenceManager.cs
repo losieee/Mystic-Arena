@@ -46,7 +46,7 @@ public class SceneSequenceManager : MonoBehaviour
         if (currentSceneIndex + 1 < sceneSequence.Count)
         {
             currentSceneIndex++;
-            playerSO.playerMaxHp += playerSO.playerMaxHp * 0.1f; // 10% 증가
+            playerSO.playerMaxHp += 20f; // 20증가
             Debug.Log($"[SceneSequenceManager] currentSceneIndex 증가됨 → {currentSceneIndex}");
         }
         else

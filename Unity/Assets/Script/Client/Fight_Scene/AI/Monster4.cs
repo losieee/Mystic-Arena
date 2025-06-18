@@ -54,6 +54,13 @@ public class Monster4 : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance != null && GameManager.instance.IsDialoguePlaying())
+        {
+            agent.isStopped = true;
+            animator.SetFloat("MoveSpeed", 0f);
+            return;
+        }
+
         if (isDead)
         {
             if (agent.enabled && agent.isOnNavMesh)
