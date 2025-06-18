@@ -143,18 +143,13 @@ public class FunctionPoint : MonoBehaviour
 
                 if (gameManager.StageClearUnlockObjectNames.TryGetValue(currentIndex, out string objectName))
                 {
-                    GameObject unlockObj = GameObject.Find(objectName);
+                    GameObject unlockObj = GameObject.Find(objectName); 
                     if (unlockObj != null)
                     {
                         foreach (Transform child in unlockObj.transform)
                         {
                             child.gameObject.SetActive(true); // 자식 오브젝트 활성화
-                            Debug.Log($"[FunctionPoint] 자식 오브젝트 '{child.name}' 비활성화됨");
                         }
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[FunctionPoint] 오브젝트 '{objectName}' 씬에서 찾을 수 없음");
                     }
                 }
             }

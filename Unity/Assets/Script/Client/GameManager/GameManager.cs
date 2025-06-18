@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using TMPro;
 using System.Collections;
 using UnityEditor;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
 
     [System.Serializable]
     public class WaveData
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, List<string>> stageStartDialogues = new()
     {
         { "Stage_1", new List<string> {
-            "선택받은 지\n\n여기가.. 차원의 균열이군",
+            "선택받은 자\n\n여기가.. 차원의 균열이군",
             "선택받은 자\n\n...!! 저기 몬스터다! 어서 움직여서 처치해야겠어"
         }},
         { "Stage_2", new List<string> {
@@ -62,7 +64,7 @@ public class GameManager : MonoBehaviour
         }},
     };
 
-
+    
     private Dictionary<int, string> stageClearUnlockObjectNames = new()
     {
         { 2, "UnlockObject_3" }, // Stage_3
@@ -84,8 +86,9 @@ public class GameManager : MonoBehaviour
     private string lastStartedScene = "";
     private bool hasBossIntroLoaded = false;
     private bool isDialoguePlaying = false;
+    public SceneSequenceManager sceneSequenceManager;
     // ---------------------------------------------------------------------------------
-    private bool isFullWave = false;
+    public bool isFullWave = false;
     // ---------------------------------------------------------------------------------
     // 30초 간격을 위한 변수 추가
     private float waveTimer = 0f;
@@ -116,7 +119,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         string currentScene = SceneManager.GetActiveScene().name;
-
+        sceneSequenceManager = FindAnyObjectByType<SceneSequenceManager>();
         if (!allowedScenes.Contains(currentScene))
         {
             Debug.Log($"[GameManager] 현재 씬({currentScene})은 허용되지 않아서 GameManager 오브젝트를 파괴합니다.");
@@ -315,16 +318,34 @@ public class GameManager : MonoBehaviour
             NextWave();
         }
 
+        // 테스트 키: 3 → Stage_3 강제 이동
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            stageIndex = 2;
+            sceneSequenceManager.currentSceneIndex = 2;
+            Debug.Log("[GameManager] 테스트 키(3) 입력 → Stage_3로 이동");
+            if (FadeManager.Instance != null)
+                FadeManager.Instance.LoadSceneWithFade("Stage_3");
+            else
+                SceneManager.LoadScene("Stage_3");
+
+       
+            purificationGauge.fillAmount = 0.2f;
+        }
+
+
         // 테스트 키: 9 → Stage_9 강제 이동
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
+            stageIndex = 8;
+            sceneSequenceManager.currentSceneIndex = 8;
             Debug.Log("[GameManager] 테스트 키(9) 입력 → Stage_9로 이동");
             if (FadeManager.Instance != null)
                 FadeManager.Instance.LoadSceneWithFade("Stage_9");
             else
                 SceneManager.LoadScene("Stage_9");
 
-            stageIndex = 8;
+           
             purificationGauge.fillAmount = 0.8f;
         }
 
@@ -371,7 +392,6 @@ public class GameManager : MonoBehaviour
     {
         // ---------------------------------------------------------------------------------
         string currentScene = SceneManager.GetActiveScene().name;
-
         if (currentWave + 1 >= waveTable[currentScene].waveEnemyCounts.Count)
         {
             Debug.Log("[GameManager] 모든 웨이브 완료!");
@@ -380,7 +400,7 @@ public class GameManager : MonoBehaviour
         }
 
         currentWave++;
-        aliveMonsterCount = waveTable[currentScene].waveEnemyCounts[currentWave];
+        aliveMonsterCount += waveTable[currentScene].waveEnemyCounts[currentWave];
         // ---------------------------------------------------------------------------------
         Debug.Log($"[GameManager] 웨이브 {currentWave + 1} 시작 - 몬스터 수: {aliveMonsterCount}");
         SpawnMonsters(aliveMonsterCount);
@@ -413,10 +433,8 @@ public class GameManager : MonoBehaviour
 
         if (aliveMonsterCount > 0)
             return;
-        // ---------------------------------------------------------------------------------
-        if (aliveMonsterCount == 0 && isFullWave)
-            isStageClear = true;
-        // ---------------------------------------------------------------------------------
+    
+            DieCcount();
 
         //int currentIndex = SceneSequenceManager.Instance.currentSceneIndex;
 
@@ -485,6 +503,12 @@ public class GameManager : MonoBehaviour
             isStageStarted = false;
             StartStage(scene.name);
         }
+    }
+
+    private void DieCcount()
+    {
+        if (aliveMonsterCount == 0 && isFullWave)
+            isStageClear = true;
     }
 
     private void OnDestroy()

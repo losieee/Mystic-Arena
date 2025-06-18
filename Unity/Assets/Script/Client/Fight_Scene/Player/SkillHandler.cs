@@ -30,7 +30,10 @@ public class SkillHandler : MonoBehaviour
     public bool IsCasting => isCasting;
     public bool IsUsingSkill => isCooldown;
 
-
+    private void Awake()
+    {
+     damage = FindAnyObjectByType<WeaponDamage>();
+    }
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -56,7 +59,7 @@ public class SkillHandler : MonoBehaviour
         {
             case SkillType.Q:
                 RotateTowardsMouse();
-                damage.playerSO.playerAttack = 60f;
+                damage.weaponSO.baseDamage = 60f;
                 knight_Move.animator.SetTrigger("Qskill");
                 break;
 
