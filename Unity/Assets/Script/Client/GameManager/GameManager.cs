@@ -149,6 +149,12 @@ public class GameManager : MonoBehaviour
             fight_Demo = FindObjectOfType<Fight_Demo>();
         if (enemySO == null)
             enemySO = Resources.Load<EnemySO>("Enmey");
+
+        if (bgmSource != null)
+        {
+            float savedVolume = PlayerPrefs.GetFloat("BGMVolume", 0.01f);
+            bgmSource.volume = savedVolume;
+        }
     }
 
 
@@ -248,19 +254,23 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        float savedVolume = Mathf.Clamp(PlayerPrefs.GetFloat("BGMVolume", 0.06f), 0.01f, 1f);
+
         if (index >= 0 && index < bgmClips.Length && bgmClips[index] != null)
         {
-            bgmSource.volume = 0.06f;
             bgmSource.clip = bgmClips[index];
+            bgmSource.volume = savedVolume;
             bgmSource.loop = true;
+
             bgmSource.Play();
-            Debug.Log($"[GameManager] Stage {index + 1} BGM 재생 시작");
+            Debug.Log($"[GameManager] Stage {index + 1} BGM 재생 시작 - Clip: {bgmClips[index].name}, Volume: {savedVolume}");
         }
         else
         {
             Debug.LogWarning($"[GameManager] Stage {index + 1}에 맞는 BGM 클립이 없습니다.");
         }
     }
+
 
     private void FindSpawnPoints()
     {
@@ -477,11 +487,26 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (allowedScenes.Contains(scene.name) && scene.name != "BossIntro")
+        if (scene.name == "LobbyBack")
         {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        if (allowedScenes.Contains(scene.name))
+        {
+            if (!gameObject.activeSelf)
+            {
+                gameObject.SetActive(true);
+            }
+
             stageIndex = SceneSequenceManager.Instance.currentSceneIndex;
             isStageStarted = false;
-            StartStage(scene.name);
+
+            if (scene.name != "BossIntro")
+            {
+                StartStage(scene.name);
+            }
         }
     }
 

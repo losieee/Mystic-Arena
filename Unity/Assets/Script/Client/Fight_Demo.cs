@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using static System.Net.Mime.MediaTypeNames;
 using TMPro;
+using Unity.VisualScripting;
 //using System.ComponentModel;
 //using Unity.Properties;
 
@@ -50,6 +51,9 @@ public class Fight_Demo : MonoBehaviour
     public SkillHandler skillHandler;
     public UnityEngine.UI.Image hpBarImage;
     public GameObject deathPanel;
+    public GameObject pausePanel;
+    public GameObject optionPanel;
+    public Slider bgmSlider;
     public ParticleSystem slashEffect;
 
     [HideInInspector] public bool canMove = true;
@@ -69,7 +73,9 @@ public class Fight_Demo : MonoBehaviour
     private bool isAttacking = false;
     private bool comboQueued = false;
     private bool canQueueNextCombo = false;
-    private float attackSoundVolume = 0.2f;
+    private bool isPaused = false;
+    private bool isInitializingSlider = false;
+    private float attackSoundVolume = 0.4f;
 
     private CapsuleCollider capsule;
     public NavMeshAgent agent;
@@ -238,6 +244,9 @@ public class Fight_Demo : MonoBehaviour
             queuedAttackInput = false;
             StartAttackCombo();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+            OnPause();
 
         // 평소 조작 처리
         if (playerSO.playerCurrHp <= 0 && !isDead)
@@ -785,5 +794,63 @@ public class Fight_Demo : MonoBehaviour
         slashEffect.transform.rotation = Hitbox.rotation;
 
         slashEffect.Play();
+    }
+    public void OnPause()
+    {
+        isPaused = !isPaused;
+        pausePanel.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0f : 1f;
+
+        SetInputLock(isPaused);
+        canMove = !isPaused;
+    }
+
+    public void ClickContinue()
+    {
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
+
+        SetInputLock(false);
+        canMove = true;
+    }
+
+    public void ClickOption()
+    {
+        optionPanel.SetActive(true);
+
+        if (GameManager.instance != null && bgmSlider != null)
+        {
+            bgmSlider.onValueChanged.RemoveListener(OnBgmSliderChanged);
+            float savedVolume = PlayerPrefs.GetFloat("BGMVolume", 0.06f);
+            bgmSlider.value = savedVolume;
+
+            bgmSlider.onValueChanged.AddListener(OnBgmSliderChanged);
+        }
+    }
+    public void OnBgmSliderChanged(float value)
+    {
+        if (isInitializingSlider) return;
+
+        Debug.Log($"[슬라이더] 저장되는 볼륨 값: {value}");
+
+        if (GameManager.instance?.bgmSource != null)
+        {
+            GameManager.instance.bgmSource.volume = value;
+        }
+
+        PlayerPrefs.SetFloat("BGMVolume", value);
+        PlayerPrefs.Save();
+    }
+
+    public void CloseOption()
+    {
+        optionPanel.SetActive(false);
+    }
+
+    public void ClickExit()
+    {
+        SceneManager.LoadScene("LobbyBack");
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

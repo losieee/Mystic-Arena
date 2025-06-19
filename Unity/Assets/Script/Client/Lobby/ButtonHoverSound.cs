@@ -51,6 +51,19 @@ public class ButtonHoverSound : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void StartGame()
     {
+        if (GameManager.instance == null)
+        {
+            GameObject gmPrefab = Resources.Load<GameObject>("GameManager");
+            if (gmPrefab != null)
+            {
+                Instantiate(gmPrefab);
+            }
+            else
+            {
+                Debug.LogError("GameManager 프리팹을 Resources/GameManager 경로에서 찾을 수 없습니다.");
+            }
+        }
+
         StartCoroutine(FadeAndLoadScene("CutScene"));
     }
 
