@@ -435,13 +435,22 @@ public class Fight_Demo : MonoBehaviour
         else
         {
             animator.SetInteger("ComboCount", 0);
-            comboStep = 0;
             isAttacking = false;
             comboQueued = false;
             canQueueNextCombo = false;
 
-            canMove = true;
+            int finalStep = comboStep;
+            comboStep = 0;
+
             animator.SetBool("isAttacking", false);
+
+            if (finalStep == 1 || finalStep == 2)
+            {
+                // 0.5초 딜레이 후 이동 가능
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            canMove = true;
         }
     }
 
