@@ -327,46 +327,45 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // 테스트 키: 3 → Stage_3 강제 이동
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            stageIndex = 2;
-            sceneSequenceManager.currentSceneIndex = 2;
-            Debug.Log("[GameManager] 테스트 키(3) 입력 → Stage_3로 이동");
-            if (FadeManager.Instance != null)
-                FadeManager.Instance.LoadSceneWithFade("Stage_3");
-            else
-                SceneManager.LoadScene("Stage_3");
+        //// 테스트 키: 3 → Stage_3 강제 이동
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    stageIndex = 2;
+        //    sceneSequenceManager.currentSceneIndex = 2;
+        //    Debug.Log("[GameManager] 테스트 키(3) 입력 → Stage_3로 이동");
+        //    if (FadeManager.Instance != null)
+        //        FadeManager.Instance.LoadSceneWithFade("Stage_3");
+        //    else
+        //        SceneManager.LoadScene("Stage_3");
 
 
-            purificationGauge.fillAmount = 0.2f;
-        }
+        //    purificationGauge.fillAmount = 0.2f;
+        //}
 
 
-        // 테스트 키: 9 → Stage_9 강제 이동
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            stageIndex = 8;
-            sceneSequenceManager.currentSceneIndex = 8;
-            Debug.Log("[GameManager] 테스트 키(9) 입력 → Stage_9로 이동");
-            if (FadeManager.Instance != null)
-                FadeManager.Instance.LoadSceneWithFade("Stage_9");
-            else
-                SceneManager.LoadScene("Stage_9");
+        //// 테스트 키: 9 → Stage_9 강제 이동
+        //if (Input.GetKeyDown(KeyCode.Alpha9))
+        //{
+        //    stageIndex = 8;
+        //    sceneSequenceManager.currentSceneIndex = 8;
+        //    Debug.Log("[GameManager] 테스트 키(9) 입력 → Stage_9로 이동");
+        //    if (FadeManager.Instance != null)
+        //        FadeManager.Instance.LoadSceneWithFade("Stage_9");
+        //    else
+        //        SceneManager.LoadScene("Stage_9");
 
 
-            purificationGauge.fillAmount = 0.8f;
-        }
+        //    purificationGauge.fillAmount = 0.8f;
+        //}
 
-        // 테스트 키: 스페이스 → 스테이지 클리어 상태로 변경
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isStageClear = true;
-        }
+        //// 테스트 키: 스페이스 → 스테이지 클리어 상태로 변경
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    isStageClear = true;
+        //}
 
         // 보스 인트로로 진입
-        if (!hasBossIntroLoaded && Input.GetKeyDown(KeyCode.Alpha9) &&
-            currentScene == "Stage_9" && isStageClear)
+        if (!hasBossIntroLoaded && currentScene == "Stage_9" && isStageClear)
         {
             hasBossIntroLoaded = true;
             Debug.Log("보스 인트로 씬 로드 시도!");
